@@ -47,6 +47,10 @@ export const metadata: Metadata = {
     description:
       "A modular plugin suite for Hytale servers. Lightweight, focused, a-la-carte plugins.",
   },
+  icons: {
+    icon: "/favicon.png",
+    apple: "/apple-touch-icon.png",
+  },
 };
 
 export default function RootLayout({
