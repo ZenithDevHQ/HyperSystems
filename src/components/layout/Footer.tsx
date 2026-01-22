@@ -36,15 +36,15 @@ export function Footer() {
         <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-5">
           {/* Brand Section */}
           <div className="lg:col-span-2">
-            <Link href="/" className="flex items-center gap-2">
+            <Link href="/" className="flex items-center gap-2.5">
               <Image
                 src="/logo.webp"
                 alt="HyperSystems"
-                width={32}
-                height={32}
-                className="h-8 w-8"
+                width={28}
+                height={28}
+                className="h-7 w-7"
               />
-              <span className="text-lg font-bold text-hs-text">
+              <span className="text-lg font-semibold text-hs-text">
                 HyperSystems
               </span>
             </Link>
