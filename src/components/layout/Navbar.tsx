@@ -2,7 +2,8 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { Menu, X, Zap } from "lucide-react";
+import Image from "next/image";
+import { Menu, X } from "lucide-react";
 import { Button } from "@/components/ui";
 import { cn } from "@/lib/utils";
 
@@ -21,9 +22,13 @@ export function Navbar() {
       <nav className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
         {/* Logo */}
         <Link href="/" className="flex items-center gap-2">
-          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-hs-primary to-hs-secondary">
-            <Zap className="h-5 w-5 text-hs-bg" />
-          </div>
+          <Image
+            src="/logo.webp"
+            alt="HyperSystems"
+            width={32}
+            height={32}
+            className="h-8 w-8"
+          />
           <span className="text-lg font-bold text-hs-text">HyperSystems</span>
         </Link>
 

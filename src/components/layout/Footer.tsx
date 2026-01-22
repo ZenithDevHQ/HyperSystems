@@ -1,5 +1,6 @@
 import Link from "next/link";
-import { Zap, MessageCircle } from "lucide-react";
+import Image from "next/image";
+import { MessageCircle } from "lucide-react";
 import { Button } from "@/components/ui";
 
 const footerLinks = {
@@ -36,9 +37,13 @@ export function Footer() {
           {/* Brand Section */}
           <div className="lg:col-span-2">
             <Link href="/" className="flex items-center gap-2">
-              <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-hs-primary to-hs-secondary">
-                <Zap className="h-5 w-5 text-hs-bg" />
-              </div>
+              <Image
+                src="/logo.webp"
+                alt="HyperSystems"
+                width={32}
+                height={32}
+                className="h-8 w-8"
+              />
               <span className="text-lg font-bold text-hs-text">
                 HyperSystems
               </span>
