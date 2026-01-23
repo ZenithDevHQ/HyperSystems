@@ -13,6 +13,7 @@ import {
   ShieldOff,
   Link2,
   UserCog,
+  ArrowRightLeft,
 } from "lucide-react";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
@@ -136,6 +137,16 @@ export default function HyperHomesPage() {
                   Manage all player homes from a centralized admin interface.
                 </p>
               </Card>
+
+              <Card className="group">
+                <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-gradient-to-br from-hs-primary/20 to-hs-secondary/20">
+                  <ArrowRightLeft className="h-5 w-5 text-hs-secondary" />
+                </div>
+                <h3 className="mt-4 font-semibold text-hs-text">Migration System</h3>
+                <p className="mt-2 text-sm text-hs-text-muted">
+                  Import homes from other plugins with support for JSON, YAML, and SQLite formats.
+                </p>
+              </Card>
             </div>
           </div>
         </section>
@@ -256,6 +267,14 @@ export default function HyperHomesPage() {
                       Reload configuration
                     </p>
                   </div>
+                  <div>
+                    <code className="font-mono text-sm text-hs-primary">
+                      /homes migrate &lt;source&gt;
+                    </code>
+                    <p className="mt-1 text-xs text-hs-text-muted">
+                      Import from other plugins (json, yaml, sqlite)
+                    </p>
+                  </div>
                 </div>
               </Card>
             </div>
@@ -281,26 +300,34 @@ export default function HyperHomesPage() {
                 <div className="mt-4 space-y-3">
                   <div>
                     <code className="font-mono text-sm text-hs-primary">
-                      hyperhomes.use
+                      hyperhomes.home
                     </code>
                     <p className="mt-1 text-xs text-hs-text-muted">
-                      Use homes and teleport
+                      Use /home command
                     </p>
                   </div>
                   <div>
                     <code className="font-mono text-sm text-hs-primary">
-                      hyperhomes.set
+                      hyperhomes.sethome
                     </code>
                     <p className="mt-1 text-xs text-hs-text-muted">
-                      Set new homes
+                      Use /sethome command
                     </p>
                   </div>
                   <div>
                     <code className="font-mono text-sm text-hs-primary">
-                      hyperhomes.delete
+                      hyperhomes.delhome
                     </code>
                     <p className="mt-1 text-xs text-hs-text-muted">
-                      Delete homes
+                      Use /delhome command
+                    </p>
+                  </div>
+                  <div>
+                    <code className="font-mono text-sm text-hs-primary">
+                      hyperhomes.homes
+                    </code>
+                    <p className="mt-1 text-xs text-hs-text-muted">
+                      Use /homes GUI command
                     </p>
                   </div>
                   <div>
@@ -308,15 +335,7 @@ export default function HyperHomesPage() {
                       hyperhomes.share
                     </code>
                     <p className="mt-1 text-xs text-hs-text-muted">
-                      Share/unshare homes
-                    </p>
-                  </div>
-                  <div>
-                    <code className="font-mono text-sm text-hs-primary">
-                      hyperhomes.gui
-                    </code>
-                    <p className="mt-1 text-xs text-hs-text-muted">
-                      Access GUI interface
+                      Share homes with others
                     </p>
                   </div>
                 </div>
@@ -325,23 +344,23 @@ export default function HyperHomesPage() {
               <Card>
                 <div className="flex items-center gap-2">
                   <Settings className="h-5 w-5 text-hs-primary" />
-                  <h3 className="font-semibold text-hs-text">Admin & Bypass</h3>
+                  <h3 className="font-semibold text-hs-text">Limits & Bypass</h3>
                 </div>
                 <div className="mt-4 space-y-3">
                   <div>
                     <code className="font-mono text-sm text-hs-primary">
-                      hyperhomes.admin
+                      hyperhomes.limit.&lt;number&gt;
                     </code>
                     <p className="mt-1 text-xs text-hs-text-muted">
-                      Access admin panel
+                      Set custom home limit
                     </p>
                   </div>
                   <div>
                     <code className="font-mono text-sm text-hs-primary">
-                      hyperhomes.bypass.warmup
+                      hyperhomes.unlimited
                     </code>
                     <p className="mt-1 text-xs text-hs-text-muted">
-                      Skip teleport warmup
+                      Unlimited homes
                     </p>
                   </div>
                   <div>
@@ -349,15 +368,15 @@ export default function HyperHomesPage() {
                       hyperhomes.bypass.cooldown
                     </code>
                     <p className="mt-1 text-xs text-hs-text-muted">
-                      Skip teleport cooldown
+                      Bypass teleport cooldown
                     </p>
                   </div>
                   <div>
                     <code className="font-mono text-sm text-hs-primary">
-                      hyperhomes.limit.&lt;number&gt;
+                      hyperhomes.bypass.warmup
                     </code>
                     <p className="mt-1 text-xs text-hs-text-muted">
-                      Set maximum home count
+                      Bypass teleport warmup
                     </p>
                   </div>
                 </div>
