@@ -37,14 +37,14 @@ body {
   font-family: var(--font-sans), system-ui, sans-serif;
 }
 
-/* Light theme overrides */
+/* Light theme overrides - improved contrast */
 .light {
   --color-hs-bg: #FAFAFA;
   --color-hs-surface: #FFFFFF;
-  --color-hs-surface-2: #F5F5F5;
-  --color-hs-border: #E5E5E5;
-  --color-hs-text: #171717;
-  --color-hs-text-muted: #737373;
+  --color-hs-surface-2: #F0F0F0;
+  --color-hs-border: #D1D5DB;
+  --color-hs-text: #111111;
+  --color-hs-text-muted: #525252;
 }
 
 /* Dark theme (default) */

@@ -8,10 +8,12 @@ const footerLinks = {
     { href: "/plugins/hyperperms", label: "HyperPerms" },
     { href: "/plugins/hyperhomes", label: "HyperHomes" },
     { href: "/plugins/hyperwarps", label: "HyperWarps" },
+    { href: "/plugins/hyperfactions", label: "HyperFactions" },
   ],
   resources: [
     { href: "/docs", label: "Documentation" },
     { href: "/download", label: "Download" },
+    { href: "/changelog", label: "Changelog" },
     { href: "https://github.com/HyperSystemsDev", label: "GitHub", external: true },
   ],
   community: [

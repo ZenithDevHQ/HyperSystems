@@ -82,16 +82,24 @@ export function WikiSearch() {
     script.type = "text/javascript";
 
     script.onload = () => {
-      // Pagefind should now be available on window
-      // Give it a moment to initialize
-      setTimeout(() => {
+      // Pagefind WASM needs time to initialize after script loads
+      // Use retry logic with exponential backoff
+      let attempts = 0;
+      const maxAttempts = 5;
+      const checkPagefind = () => {
+        attempts++;
         if (window.pagefind) {
           setSearchReady(true);
           setError(null);
+        } else if (attempts < maxAttempts) {
+          // Exponential backoff: 100ms, 200ms, 400ms, 800ms
+          setTimeout(checkPagefind, 100 * Math.pow(2, attempts - 1));
         } else {
-          setError("Search failed to initialize");
+          setError("Search unavailable. Try refreshing the page.");
         }
-      }, 100);
+      };
+      // Initial check after 100ms
+      setTimeout(checkPagefind, 100);
     };
 
     script.onerror = () => {
