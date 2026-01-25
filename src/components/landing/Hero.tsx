@@ -70,7 +70,7 @@ export function Hero() {
               </Button>
             </Link>
             <Link
-              href="https://github.com/ZenithDevHQ"
+              href="https://github.com/HyperSystemsDev"
               target="_blank"
               rel="noopener noreferrer"
             >

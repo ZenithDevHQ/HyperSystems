@@ -12,7 +12,7 @@ const footerLinks = {
   resources: [
     { href: "/docs", label: "Documentation" },
     { href: "/download", label: "Download" },
-    { href: "https://github.com/ZenithDevHQ", label: "GitHub", external: true },
+    { href: "https://github.com/HyperSystemsDev", label: "GitHub", external: true },
   ],
   community: [
     { href: "/community", label: "Community Hub" },
@@ -22,7 +22,7 @@ const footerLinks = {
       external: true,
     },
     {
-      href: "https://github.com/ZenithDevHQ/HyperPerms/issues",
+      href: "https://github.com/HyperSystemsDev/HyperPerms/issues",
       label: "Report an Issue",
       external: true,
     },

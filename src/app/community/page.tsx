@@ -72,7 +72,7 @@ export default function CommunityPage() {
               </p>
               <div className="mt-6">
                 <Link
-                  href="https://github.com/ZenithDevHQ"
+                  href="https://github.com/HyperSystemsDev"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
@@ -103,7 +103,7 @@ export default function CommunityPage() {
             </p>
             <div className="mt-4">
               <Link
-                href="https://github.com/ZenithDevHQ/HyperPerms/issues/new"
+                href="https://github.com/HyperSystemsDev/HyperPerms/issues/new"
                 target="_blank"
                 rel="noopener noreferrer"
               >
@@ -125,7 +125,7 @@ export default function CommunityPage() {
             </p>
             <div className="mt-4">
               <Link
-                href="https://github.com/ZenithDevHQ/HyperPerms/issues/new"
+                href="https://github.com/HyperSystemsDev/HyperPerms/issues/new"
                 target="_blank"
                 rel="noopener noreferrer"
               >
