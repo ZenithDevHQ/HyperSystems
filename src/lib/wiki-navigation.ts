@@ -11,6 +11,22 @@ export interface WikiNavSection {
 
 // Navigation configuration for each plugin's wiki
 export const wikiNavigation: Record<string, WikiNavSection[]> = {
+  hyperperms: [
+    {
+      title: "Overview",
+      items: [
+        { title: "Introduction", href: "/plugins/hyperperms/wiki" },
+      ],
+    },
+  ],
+  hyperhomes: [
+    {
+      title: "Overview",
+      items: [
+        { title: "Introduction", href: "/plugins/hyperhomes/wiki" },
+      ],
+    },
+  ],
   hyperfactions: [
     {
       title: "Getting Started",

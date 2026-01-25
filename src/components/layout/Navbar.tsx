@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { usePathname } from "next/navigation";
 import { Menu, X } from "lucide-react";
 import { Button } from "@/components/ui";
 import { cn } from "@/lib/utils";
@@ -16,6 +17,12 @@ const navLinks = [
 
 export function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
+  const pathname = usePathname();
+
+  const isActive = (href: string) => {
+    if (href === "/") return pathname === "/";
+    return pathname.startsWith(href);
+  };
 
   return (
     <header className="sticky top-0 z-50 w-full border-b border-hs-border bg-hs-bg/80 backdrop-blur-lg">
@@ -38,7 +45,13 @@ export function Navbar() {
             <Link
               key={link.href}
               href={link.href}
-              className="rounded-lg px-3 py-2 text-sm font-medium text-hs-text-muted transition-colors hover:bg-hs-surface hover:text-hs-text"
+              aria-current={isActive(link.href) ? "page" : undefined}
+              className={cn(
+                "rounded-lg px-3 py-2 text-sm font-medium transition-colors",
+                isActive(link.href)
+                  ? "bg-hs-surface text-hs-text"
+                  : "text-hs-text-muted hover:bg-hs-surface hover:text-hs-text"
+              )}
             >
               {link.label}
             </Link>
@@ -84,7 +97,13 @@ export function Navbar() {
               key={link.href}
               href={link.href}
               onClick={() => setIsOpen(false)}
-              className="block rounded-lg px-3 py-2 text-sm font-medium text-hs-text-muted transition-colors hover:bg-hs-surface hover:text-hs-text"
+              aria-current={isActive(link.href) ? "page" : undefined}
+              className={cn(
+                "block rounded-lg px-3 py-2 text-sm font-medium transition-colors",
+                isActive(link.href)
+                  ? "bg-hs-surface text-hs-text"
+                  : "text-hs-text-muted hover:bg-hs-surface hover:text-hs-text"
+              )}
             >
               {link.label}
             </Link>

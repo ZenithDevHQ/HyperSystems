@@ -3,5 +3,8 @@ export { CommandBlock } from "./CommandBlock";
 export { InfoBox } from "./InfoBox";
 export { MDXContent } from "./MDXContent";
 export { PermissionTable } from "./PermissionTable";
+export { ReadingProgress } from "./ReadingProgress";
+export { TableOfContents } from "./TableOfContents";
 export { WikiBreadcrumb } from "./WikiBreadcrumb";
+export { WikiSearch } from "./WikiSearch";
 export { WikiSidebar } from "./WikiSidebar";

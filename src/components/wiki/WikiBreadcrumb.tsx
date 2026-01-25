@@ -41,7 +41,7 @@ export function WikiBreadcrumb({
       >
         <Home className="h-4 w-4" />
       </Link>
-      {breadcrumbs.map((crumb, index) => (
+      {breadcrumbs.map((crumb) => (
         <span key={crumb.href} className="flex items-center gap-2">
           <ChevronRight className="h-4 w-4 text-hs-border" />
           <Link

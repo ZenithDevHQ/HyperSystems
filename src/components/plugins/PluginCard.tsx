@@ -12,14 +12,15 @@ import {
   Button,
   PluginIcon,
 } from "@/components/ui";
-import { type Plugin, type PluginStatus } from "@/lib/plugins";
+import { type Plugin } from "@/lib/plugins";
 
 interface PluginCardProps {
   plugin: Plugin;
   index?: number;
+  maxFeatures?: number;
 }
 
-export function PluginCard({ plugin, index = 0 }: PluginCardProps) {
+export function PluginCard({ plugin, index = 0, maxFeatures = 4 }: PluginCardProps) {
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -40,13 +41,13 @@ export function PluginCard({ plugin, index = 0 }: PluginCardProps) {
               </CardDescription>
             </div>
           </div>
-          <Badge variant={plugin.status as PluginStatus} />
+          <Badge variant={plugin.status} />
         </CardHeader>
 
         <p className="text-sm text-hs-text-muted">{plugin.description}</p>
 
         <ul className="mt-4 space-y-1.5">
-          {plugin.features.slice(0, 4).map((feature) => (
+          {plugin.features.slice(0, maxFeatures).map((feature) => (
             <li
               key={feature}
               className="flex items-center gap-2 text-sm text-hs-text-muted"
@@ -55,9 +56,9 @@ export function PluginCard({ plugin, index = 0 }: PluginCardProps) {
               {feature}
             </li>
           ))}
-          {plugin.features.length > 4 && (
+          {plugin.features.length > maxFeatures && (
             <li className="text-sm text-hs-text-muted">
-              +{plugin.features.length - 4} more features
+              +{plugin.features.length - maxFeatures} more features
             </li>
           )}
         </ul>

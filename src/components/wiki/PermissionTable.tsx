@@ -54,10 +54,10 @@ export function PermissionTable({ permissions, title }: PermissionTableProps) {
                       <span
                         className={`rounded px-2 py-1 text-xs font-medium ${
                           perm.default === "true"
-                            ? "bg-green-500/20 text-green-400"
+                            ? "bg-hs-success/20 text-hs-success"
                             : perm.default === "op"
-                            ? "bg-yellow-500/20 text-yellow-400"
-                            : "bg-red-500/20 text-red-400"
+                            ? "bg-hs-warning/20 text-hs-warning"
+                            : "bg-hs-danger/20 text-hs-danger"
                         }`}
                       >
                         {perm.default}

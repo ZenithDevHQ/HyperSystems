@@ -6,6 +6,7 @@ import { usePathname } from "next/navigation";
 import { ChevronDown, ChevronRight, Menu, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import type { WikiNavSection } from "@/lib/wiki-navigation";
+import { WikiSearch } from "./WikiSearch";
 
 interface WikiSidebarProps {
   plugin: string;
@@ -44,6 +45,11 @@ export function WikiSidebar({ plugin, pluginName, navigation }: WikiSidebarProps
         )}
       >
         <div className="px-4 pb-8">
+          {/* Search */}
+          <div className="mb-6">
+            <WikiSearch />
+          </div>
+
           {/* Wiki Home Link */}
           <Link
             href={`/plugins/${plugin}/wiki`}

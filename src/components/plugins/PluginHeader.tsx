@@ -4,7 +4,7 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import { ArrowLeft, ExternalLink, Github, Download } from "lucide-react";
 import { Button, Badge, PluginIcon } from "@/components/ui";
-import { type Plugin, type PluginStatus } from "@/lib/plugins";
+import { type Plugin } from "@/lib/plugins";
 
 interface PluginHeaderProps {
   plugin: Plugin;
@@ -52,7 +52,7 @@ export function PluginHeader({ plugin }: PluginHeaderProps) {
                   <h1 className="text-3xl font-bold text-hs-text sm:text-4xl">
                     {plugin.name}
                   </h1>
-                  <Badge variant={plugin.status as PluginStatus} />
+                  <Badge variant={plugin.status} />
                 </div>
                 <p className="mt-1 text-lg text-hs-text-muted">
                   {plugin.tagline}

@@ -54,5 +54,9 @@ export default async function WikiHomePage({ params }: WikiHomePageProps) {
 // Generate static pages for all plugins with wikis
 export async function generateStaticParams() {
   // Return plugin IDs that have wiki content
-  return [{ plugin: "hyperfactions" }];
+  return [
+    { plugin: "hyperfactions" },
+    { plugin: "hyperperms" },
+    { plugin: "hyperhomes" },
+  ];
 }

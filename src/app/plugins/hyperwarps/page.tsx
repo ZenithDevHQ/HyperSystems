@@ -8,7 +8,6 @@ import {
   Navigation,
   History,
   Users,
-  Globe,
   FolderTree,
   Undo2,
   Shield,

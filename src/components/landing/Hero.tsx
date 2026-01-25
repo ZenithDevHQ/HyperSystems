@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { ArrowRight, Github } from "lucide-react";
@@ -10,10 +11,13 @@ export function Hero() {
     <section className="relative overflow-hidden">
       {/* Background image with dark overlay */}
       <div className="absolute inset-0 -z-10">
-        <img
+        <Image
           src="/hero-bg.webp"
           alt=""
-          className="h-full w-full object-cover"
+          fill
+          priority
+          sizes="100vw"
+          className="object-cover"
         />
         {/* Dark gradient overlay for text readability */}
         <div className="absolute inset-0 bg-gradient-to-b from-hs-bg/85 via-hs-bg/80 to-hs-bg" />

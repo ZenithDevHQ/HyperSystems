@@ -15,6 +15,7 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://hypersystems.dev"),
   title: {
     default: "HyperSystems - Only What You Need",
     template: "%s | HyperSystems",
@@ -58,11 +59,37 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const structuredData = {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    name: "HyperSystems",
+    url: "https://hypersystems.dev",
+    logo: "https://hypersystems.dev/logo.webp",
+    description:
+      "A modular plugin suite for Hytale servers. Lightweight, focused, a-la-carte plugins that do one thing well.",
+    sameAs: [
+      "https://github.com/ZenithDevHQ",
+      "https://discord.gg/SNPjyfkYPc",
+    ],
+  };
+
   return (
     <html lang="en" className="dark">
+      <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+        />
+      </head>
       <body
         className={`${inter.variable} ${jetbrainsMono.variable} antialiased min-h-screen`}
       >
+        <a
+          href="#main-content"
+          className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-lg focus:bg-hs-primary focus:px-4 focus:py-2 focus:text-hs-bg focus:outline-none"
+        >
+          Skip to main content
+        </a>
         {children}
       </body>
     </html>

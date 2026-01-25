@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
-import { WikiSidebar } from "@/components/wiki";
+import { WikiSidebar, ReadingProgress } from "@/components/wiki";
 import { getWikiNavigation } from "@/lib/wiki-navigation";
 import { getPlugin } from "@/lib/plugins";
 import { hasWikiContent } from "@/lib/wiki";
@@ -24,13 +24,14 @@ export default async function WikiLayout({ children, params }: WikiLayoutProps) 
   return (
     <>
       <Navbar />
+      <ReadingProgress />
       <div className="flex min-h-screen">
         <WikiSidebar
           plugin={plugin}
           pluginName={pluginData.name}
           navigation={navigation}
         />
-        <main className="flex-1 px-4 py-8 lg:px-8 lg:py-12">
+        <main id="main-content" className="flex-1 px-4 py-8 lg:px-8 lg:py-12">
           <div className="mx-auto max-w-4xl">{children}</div>
         </main>
       </div>
