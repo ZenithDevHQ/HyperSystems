@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { Search, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -10,7 +10,7 @@ interface SearchResult {
   excerpt: string;
 }
 
-interface PagefindInstance {
+interface PagefindAPI {
   search: (query: string) => Promise<{
     results: Array<{
       data: () => Promise<{
@@ -20,12 +20,12 @@ interface PagefindInstance {
       }>;
     }>;
   }>;
-  init?: () => Promise<void>;
 }
 
+// Extend window type for Pagefind
 declare global {
   interface Window {
-    pagefind?: PagefindInstance;
+    pagefind?: PagefindAPI;
   }
 }
 
@@ -34,7 +34,10 @@ export function WikiSearch() {
   const [query, setQuery] = useState("");
   const [results, setResults] = useState<SearchResult[]>([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [pagefindLoaded, setPagefindLoaded] = useState(false);
+  const [searchReady, setSearchReady] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
+  const loadAttempted = useRef(false);
 
   // Keyboard shortcut (Cmd/Ctrl + K)
   useEffect(() => {
@@ -43,7 +46,7 @@ export function WikiSearch() {
         e.preventDefault();
         setIsOpen(true);
       }
-      if (e.key === "Escape") {
+      if (e.key === "Escape" && isOpen) {
         setIsOpen(false);
         setQuery("");
         setResults([]);
@@ -52,84 +55,104 @@ export function WikiSearch() {
 
     document.addEventListener("keydown", handleKeyDown);
     return () => document.removeEventListener("keydown", handleKeyDown);
-  }, []);
+  }, [isOpen]);
+
+  // Focus input when modal opens
+  useEffect(() => {
+    if (isOpen && inputRef.current) {
+      setTimeout(() => inputRef.current?.focus(), 10);
+    }
+  }, [isOpen]);
 
   // Load Pagefind when search opens
   useEffect(() => {
-    if (isOpen && !pagefindLoaded && typeof window !== "undefined") {
-      const loadPagefind = async () => {
-        if (window.pagefind) {
-          setPagefindLoaded(true);
-          return;
-        }
+    if (!isOpen || loadAttempted.current) return;
 
-        try {
-          // Load Pagefind script dynamically
-          const script = document.createElement("script");
-          script.src = "/pagefind/pagefind.js";
-          script.async = true;
-          script.onload = async () => {
-            if (window.pagefind?.init) {
-              await window.pagefind.init();
-            }
-            setPagefindLoaded(true);
-          };
-          script.onerror = () => {
-            // Pagefind not available (hasn't been built yet)
-            console.log("Pagefind not available");
-          };
-          document.head.appendChild(script);
-        } catch {
-          // Silently fail - Pagefind may not be built yet
-        }
-      };
-      loadPagefind();
+    loadAttempted.current = true;
+
+    // Check if already loaded
+    if (window.pagefind) {
+      setSearchReady(true);
+      return;
     }
-  }, [isOpen, pagefindLoaded]);
 
-  // Search using Pagefind (if available)
+    // Load Pagefind via script tag
+    const script = document.createElement("script");
+    script.src = "/pagefind/pagefind.js";
+    script.type = "text/javascript";
+
+    script.onload = () => {
+      // Pagefind should now be available on window
+      // Give it a moment to initialize
+      setTimeout(() => {
+        if (window.pagefind) {
+          setSearchReady(true);
+          setError(null);
+        } else {
+          setError("Search failed to initialize");
+        }
+      }, 100);
+    };
+
+    script.onerror = () => {
+      setError("Search is not available");
+      setSearchReady(false);
+    };
+
+    document.head.appendChild(script);
+  }, [isOpen]);
+
+  // Perform search
   const performSearch = useCallback(async (searchQuery: string) => {
     if (!searchQuery.trim()) {
       setResults([]);
       return;
     }
 
+    if (!window.pagefind) {
+      return;
+    }
+
     setIsLoading(true);
     try {
-      if (typeof window !== "undefined" && window.pagefind) {
-        const search = await window.pagefind.search(searchQuery);
-        const searchResults: SearchResult[] = [];
+      const search = await window.pagefind.search(searchQuery);
+      const searchResults: SearchResult[] = [];
 
-        for (const result of search.results.slice(0, 5)) {
-          const data = await result.data();
-          searchResults.push({
-            url: data.url,
-            title: data.meta?.title || "Untitled",
-            excerpt: data.excerpt || "",
-          });
-        }
-
-        setResults(searchResults);
-      } else {
-        // Fallback: Pagefind not available
-        setResults([]);
+      for (const result of search.results.slice(0, 8)) {
+        const data = await result.data();
+        searchResults.push({
+          url: data.url,
+          title: data.meta?.title || "Untitled",
+          excerpt: data.excerpt || "",
+        });
       }
-    } catch {
+
+      setResults(searchResults);
+    } catch (err) {
+      console.error("Search error:", err);
       setResults([]);
     } finally {
       setIsLoading(false);
     }
   }, []);
 
+  // Debounced search
   useEffect(() => {
+    if (!isOpen || !searchReady) return;
+
     const debounce = setTimeout(() => {
-      if (isOpen && pagefindLoaded) {
-        performSearch(query);
-      }
-    }, 200);
+      performSearch(query);
+    }, 150);
 
     return () => clearTimeout(debounce);
-  }, [query, isOpen, pagefindLoaded, performSearch]);
+  }, [query, isOpen, searchReady, performSearch]);
+
+  // Close modal handler
+  const closeModal = () => {
+    setIsOpen(false);
+    setQuery("");
+    setResults([]);
+  };
 
   return (
     <>
@@ -147,15 +170,11 @@ export function WikiSearch() {
 
       {/* Search Modal */}
       {isOpen && (
-        <div className="fixed inset-0 z-50 flex items-start justify-center pt-20">
+        <div className="fixed inset-0 z-50 flex items-start justify-center pt-20 px-4">
           {/* Backdrop */}
           <div
             className="absolute inset-0 bg-black/60 backdrop-blur-sm"
-            onClick={() => {
-              setIsOpen(false);
-              setQuery("");
-              setResults([]);
-            }}
+            onClick={closeModal}
           />
 
           {/* Modal */}
@@ -164,12 +183,12 @@ export function WikiSearch() {
             <div className="flex items-center gap-3 border-b border-hs-border px-4 py-3">
               <Search className="h-5 w-5 text-hs-text-muted" />
               <input
+                ref={inputRef}
                 type="text"
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
                 placeholder="Search documentation..."
                 className="flex-1 bg-transparent text-hs-text placeholder-hs-text-muted outline-none"
-                autoFocus
               />
               {query && (
                 <button
@@ -186,35 +205,42 @@ export function WikiSearch() {
 
             {/* Results */}
             <div className="max-h-80 overflow-y-auto p-2">
-              {isLoading && (
+              {/* Error state */}
+              {error && (
+                <div className="px-4 py-8 text-center text-sm text-hs-text-muted">
+                  {error}
+                </div>
+              )}
+
+              {/* Loading search */}
+              {!error && !searchReady && (
+                <div className="px-4 py-8 text-center text-sm text-hs-text-muted">
+                  Loading search...
+                </div>
+              )}
+
+              {/* Searching */}
+              {!error && searchReady && isLoading && (
                 <div className="px-4 py-8 text-center text-sm text-hs-text-muted">
                   Searching...
                 </div>
               )}
 
-              {!isLoading && query && results.length === 0 && pagefindLoaded && (
+              {/* No results */}
+              {!error && searchReady && !isLoading && query && results.length === 0 && (
                 <div className="px-4 py-8 text-center text-sm text-hs-text-muted">
                   No results found for &quot;{query}&quot;
                 </div>
               )}
 
-              {!isLoading && query && !pagefindLoaded && (
-                <div className="px-4 py-8 text-center text-sm text-hs-text-muted">
-                  Search is loading...
-                </div>
-              )}
-
-              {!isLoading && results.length > 0 && (
+              {/* Results list */}
+              {!error && !isLoading && results.length > 0 && (
                 <ul className="space-y-1">
                   {results.map((result, index) => (
                     <li key={index}>
                       <a
                         href={result.url}
-                        onClick={() => {
-                          setIsOpen(false);
-                          setQuery("");
-                          setResults([]);
-                        }}
+                        onClick={closeModal}
                         className={cn(
                           "block rounded-lg px-4 py-3 transition-colors",
                           "hover:bg-hs-surface"
@@ -235,7 +261,8 @@ export function WikiSearch() {
                 </ul>
               )}
 
-              {!isLoading && !query && (
+              {/* Initial state */}
+              {!error && searchReady && !isLoading && !query && (
                 <div className="px-4 py-8 text-center text-sm text-hs-text-muted">
                   Type to start searching...
                 </div>
