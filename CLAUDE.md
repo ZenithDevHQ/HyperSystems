@@ -39,8 +39,13 @@ src/
 │   ├── page.tsx             # Landing page
 │   ├── plugins/
 │   │   ├── page.tsx         # All plugins overview
+│   │   ├── [plugin]/wiki/   # Dynamic wiki routes
+│   │   │   ├── layout.tsx   # Wiki layout with sidebar
+│   │   │   ├── page.tsx     # Wiki home page
+│   │   │   └── [...slug]/   # Dynamic wiki pages
 │   │   ├── hyperperms/      # HyperPerms detail (RELEASED)
 │   │   ├── hyperhomes/      # HyperHomes detail (COMPLETE)
+│   │   ├── hyperfactions/   # HyperFactions detail (BETA)
 │   │   └── hyperwarps/      # HyperWarps detail (COMING SOON)
 │   ├── docs/page.tsx        # Documentation hub
 │   ├── download/page.tsx    # Download/installation guide
@@ -58,14 +63,35 @@ src/
 │   ├── plugins/
 │   │   ├── PluginCard.tsx
 │   │   └── PluginHeader.tsx
+│   ├── wiki/                # Wiki components
+│   │   ├── MDXContent.tsx   # MDX renderer with custom components
+│   │   ├── WikiSidebar.tsx  # Collapsible navigation
+│   │   ├── WikiBreadcrumb.tsx
+│   │   ├── CodeBlock.tsx    # Syntax highlighting + copy
+│   │   ├── CommandBlock.tsx # Command reference tables
+│   │   ├── InfoBox.tsx      # Callout boxes (info/tip/warning/danger)
+│   │   ├── PermissionTable.tsx
+│   │   └── index.ts
 │   └── ui/
 │       ├── Button.tsx
 │       ├── Card.tsx
 │       ├── Badge.tsx
+│       ├── PluginIcon.tsx
 │       └── index.ts
 └── lib/
     ├── utils.ts             # cn() utility
-    └── plugins.ts           # Plugin data definitions
+    ├── plugins.ts           # Plugin data definitions
+    ├── wiki.ts              # Wiki page loading utilities
+    └── wiki-navigation.ts   # Sidebar navigation config
+
+content/
+└── wiki/
+    └── hyperfactions/       # HyperFactions wiki content
+        ├── index.mdx
+        ├── getting-started/
+        ├── concepts/
+        ├── commands/
+        └── reference/
 ```
 
 ## Color System
@@ -115,6 +141,55 @@ Usage: `bg-hs-surface`, `text-hs-primary`, `border-hs-border`, etc.
 2. Create page at `src/app/plugins/[plugin-id]/page.tsx`
 3. Use `PluginHeader` component for consistent hero
 4. Add to navigation if needed
+
+## Wiki System
+
+The site includes an MDX-based wiki system for plugin documentation.
+
+### Wiki Structure
+
+- **URL Pattern:** `/plugins/[plugin]/wiki/[...slug]`
+- **Content Location:** `content/wiki/[plugin]/`
+- **Navigation Config:** `src/lib/wiki-navigation.ts`
+
+### Adding Wiki Content
+
+1. Create MDX files in `content/wiki/[plugin-id]/`
+2. Add frontmatter with `title` and `description`
+3. Update navigation in `src/lib/wiki-navigation.ts`
+4. Add plugin to `generateStaticParams` in wiki route files
+
+### Wiki Components
+
+Use these components in MDX files:
+
+```mdx
+<InfoBox variant="tip" title="Optional Title">
+  Content here
+</InfoBox>
+
+<CommandBlock
+  commands={[
+    { command: "/cmd", description: "Description", permission: "node.perm" }
+  ]}
+/>
+
+<PermissionTable
+  permissions={[
+    { permission: "node.perm", description: "Description", default: "true" }
+  ]}
+/>
+
+<CodeBlock language="json" filename="config.json">
+  {"key": "value"}
+</CodeBlock>
+```
+
+### InfoBox Variants
+- `info` - Blue, general information
+- `tip` - Green, helpful tips
+- `warning` - Yellow, cautions
+- `danger` - Red, critical warnings
 
 ## Development
 

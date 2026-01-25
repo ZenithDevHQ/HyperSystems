@@ -1,36 +1,103 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# HyperSystems Website
+
+The official marketing website for **HyperSystems** - a modular plugin suite for Hytale servers.
+
+**Live Site:** [hypersystems.dev](https://hypersystems.dev) (when deployed)
+
+## Overview
+
+HyperSystems offers lightweight, focused, a-la-carte plugins with the philosophy of **"Only what you need."** This website showcases the plugin suite and provides documentation for each plugin.
+
+## Features
+
+- **Plugin Showcase** - Overview of all HyperSystems plugins
+- **Plugin Pages** - Detailed feature lists, commands, and resources for each plugin
+- **Wiki System** - MDX-based documentation with sidebar navigation
+- **Responsive Design** - Mobile-friendly with dark theme
+
+## Plugins
+
+| Plugin | Status | Description |
+|--------|--------|-------------|
+| [HyperPerms](https://www.hyperperms.com/) | Stable | Modern permissions system with web editor |
+| HyperHomes | Stable | GUI-based home management with sharing |
+| HyperFactions | Beta | Faction management with territories & diplomacy |
+| HyperWarps | Coming Soon | TPA, spawns, warps, and location history |
+| HyperKits | Planned | Kit management with cooldowns and GUIs |
+
+## Tech Stack
+
+- **Framework:** Next.js 16+ (App Router)
+- **Language:** TypeScript / React 19
+- **Styling:** Tailwind CSS 4
+- **Content:** MDX with next-mdx-remote
+- **Icons:** Lucide React
+- **Fonts:** Inter, JetBrains Mono
 
 ## Getting Started
 
-First, run the development server:
-
 ```bash
+# Install dependencies
+npm install
+
+# Run development server
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+
+# Build for production
+npm run build
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) to view the site.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Project Structure
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```
+src/
+├── app/                    # Next.js App Router pages
+│   ├── plugins/           # Plugin pages and wiki routes
+│   └── ...
+├── components/
+│   ├── layout/            # Navbar, Footer
+│   ├── landing/           # Homepage sections
+│   ├── plugins/           # Plugin-specific components
+│   ├── wiki/              # Wiki documentation components
+│   └── ui/                # Reusable UI components
+└── lib/                   # Utilities and data
 
-## Learn More
+content/
+└── wiki/                  # MDX wiki content by plugin
+```
 
-To learn more about Next.js, take a look at the following resources:
+## Wiki System
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Documentation is written in MDX and located in `content/wiki/[plugin]/`. The wiki supports:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- Custom components (InfoBox, CommandBlock, PermissionTable, CodeBlock)
+- Sidebar navigation with collapsible sections
+- Breadcrumb navigation
+- Previous/Next page links
+- Mobile-responsive sidebar
 
-## Deploy on Vercel
+### Wiki URLs
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- `/plugins/hyperfactions/wiki` - Wiki home
+- `/plugins/hyperfactions/wiki/commands/basic` - Specific page
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Deployment
+
+The site is configured for Vercel deployment. Push to `main` triggers automatic deployment.
+
+## Related Repositories
+
+- [HyperPerms](https://github.com/HyperSystemsDev/HyperPerms)
+- [HyperHomes](https://github.com/HyperSystemsDev/HyperHomes)
+- [HyperFactions](https://github.com/HyperSystemsDev/HyperFactions)
+
+## Community
+
+- **Discord:** [discord.gg/SNPjyfkYPc](https://discord.gg/SNPjyfkYPc)
+- **GitHub:** [github.com/HyperSystemsDev](https://github.com/HyperSystemsDev)
+
+## License
+
+MIT
