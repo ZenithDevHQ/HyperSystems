@@ -5,7 +5,7 @@ import { ChevronLeft, ChevronRight, ExternalLink } from "lucide-react";
 import { getWikiPage, getAllWikiSlugs, hasWikiContent } from "@/lib/wiki";
 import { getPlugin } from "@/lib/plugins";
 import { getAdjacentPages } from "@/lib/wiki-navigation";
-import { MDXContent, WikiBreadcrumb, TableOfContents } from "@/components/wiki";
+import { MDXContent, WikiBreadcrumb, TableOfContents, WikiKeyboardNav } from "@/components/wiki";
 
 interface WikiPageProps {
   params: Promise<{ plugin: string; slug: string[] }>;
@@ -33,8 +33,8 @@ export async function generateMetadata({
 // Map plugin IDs to their GitHub repos for edit links
 const pluginRepos: Record<string, string> = {
   hyperfactions: "HyperSystemsDev/HyperFactions",
-  hyperperms: "ZenithDevHQ/HyperPerms",
-  hyperhomes: "ZenithDevHQ/HyperHomes",
+  hyperperms: "HyperSystemsDev/HyperPerms",
+  hyperhomes: "HyperSystemsDev/HyperHomes",
 };
 
 export default async function WikiPage({ params }: WikiPageProps) {
@@ -141,6 +141,9 @@ export default async function WikiPage({ params }: WikiPageProps) {
             )}
           </nav>
         )}
+
+        {/* Keyboard Navigation */}
+        <WikiKeyboardNav prev={prev} next={next} />
       </article>
 
       {/* Desktop TOC */}

@@ -37,7 +37,27 @@ body {
   font-family: var(--font-sans), system-ui, sans-serif;
 }
 
-/* Custom scrollbar for dark theme */
+/* Light theme overrides */
+.light {
+  --color-hs-bg: #FAFAFA;
+  --color-hs-surface: #FFFFFF;
+  --color-hs-surface-2: #F5F5F5;
+  --color-hs-border: #E5E5E5;
+  --color-hs-text: #171717;
+  --color-hs-text-muted: #737373;
+}
+
+/* Dark theme (default) */
+.dark {
+  --color-hs-bg: #0A0A0A;
+  --color-hs-surface: #171717;
+  --color-hs-surface-2: #262626;
+  --color-hs-border: #404040;
+  --color-hs-text: #FAFAFA;
+  --color-hs-text-muted: #A3A3A3;
+}
+
+/* Custom scrollbar */
 ::-webkit-scrollbar {
   width: 8px;
   height: 8px;
@@ -54,6 +74,11 @@ body {
 
 ::-webkit-scrollbar-thumb:hover {
   background: var(--color-hs-text-muted);
+}
+
+/* Light theme scrollbar */
+.light::-webkit-scrollbar-track {
+  background: var(--color-hs-surface-2);
 }
 
 /* Selection styling */

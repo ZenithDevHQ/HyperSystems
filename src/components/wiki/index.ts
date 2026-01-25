@@ -8,3 +8,4 @@ export { TableOfContents } from "./TableOfContents";
 export { WikiBreadcrumb } from "./WikiBreadcrumb";
 export { WikiSearch } from "./WikiSearch";
 export { WikiSidebar } from "./WikiSidebar";
+export { WikiKeyboardNav } from "./WikiKeyboardNav";

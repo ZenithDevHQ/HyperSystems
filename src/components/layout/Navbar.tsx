@@ -5,11 +5,13 @@ import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { Menu, X } from "lucide-react";
-import { Button } from "@/components/ui";
+import { Button, ThemeToggle } from "@/components/ui";
 import { cn } from "@/lib/utils";
 
 const navLinks = [
   { href: "/plugins", label: "Plugins" },
+  { href: "/compare", label: "Compare" },
+  { href: "/changelog", label: "Changelog" },
   { href: "/docs", label: "Docs" },
   { href: "/download", label: "Download" },
   { href: "/community", label: "Community" },
@@ -60,8 +62,9 @@ export function Navbar() {
 
         {/* Desktop CTA */}
         <div className="hidden items-center gap-3 md:flex">
+          <ThemeToggle />
           <Link
-            href="https://github.com/ZenithDevHQ"
+            href="https://github.com/HyperSystemsDev"
             target="_blank"
             rel="noopener noreferrer"
           >
@@ -109,8 +112,9 @@ export function Navbar() {
             </Link>
           ))}
           <div className="flex flex-col gap-2 pt-3">
+            <ThemeToggle className="self-start" />
             <Link
-              href="https://github.com/ZenithDevHQ"
+              href="https://github.com/HyperSystemsDev"
               target="_blank"
               rel="noopener noreferrer"
               onClick={() => setIsOpen(false)}

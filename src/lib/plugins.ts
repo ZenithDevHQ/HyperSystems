@@ -40,7 +40,7 @@ export const plugins: Plugin[] = [
     ],
     links: {
       website: "https://www.hyperperms.com/",
-      github: "https://github.com/ZenithDevHQ/HyperPerms/releases",
+      github: "https://github.com/HyperSystemsDev/HyperPerms",
       curseforge: "https://www.curseforge.com/hytale/mods/hyperperms",
       docs: "https://www.hyperperms.com/wiki",
     },
@@ -67,7 +67,7 @@ export const plugins: Plugin[] = [
     ],
     commands: ["/home", "/sethome", "/delhome", "/homes"],
     links: {
-      github: "https://github.com/ZenithDevHQ/HyperHomes",
+      github: "https://github.com/HyperSystemsDev/HyperHomes",
       curseforge: "https://www.curseforge.com/hytale/mods/hyperhomes",
     },
   },

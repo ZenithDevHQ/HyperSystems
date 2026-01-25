@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Inter, JetBrains_Mono } from "next/font/google";
+import { BackToTop, ThemeProvider } from "@/components/ui";
 import "./globals.css";
 
 const inter = Inter({
@@ -68,7 +69,7 @@ export default function RootLayout({
     description:
       "A modular plugin suite for Hytale servers. Lightweight, focused, a-la-carte plugins that do one thing well.",
     sameAs: [
-      "https://github.com/ZenithDevHQ",
+      "https://github.com/HyperSystemsDev",
       "https://discord.gg/SNPjyfkYPc",
     ],
   };
@@ -84,13 +85,16 @@ export default function RootLayout({
       <body
         className={`${inter.variable} ${jetbrainsMono.variable} antialiased min-h-screen`}
       >
-        <a
-          href="#main-content"
-          className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-lg focus:bg-hs-primary focus:px-4 focus:py-2 focus:text-hs-bg focus:outline-none"
-        >
-          Skip to main content
-        </a>
-        {children}
+        <ThemeProvider>
+          <a
+            href="#main-content"
+            className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-lg focus:bg-hs-primary focus:px-4 focus:py-2 focus:text-hs-bg focus:outline-none"
+          >
+            Skip to main content
+          </a>
+          {children}
+          <BackToTop />
+        </ThemeProvider>
       </body>
     </html>
   );
