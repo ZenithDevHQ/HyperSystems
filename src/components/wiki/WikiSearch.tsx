@@ -11,6 +11,7 @@ interface SearchResult {
 }
 
 interface PagefindAPI {
+  init: () => Promise<void>;
   search: (query: string) => Promise<{
     results: Array<{
       data: () => Promise<{
@@ -22,12 +23,8 @@ interface PagefindAPI {
   }>;
 }
 
-// Extend window type for Pagefind
-declare global {
-  interface Window {
-    pagefind?: PagefindAPI;
-  }
-}
+// Store pagefind instance
+let pagefindInstance: PagefindAPI | null = null;
 
 export function WikiSearch() {
   const [isOpen, setIsOpen] = useState(false);
@@ -71,43 +68,35 @@ export function WikiSearch() {
     loadAttempted.current = true;
 
     // Check if already loaded
-    if (window.pagefind) {
+    if (pagefindInstance) {
       setSearchReady(true);
       return;
     }
 
-    // Load Pagefind via script tag
-    const script = document.createElement("script");
-    script.src = "/pagefind/pagefind.js";
-    script.type = "text/javascript";
+    // Load Pagefind as ES module - using Function to bypass bundler
+    const loadPagefind = async () => {
+      try {
+        // Use Function constructor to create a dynamic import that bypasses the bundler
+        const importPagefind = new Function(
+          "return import('/pagefind/pagefind.js')"
+        ) as () => Promise<PagefindAPI>;
 
-    script.onload = () => {
-      // Pagefind WASM needs time to initialize after script loads
-      // Use retry logic with exponential backoff
-      let attempts = 0;
-      const maxAttempts = 5;
-      const checkPagefind = () => {
-        attempts++;
-        if (window.pagefind) {
-          setSearchReady(true);
-          setError(null);
-        } else if (attempts < maxAttempts) {
-          // Exponential backoff: 100ms, 200ms, 400ms, 800ms
-          setTimeout(checkPagefind, 100 * Math.pow(2, attempts - 1));
-        } else {
-          setError("Search unavailable. Try refreshing the page.");
-        }
-      };
-      // Initial check after 100ms
-      setTimeout(checkPagefind, 100);
+        const pagefind = await importPagefind();
+
+        // Initialize pagefind (loads WASM)
+        await pagefind.init();
+
+        pagefindInstance = pagefind;
+        setSearchReady(true);
+        setError(null);
+      } catch (err) {
+        console.error("Failed to load pagefind:", err);
+        setError("Search is not available");
+        setSearchReady(false);
+      }
     };
 
-    script.onerror = () => {
-      setError("Search is not available");
-      setSearchReady(false);
-    };
-
-    document.head.appendChild(script);
+    loadPagefind();
   }, [isOpen]);
 
   // Perform search
@@ -117,13 +106,13 @@ export function WikiSearch() {
       return;
     }
 
-    if (!window.pagefind) {
+    if (!pagefindInstance) {
       return;
     }
 
     setIsLoading(true);
     try {
-      const search = await window.pagefind.search(searchQuery);
+      const search = await pagefindInstance.search(searchQuery);
       const searchResults: SearchResult[] = [];
 
       for (const result of search.results.slice(0, 8)) {
