@@ -1,6 +1,6 @@
 "use client";
 
-import { Shield, Home, MapPin, Package } from "lucide-react";
+import { Shield, Home, MapPin, Package, Swords } from "lucide-react";
 import { type PluginIconName } from "@/lib/plugins";
 import { cn } from "@/lib/utils";
 
@@ -9,6 +9,7 @@ const iconMap = {
   Home,
   MapPin,
   Package,
+  Swords,
 };
 
 interface PluginIconProps {

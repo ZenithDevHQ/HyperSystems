@@ -1,0 +1,185 @@
+---
+title: Territory Commands
+description: Commands for claiming, unclaiming, and managing faction land.
+order: 2
+---
+
+# Territory Commands
+
+These commands let you claim land, manage your territory, and view the world map.
+
+## Claiming Land
+
+<CommandBlock
+  commands={[
+    {
+      command: "/f claim",
+      description: "Claim the chunk you're standing in for your faction",
+      permission: "hyperfactions.claim"
+    }
+  ]}
+/>
+
+**Requirements:**
+- Must have sufficient faction power
+- Chunk must be unclaimed
+- If adjacent mode is enabled, chunk must connect to existing claims
+- Cannot claim SafeZones or WarZones
+
+<InfoBox variant="info">
+Each claim requires power to maintain. Make sure your faction has enough power before claiming.
+</InfoBox>
+
+## Unclaiming Land
+
+<CommandBlock
+  commands={[
+    {
+      command: "/f unclaim",
+      description: "Release the chunk you're standing in",
+      permission: "hyperfactions.unclaim"
+    }
+  ]}
+/>
+
+**Requirements:**
+- Must be in a chunk your faction owns
+- Officer or Leader role required
+- If adjacent mode is enabled, unclaim must not fragment territory
+
+<InfoBox variant="warning">
+Unclaiming removes protection from that chunk. Make sure you've moved any valuables first.
+</InfoBox>
+
+## Viewing the Map
+
+<CommandBlock
+  commands={[
+    {
+      command: "/f map",
+      description: "Open the chunk management GUI with territory map",
+      permission: "hyperfactions.map"
+    }
+  ]}
+/>
+
+The map displays a 15×15 chunk grid showing:
+
+| Symbol | Meaning |
+|--------|---------|
+| Your faction color | Your claims |
+| Green | Allied claims |
+| Red | Enemy claims |
+| Yellow | Neutral faction claims |
+| Bright Green (S) | SafeZone |
+| Bright Red (W) | WarZone |
+| Gray | Wilderness (unclaimed) |
+
+## Overclaiming
+
+<CommandBlock
+  commands={[
+    {
+      command: "/f overclaim",
+      description: "Capture an enemy faction's chunk when their power is too low",
+      permission: "hyperfactions.overclaim"
+    }
+  ]}
+/>
+
+**Requirements:**
+1. Target chunk must be claimed by another faction
+2. Target faction must have insufficient power for their claims
+3. Must be enemies (if `requireEnemyRelation` is enabled)
+4. Target power must be at or below threshold
+
+<InfoBox variant="tip" title="When Can You Overclaim?">
+Enemy faction power must be less than: (Their Claims × Power Per Claim)
+
+Example: If an enemy has 30 claims and power per claim is 2, you can overclaim when their power drops below 60.
+</InfoBox>
+
+## Stuck/Escape
+
+<CommandBlock
+  commands={[
+    {
+      command: "/f stuck",
+      description: "Teleport to nearby wilderness when trapped in enemy territory",
+      permission: "hyperfactions.use"
+    }
+  ]}
+/>
+
+**Behavior:**
+- 30-second warmup by default
+- Cancelled by movement or damage
+- Teleports to nearest unclaimed chunk
+- Only works in hostile territory
+
+<InfoBox variant="info">
+Use this command if you're trapped in enemy territory with no way out.
+</InfoBox>
+
+## Quick Reference
+
+| Command | Description | Role Required |
+|---------|-------------|---------------|
+| `/f claim` | Claim current chunk | Member+ |
+| `/f unclaim` | Unclaim current chunk | Officer+ |
+| `/f map` | View territory map | Member+ |
+| `/f overclaim` | Take enemy territory | Officer+ |
+| `/f stuck` | Escape hostile territory | Member+ |
+
+## Examples
+
+### Claiming Your First Chunk
+```
+/f claim
+```
+Stand in an unclaimed chunk near your base and run this to claim it.
+
+### Expanding Territory
+```
+# Stand in adjacent unclaimed chunk
+/f claim
+```
+Continue claiming adjacent chunks to expand your territory.
+
+### Checking the Map Before Claiming
+```
+/f map
+```
+Opens the GUI map to see available chunks around you.
+
+### Overclaiming an Enemy
+```
+# Check enemy power first
+/f info EnemyFaction
+# If their power is too low, stand in their chunk
+/f overclaim
+```
+
+## Strategic Tips
+
+### Claiming Strategy
+1. **Start with a core** - Claim chunks around your main base first
+2. **Expand outward** - Add adjacent chunks to maintain connectivity
+3. **Buffer zones** - Claim wilderness around valuable areas
+4. **Power management** - Don't claim more than you can defend
+
+### Defense Strategy
+1. **Monitor power** - Keep faction power above claim requirements
+2. **Strategic unclaiming** - Release non-essential claims if power drops
+3. **Active members** - More active members = more power
+
+### Overclaim Strategy
+1. **Weaken first** - Kill enemies to reduce their power
+2. **Time attacks** - Strike when few enemies are online
+3. **Priority targets** - Overclaim important chunks first (homes, farms)
+
+## Related Topics
+
+- [Power System](/plugins/hyperfactions/wiki/concepts/power-system) - How power affects claims
+- [Territories](/plugins/hyperfactions/wiki/concepts/territories) - Territory mechanics
+- [Zones](/plugins/hyperfactions/wiki/concepts/zones) - SafeZones and WarZones

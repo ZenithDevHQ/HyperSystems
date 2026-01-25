@@ -1,0 +1,229 @@
+---
+title: Configuration
+description: Complete guide to configuring HyperFactions for your server.
+order: 2
+---
+
+# Configuration
+
+HyperFactions is highly configurable. This guide explains all available configuration options.
+
+## Configuration File
+
+The main configuration file is located at:
+
+```
+plugins/HyperFactions/config.json
+```
+
+<InfoBox variant="warning">
+After making changes to the configuration, run `/f admin reload` to apply them without restarting the server.
+</InfoBox>
+
+## Complete Configuration
+
+Here's the full configuration file with all options:
+
+<CodeBlock language="json" filename="config.json">
+{`{
+  "faction": {
+    "maxMembers": 50,
+    "maxNameLength": 24,
+    "minNameLength": 3,
+    "allowedNamePattern": "^[a-zA-Z0-9_]+$"
+  },
+  "power": {
+    "maxPlayerPower": 20,
+    "startingPower": 10,
+    "powerPerClaim": 2,
+    "regenerationMinutes": 60,
+    "regenerationAmount": 1,
+    "deathPenalty": 1,
+    "neutralKillPenalty": 1,
+    "warzonePowerLoss": false
+  },
+  "claims": {
+    "maxClaims": 100,
+    "onlyAdjacent": false,
+    "decayEnabled": true,
+    "decayDelayMinutes": 10,
+    "inactiveDecayDays": 7,
+    "showOnMap": true
+  },
+  "overclaim": {
+    "enabled": true,
+    "requireEnemyRelation": true,
+    "powerThreshold": 0
+  },
+  "combat": {
+    "tagDurationSeconds": 15,
+    "allyDamage": false,
+    "factionDamage": false
+  },
+  "teleport": {
+    "warmupSeconds": 5,
+    "cooldownMinutes": 5,
+    "cancelOnMove": true,
+    "cancelOnDamage": true,
+    "crossWorld": true
+  },
+  "integration": {
+    "hyperpermsEnabled": true,
+    "showFactionInChat": true,
+    "showFactionOnMap": true
+  },
+  "messages": {
+    "prefix": "[HyperFactions] ",
+    "primaryColor": "#00FFFF",
+    "secondaryColor": "#AAAAAA",
+    "errorColor": "#FF5555",
+    "successColor": "#55FF55"
+  }
+}`}
+</CodeBlock>
+
+## Configuration Sections
+
+### Faction Settings
+
+| Option | Type | Default | Description |
+|--------|------|---------|-------------|
+| `maxMembers` | integer | 50 | Maximum members per faction |
+| `maxNameLength` | integer | 24 | Maximum faction name length |
+| `minNameLength` | integer | 3 | Minimum faction name length |
+| `allowedNamePattern` | regex | `^[a-zA-Z0-9_]+$` | Allowed characters in faction names |
+
+### Power Settings
+
+| Option | Type | Default | Description |
+|--------|------|---------|-------------|
+| `maxPlayerPower` | integer | 20 | Maximum power per player |
+| `startingPower` | integer | 10 | Power new players start with |
+| `powerPerClaim` | integer | 2 | Power required to maintain each claim |
+| `regenerationMinutes` | integer | 60 | Minutes between power regeneration |
+| `regenerationAmount` | integer | 1 | Power gained per regeneration tick |
+| `deathPenalty` | integer | 1 | Power lost on death |
+| `neutralKillPenalty` | integer | 1 | Power lost for killing neutral players |
+| `warzonePowerLoss` | boolean | false | Whether to lose power on WarZone deaths |
+
+<InfoBox variant="tip" title="Power Balance">
+The `powerPerClaim` setting is crucial for balance. Higher values mean factions need more members to hold territory.
+</InfoBox>
+
+### Claims Settings
+
+| Option | Type | Default | Description |
+|--------|------|---------|-------------|
+| `maxClaims` | integer | 100 | Maximum claims per faction |
+| `onlyAdjacent` | boolean | false | Require claims to be adjacent |
+| `decayEnabled` | boolean | true | Enable inactive claim decay |
+| `decayDelayMinutes` | integer | 10 | Delay before decay starts |
+| `inactiveDecayDays` | integer | 7 | Days of inactivity before claims decay |
+| `showOnMap` | boolean | true | Show claims on the world map |
+
+### Overclaim Settings
+
+| Option | Type | Default | Description |
+|--------|------|---------|-------------|
+| `enabled` | boolean | true | Enable overclaiming system |
+| `requireEnemyRelation` | boolean | true | Only allow overclaiming enemies |
+| `powerThreshold` | integer | 0 | Enemy power threshold for overclaiming |
+
+### Combat Settings
+
+| Option | Type | Default | Description |
+|--------|------|---------|-------------|
+| `tagDurationSeconds` | integer | 15 | Combat tag duration |
+| `allyDamage` | boolean | false | Allow damage between allies |
+| `factionDamage` | boolean | false | Allow damage between faction members |
+
+### Teleport Settings
+
+| Option | Type | Default | Description |
+|--------|------|---------|-------------|
+| `warmupSeconds` | integer | 5 | Teleport warmup duration |
+| `cooldownMinutes` | integer | 5 | Cooldown between teleports |
+| `cancelOnMove` | boolean | true | Cancel teleport if player moves |
+| `cancelOnDamage` | boolean | true | Cancel teleport if player takes damage |
+| `crossWorld` | boolean | true | Allow cross-dimension teleportation |
+
+### Integration Settings
+
+| Option | Type | Default | Description |
+|--------|------|---------|-------------|
+| `hyperpermsEnabled` | boolean | true | Enable HyperPerms integration |
+| `showFactionInChat` | boolean | true | Show faction name in chat |
+| `showFactionOnMap` | boolean | true | Show faction territories on map |
+
+### Message Settings
+
+| Option | Type | Default | Description |
+|--------|------|---------|-------------|
+| `prefix` | string | `[HyperFactions] ` | Message prefix |
+| `primaryColor` | hex | `#00FFFF` | Primary text color |
+| `secondaryColor` | hex | `#AAAAAA` | Secondary text color |
+| `errorColor` | hex | `#FF5555` | Error message color |
+| `successColor` | hex | `#55FF55` | Success message color |
+
+## Common Configurations
+
+### Competitive PvP Server
+
+```json
+{
+  "power": {
+    "maxPlayerPower": 10,
+    "deathPenalty": 2,
+    "regenerationMinutes": 30
+  },
+  "combat": {
+    "tagDurationSeconds": 30
+  },
+  "overclaim": {
+    "enabled": true,
+    "powerThreshold": 0
+  }
+}
+```
+
+### Casual/Friendly Server
+
+```json
+{
+  "power": {
+    "maxPlayerPower": 50,
+    "deathPenalty": 0
+  },
+  "combat": {
+    "factionDamage": false,
+    "allyDamage": false
+  },
+  "overclaim": {
+    "enabled": false
+  }
+}
+```
+
+### Roleplay Server
+
+```json
+{
+  "claims": {
+    "onlyAdjacent": true,
+    "maxClaims": 200
+  },
+  "combat": {
+    "tagDurationSeconds": 10
+  },
+  "teleport": {
+    "warmupSeconds": 10
+  }
+}
+```
+
+## Next Steps
+
+Now that you've configured HyperFactions:
+
+1. [Create your first faction](/plugins/hyperfactions/wiki/getting-started/first-setup) to test your configuration
+2. Learn about the [Power System](/plugins/hyperfactions/wiki/concepts/power-system) to understand balance

@@ -1,0 +1,185 @@
+---
+title: Power System
+description: Understanding the power system that governs territory and warfare.
+order: 2
+---
+
+# Power System
+
+The power system is the backbone of HyperFactions' territory and warfare mechanics. Understanding power is essential for successful faction management.
+
+## How Power Works
+
+### Personal Power
+Each player has their own personal power:
+
+| Property | Default | Config Key |
+|----------|---------|------------|
+| Maximum Power | 20 | `power.maxPlayerPower` |
+| Starting Power | 10 | `power.startingPower` |
+
+### Faction Power
+A faction's total power is calculated as:
+
+```
+Faction Power = Sum of all member power
+```
+
+<InfoBox variant="info" title="Example">
+A faction with 5 members, each at 15 power = **75 total faction power**
+</InfoBox>
+
+## Power and Claims
+
+Each chunk claim requires power to maintain:
+
+| Property | Default | Config Key |
+|----------|---------|------------|
+| Power per Claim | 2 | `power.powerPerClaim` |
+
+**Maximum Claims Formula:**
+```
+Max Claims = Faction Power / Power Per Claim
+```
+
+<InfoBox variant="tip" title="Example">
+- Faction power: 60
+- Power per claim: 2
+- Maximum claims: **30 chunks**
+</InfoBox>
+
+If your faction power drops below what's needed to maintain claims, you become vulnerable to **overclaiming**.
+
+## Power Regeneration
+
+Power regenerates automatically over time:
+
+| Property | Default | Config Key |
+|----------|---------|------------|
+| Regeneration Interval | 60 minutes | `power.regenerationMinutes` |
+| Regeneration Amount | 1 | `power.regenerationAmount` |
+
+<InfoBox variant="info">
+Power regeneration happens per player, not per faction. Each online player regenerates independently.
+</InfoBox>
+
+## Power Loss
+
+### Death Penalty
+When a player dies, they lose power:
+
+| Property | Default | Config Key |
+|----------|---------|------------|
+| Death Penalty | 1 | `power.deathPenalty` |
+
+### Neutral Kill Penalty
+Killing neutral players may also cost power:
+
+| Property | Default | Config Key |
+|----------|---------|------------|
+| Neutral Kill Penalty | 1 | `power.neutralKillPenalty` |
+
+### WarZone Deaths
+By default, deaths in WarZones don't cause power loss:
+
+| Property | Default | Config Key |
+|----------|---------|------------|
+| WarZone Power Loss | false | `power.warzonePowerLoss` |
+
+## Power and Overclaiming
+
+When a faction's power drops below their claim requirements, enemies can **overclaim** their territory.
+
+**Overclaim Requirements:**
+1. Target faction must have insufficient power
+2. You must be enemies (if `overclaim.requireEnemyRelation` is true)
+3. Target must be at or below `overclaim.powerThreshold`
+
+```
+/f overclaim
+```
+
+This transfers the current chunk to your faction.
+
+## Strategic Considerations
+
+### Growing Your Faction
+More members = more power = more potential claims
+
+But remember:
+- Each member needs to maintain their power
+- Deaths during wars reduce total power
+- Inactive members may log out with low power
+
+### War Strategy
+To weaken an enemy faction:
+1. Kill their members to reduce power
+2. Wait for power to drop below claim requirements
+3. Overclaim their territory
+
+To defend:
+1. Keep member power high
+2. Minimize deaths
+3. Maintain power buffer above claim requirements
+
+### Power Buffer
+A smart faction maintains extra power beyond their claim needs:
+
+```
+Recommended: Faction Power > (Claims × Power Per Claim) + Buffer
+```
+
+This buffer protects against temporary power loss from deaths.
+
+## Viewing Power
+
+### Your Power
+```
+/f info
+```
+Shows your faction's total power and claim count.
+
+### Checking Vulnerability
+If your faction info shows:
+- Power: 50
+- Claims: 30
+- Power per Claim: 2
+- Required Power: 60
+
+Your faction is **vulnerable** to overclaiming (50 < 60).
+
+## Configuration Tips
+
+### High Competition (PvP Focused)
+```json
+{
+  "power": {
+    "maxPlayerPower": 10,
+    "deathPenalty": 2,
+    "regenerationMinutes": 30
+  }
+}
+```
+- Lower max power means smaller empires
+- Higher death penalty makes wars impactful
+- Faster regeneration allows recovery
+
+### Low Competition (Casual)
+```json
+{
+  "power": {
+    "maxPlayerPower": 50,
+    "deathPenalty": 0,
+    "regenerationMinutes": 120
+  }
+}
+```
+- Higher max power for larger empires
+- No death penalty for peaceful play
+- Slower regeneration since it's less critical
+
+## Related Topics
+
+- [Territories](/plugins/hyperfactions/wiki/concepts/territories) - How claims work
+- [Diplomacy](/plugins/hyperfactions/wiki/concepts/diplomacy) - Enemy relations enable overclaiming
+- [Configuration](/plugins/hyperfactions/wiki/getting-started/configuration) - Full power config options

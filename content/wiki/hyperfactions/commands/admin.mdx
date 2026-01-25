@@ -1,0 +1,278 @@
+---
+title: Admin Commands
+description: Server administration commands for HyperFactions.
+order: 8
+---
+
+# Admin Commands
+
+These commands are for server administrators to manage factions, zones, and the plugin itself. All commands require `hyperfactions.admin` permission.
+
+## Admin Menu
+
+<CommandBlock
+  commands={[
+    {
+      command: "/f admin",
+      description: "Open the admin management menu",
+      permission: "hyperfactions.admin"
+    }
+  ]}
+/>
+
+The admin menu provides GUI access to all administrative functions.
+
+## Admin Claiming
+
+<CommandBlock
+  commands={[
+    {
+      command: "/f admin claim",
+      description: "Admin claim (unlimited, ignores power)",
+      permission: "hyperfactions.admin"
+    },
+    {
+      command: "/f admin unclaim",
+      description: "Admin unclaim (can remove any faction's claim)",
+      permission: "hyperfactions.admin"
+    }
+  ]}
+/>
+
+**Admin Claim Features:**
+- No power requirement
+- Can claim SafeZones and WarZones
+- Useful for server maintenance
+
+**Admin Unclaim Features:**
+- Remove any faction's claim
+- Clear problem areas
+- No faction membership required
+
+<InfoBox variant="warning">
+Admin claiming/unclaiming affects player factions directly. Use with caution.
+</InfoBox>
+
+## Bypass Mode
+
+<CommandBlock
+  commands={[
+    {
+      command: "/f admin bypass",
+      description: "Toggle admin bypass mode",
+      permission: "hyperfactions.admin"
+    }
+  ]}
+/>
+
+**Bypass Mode Enables:**
+- Build in any claimed territory
+- Open containers anywhere
+- Interact with mechanisms
+- Useful for investigating or fixing issues
+
+**Toggle:**
+- Run once to enable
+- Run again to disable
+
+<InfoBox variant="tip">
+Remember to disable bypass mode when done to avoid accidentally breaking player builds.
+</InfoBox>
+
+## SafeZone Management
+
+<CommandBlock
+  commands={[
+    {
+      command: "/f admin safezone add",
+      description: "Create a SafeZone in the current chunk",
+      permission: "hyperfactions.admin"
+    },
+    {
+      command: "/f admin safezone remove",
+      description: "Remove SafeZone from the current chunk",
+      permission: "hyperfactions.admin"
+    }
+  ]}
+/>
+
+**SafeZone Properties:**
+- No PvP allowed
+- No building allowed
+- Cannot be claimed by factions
+- Displayed in bright green
+
+**Common Uses:**
+- Server spawn
+- Trading areas
+- Tutorial zones
+
+## WarZone Management
+
+<CommandBlock
+  commands={[
+    {
+      command: "/f admin warzone add",
+      description: "Create a WarZone in the current chunk",
+      permission: "hyperfactions.admin"
+    },
+    {
+      command: "/f admin warzone remove",
+      description: "Remove WarZone from the current chunk",
+      permission: "hyperfactions.admin"
+    }
+  ]}
+/>
+
+**WarZone Properties:**
+- PvP always enabled
+- No power loss on death (by default)
+- Cannot be claimed by factions
+- Displayed in bright red
+
+**Common Uses:**
+- PvP arenas
+- Event battlegrounds
+- Resource competition areas
+
+## Configuration Reload
+
+<CommandBlock
+  commands={[
+    {
+      command: "/f admin reload",
+      description: "Reload the configuration file",
+      permission: "hyperfactions.admin"
+    }
+  ]}
+/>
+
+**Reloads:**
+- `config.json` settings
+- Message configuration
+- Power settings
+
+<InfoBox variant="info">
+Some changes may require a server restart. The reload command handles most configuration changes.
+</InfoBox>
+
+## Quick Reference
+
+| Command | Description |
+|---------|-------------|
+| `/f admin` | Open admin menu |
+| `/f admin claim` | Admin claim chunk |
+| `/f admin unclaim` | Admin unclaim chunk |
+| `/f admin bypass` | Toggle bypass mode |
+| `/f admin safezone add` | Create SafeZone |
+| `/f admin safezone remove` | Remove SafeZone |
+| `/f admin warzone add` | Create WarZone |
+| `/f admin warzone remove` | Remove WarZone |
+| `/f admin reload` | Reload configuration |
+
+## Admin Permissions
+
+<PermissionTable
+  title="Admin Permissions"
+  permissions={[
+    {
+      permission: "hyperfactions.admin",
+      description: "Full admin access to all admin commands",
+      default: "op"
+    },
+    {
+      permission: "hyperfactions.bypass.protection",
+      description: "Bypass claim protection without toggle",
+      default: "op"
+    }
+  ]}
+/>
+
+## Example Workflows
+
+### Setting Up Server Spawn
+
+1. **Navigate to spawn:**
+   Go to each chunk that should be protected.
+
+2. **Create SafeZones:**
+   ```
+   /f admin safezone add
+   ```
+   Repeat for all spawn chunks.
+
+3. **Verify on map:**
+   Chunks should appear bright green.
+
+### Creating a PvP Arena
+
+1. **Build the arena:**
+   Construct your arena structure.
+
+2. **Mark as WarZone:**
+   Stand in each arena chunk:
+   ```
+   /f admin warzone add
+   ```
+
+3. **Configure no power loss:**
+   In config.json:
+   ```json
+   "power": {
+     "warzonePowerLoss": false
+   }
+   ```
+
+4. **Reload config:**
+   ```
+   /f admin reload
+   ```
+
+### Investigating Player Issues
+
+1. **Enable bypass:**
+   ```
+   /f admin bypass
+   ```
+
+2. **Investigate the area:**
+   Check claims, builds, containers as needed.
+
+3. **Fix issues if needed:**
+   Admin claim/unclaim as necessary.
+
+4. **Disable bypass:**
+   ```
+   /f admin bypass
+   ```
+
+### Removing Inactive Faction Claims
+
+1. **Identify the faction and chunk**
+
+2. **Admin unclaim:**
+   ```
+   /f admin unclaim
+   ```
+
+3. **Repeat for all problem chunks**
+
+## Safety Guidelines
+
+### Do
+- Keep bypass mode disabled when not needed
+- Document zone changes for other admins
+- Test changes on a staging server first
+- Backup data before major changes
+
+### Don't
+- Leave bypass enabled accidentally
+- Remove claims without investigating
+- Create zones in player territories without notice
+- Modify config without backups
+
+## Related Topics
+
+- [Zones](/plugins/hyperfactions/wiki/concepts/zones) - SafeZone and WarZone details
+- [Configuration](/plugins/hyperfactions/wiki/getting-started/configuration) - Config file reference
+- [Permissions](/plugins/hyperfactions/wiki/reference/permissions) - All permission nodes

@@ -1,0 +1,170 @@
+---
+title: Zones
+description: Understanding SafeZones and WarZones for server administration.
+order: 6
+---
+
+# Zones
+
+HyperFactions provides two special zone types for server administration: **SafeZones** and **WarZones**. These are admin-managed areas with special rules.
+
+## SafeZones
+
+SafeZones are completely protected areas where PvP is disabled and no one can build.
+
+### SafeZone Properties
+- **No PvP** - All damage between players is prevented
+- **No building** - Block placement and breaking disabled
+- **No claiming** - Players cannot claim SafeZone chunks
+- **Color:** Bright green on maps
+
+### Common Uses
+- Spawn areas
+- Server hubs
+- Trading centers
+- Event venues
+- Tutorial areas
+
+<InfoBox variant="info">
+SafeZones are typically used for server spawn points and communal areas where players should feel safe.
+</InfoBox>
+
+## WarZones
+
+WarZones are designated combat areas where PvP is always enabled, typically without power penalties.
+
+### WarZone Properties
+- **PvP always enabled** - Combat allowed regardless of relations
+- **No power loss** (configurable) - Deaths don't reduce power
+- **No claiming** - Players cannot claim WarZone chunks
+- **Color:** Bright red on maps
+
+### Common Uses
+- Arena areas
+- PvP zones
+- Event battlegrounds
+- Resource competition areas
+
+<InfoBox variant="tip">
+WarZones are great for designated PvP areas where players can fight without affecting their faction's territorial power.
+</InfoBox>
+
+## Zone Management
+
+Only admins with `hyperfactions.admin` permission can manage zones.
+
+### Creating a SafeZone
+Stand in the chunk and run:
+```
+/f admin safezone add
+```
+
+### Removing a SafeZone
+```
+/f admin safezone remove
+```
+
+### Creating a WarZone
+Stand in the chunk and run:
+```
+/f admin warzone add
+```
+
+### Removing a WarZone
+```
+/f admin warzone remove
+```
+
+<InfoBox variant="warning">
+Zone changes take effect immediately. Players in the area will be subject to new rules instantly.
+</InfoBox>
+
+## Zone Configuration
+
+### WarZone Power Loss
+Control whether deaths in WarZones cause power loss:
+
+```json
+{
+  "power": {
+    "warzonePowerLoss": false
+  }
+}
+```
+
+| Value | Effect |
+|-------|--------|
+| `false` | No power loss in WarZones (default) |
+| `true` | Normal power loss applies |
+
+## Zone Priority
+
+Zone rules take precedence over faction claims:
+
+```
+SafeZone > WarZone > Faction Claim > Wilderness
+```
+
+If a chunk is marked as a SafeZone:
+- Previous faction claims are overridden
+- SafeZone rules apply regardless of prior ownership
+
+## Visual Indicators
+
+Zones are visible on the faction map:
+
+| Zone Type | Map Color | Indicator |
+|-----------|-----------|-----------|
+| SafeZone | Bright Green | S |
+| WarZone | Bright Red | W |
+| Your Faction | Your Color | F |
+| Enemy | Red | E |
+| Ally | Green | A |
+| Neutral | Yellow | N |
+| Wilderness | Gray | . |
+
+## Zone Storage
+
+Zone data is stored separately:
+
+```
+plugins/HyperFactions/data/
+├── safezones.json    # SafeZone chunk coordinates
+└── warzones.json     # WarZone chunk coordinates
+```
+
+## Strategic Zone Placement
+
+### Server Spawn
+Create a SafeZone around spawn:
+1. Navigate to spawn area
+2. For each chunk: `/f admin safezone add`
+3. Consider a buffer zone around the core
+
+### PvP Arena
+Create a WarZone for arenas:
+1. Build your arena
+2. Mark arena chunks: `/f admin warzone add`
+3. Set `warzonePowerLoss: false` for penalty-free combat
+
+### Resource Areas
+Consider WarZones for contested resources:
+- Encourages conflict over valuable areas
+- No power penalties keep it fair
+- Creates natural PvP hotspots
+
+## Comparison Table
+
+| Feature | SafeZone | WarZone | Faction Claim |
+|---------|:--------:|:-------:|:-------------:|
+| PvP | ✗ | ✓ | Varies |
+| Building | ✗ | ✗ | Owner only |
+| Power loss on death | N/A | Optional | Yes |
+| Can be claimed | ✗ | ✗ | N/A |
+| Admin only | ✓ | ✓ | ✗ |
+
+## Related Topics
+
+- [Territories](/plugins/hyperfactions/wiki/concepts/territories) - Regular faction claims
+- [Admin Commands](/plugins/hyperfactions/wiki/commands/admin) - Zone management commands
+- [Power System](/plugins/hyperfactions/wiki/concepts/power-system) - Power and death penalties

@@ -1,0 +1,225 @@
+---
+title: Member Management
+description: Commands for inviting, kicking, and managing faction members.
+order: 4
+---
+
+# Member Management Commands
+
+These commands let you manage your faction's membership - inviting new players, removing members, and managing the role hierarchy.
+
+## Inviting Players
+
+<CommandBlock
+  commands={[
+    {
+      command: "/f invite <player>",
+      description: "Send a faction invitation to a player",
+      permission: "hyperfactions.invite"
+    }
+  ]}
+/>
+
+**Requirements:**
+- Player must be online
+- Player must not be in a faction
+- Faction must not be at member limit
+- Officer or Leader role required
+
+<InfoBox variant="info">
+Invitations expire after a configurable time (default: 5 minutes). The player must accept before it expires.
+</InfoBox>
+
+## Accepting Invitations
+
+<CommandBlock
+  commands={[
+    {
+      command: "/f accept",
+      description: "Accept a pending faction invitation",
+      permission: "hyperfactions.use"
+    }
+  ]}
+/>
+
+**For the invited player:**
+- Must have a pending invitation
+- Must not already be in a faction
+- Joins as Member role
+
+## Kicking Members
+
+<CommandBlock
+  commands={[
+    {
+      command: "/f kick <player>",
+      description: "Remove a player from your faction",
+      permission: "hyperfactions.kick"
+    }
+  ]}
+/>
+
+**Kick Hierarchy:**
+| Your Role | Can Kick |
+|-----------|----------|
+| Leader | Anyone (Officers and Members) |
+| Officer | Members only |
+| Member | No one |
+
+<InfoBox variant="warning">
+You cannot kick someone of equal or higher rank. Officers cannot kick other Officers.
+</InfoBox>
+
+## Promoting Members
+
+<CommandBlock
+  commands={[
+    {
+      command: "/f promote <player>",
+      description: "Promote a Member to Officer",
+      permission: "hyperfactions.promote"
+    }
+  ]}
+/>
+
+**Requirements:**
+- Must be the Leader
+- Target must be a Member
+- Target becomes an Officer
+
+<InfoBox variant="tip">
+Only promote players you trust. Officers have significant power including diplomacy and kicking.
+</InfoBox>
+
+## Demoting Officers
+
+<CommandBlock
+  commands={[
+    {
+      command: "/f demote <player>",
+      description: "Demote an Officer to Member",
+      permission: "hyperfactions.demote"
+    }
+  ]}
+/>
+
+**Requirements:**
+- Must be the Leader
+- Target must be an Officer
+- Target becomes a Member
+
+## Transferring Leadership
+
+<CommandBlock
+  commands={[
+    {
+      command: "/f transfer <player>",
+      description: "Transfer faction leadership to another member",
+      permission: "hyperfactions.transfer"
+    }
+  ]}
+/>
+
+**Transfer Process:**
+1. Target becomes the new Leader
+2. You become an Officer
+3. Takes effect immediately
+
+<InfoBox variant="danger" title="Irreversible">
+Leadership transfer cannot be undone by you. The new Leader must transfer back if desired.
+</InfoBox>
+
+## Quick Reference
+
+| Command | Description | Role Required |
+|---------|-------------|---------------|
+| `/f invite <player>` | Invite player | Officer+ |
+| `/f accept` | Accept invitation | Non-member |
+| `/f kick <player>` | Remove player | Officer+ |
+| `/f promote <player>` | Promote to Officer | Leader |
+| `/f demote <player>` | Demote to Member | Leader |
+| `/f transfer <player>` | Transfer leadership | Leader |
+
+## Examples
+
+### Inviting a New Player
+
+```
+/f invite NewPlayer
+```
+
+NewPlayer receives: "You've been invited to join Warriors! Type /f accept to join."
+
+```
+# NewPlayer runs:
+/f accept
+```
+
+NewPlayer is now a Member of Warriors.
+
+### Promoting a Trusted Member
+
+```
+/f promote TrustedPlayer
+```
+
+TrustedPlayer is now an Officer with expanded permissions.
+
+### Kicking a Problem Member
+
+```
+/f kick ProblemPlayer
+```
+
+ProblemPlayer is removed from the faction.
+
+### Handling Leadership Transition
+
+```
+/f transfer NewLeader
+```
+
+NewLeader is now the Leader. You're now an Officer.
+
+## Workflow Examples
+
+### New Faction Setup
+
+1. Create faction: `/f create MyFaction`
+2. Invite friends: `/f invite Friend1`, `/f invite Friend2`
+3. They accept: `/f accept`
+4. Promote trusted players: `/f promote Friend1`
+
+### Dealing with Inactivity
+
+1. Check who's inactive via `/f info`
+2. Kick inactive members: `/f kick InactivePlayer`
+3. Invite active replacements: `/f invite ActivePlayer`
+
+### Leadership Succession
+
+1. Choose a trusted Officer (or promote someone first)
+2. Transfer: `/f transfer NewLeader`
+3. You remain as Officer under the new leadership
+
+## Best Practices
+
+### For Leaders
+- **Vet new members** - Check their history before promoting
+- **Communicate promotions** - Let the faction know about role changes
+- **Plan succession** - Have a backup plan for leadership
+
+### For Officers
+- **Coordinate kicks** - Discuss with Leader before kicking
+- **Responsible inviting** - Only invite players who fit the faction
+
+### For Everyone
+- **Be active** - Inactive members may be kicked
+- **Follow rules** - Respect the faction's guidelines
+- **Communicate** - Use faction chat to stay in touch
+
+## Related Topics
+
+- [Roles](/plugins/hyperfactions/wiki/concepts/roles) - Role permissions and hierarchy
+- [Factions](/plugins/hyperfactions/wiki/concepts/factions) - Faction basics
+- [Communication](/plugins/hyperfactions/wiki/commands/communication) - Faction chat

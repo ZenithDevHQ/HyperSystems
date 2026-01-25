@@ -1,0 +1,245 @@
+---
+title: Settings Commands
+description: Commands for configuring faction settings.
+order: 7
+---
+
+# Settings Commands
+
+These commands allow Leaders and Officers to configure faction settings like name, description, color, and membership policy.
+
+## Renaming Your Faction
+
+<CommandBlock
+  commands={[
+    {
+      command: "/f rename <name>",
+      description: "Change your faction's name",
+      permission: "hyperfactions.rename"
+    }
+  ]}
+/>
+
+**Requirements:**
+- Must be the Leader
+- New name must follow naming rules (3-24 chars, alphanumeric)
+- Name must not be taken by another faction
+
+<InfoBox variant="warning">
+Renaming is visible to everyone. Previous name references may become outdated.
+</InfoBox>
+
+## Setting Description
+
+<CommandBlock
+  commands={[
+    {
+      command: "/f desc <text>",
+      description: "Set your faction's description",
+      permission: "hyperfactions.desc"
+    }
+  ]}
+/>
+
+**Requirements:**
+- Officer or Leader role
+- Description appears in `/f info`
+
+**Example:**
+```
+/f desc Warriors of the Northern Realm. Recruiting active players!
+```
+
+## Setting Faction Color
+
+<CommandBlock
+  commands={[
+    {
+      command: "/f color <hex>",
+      description: "Set your faction's display color",
+      permission: "hyperfactions.color"
+    }
+  ]}
+/>
+
+**Format:** Use hex color codes with or without `#`
+
+**Examples:**
+```
+/f color #FF5500
+/f color FF5500
+/f color #00FF00
+```
+
+**Color appears in:**
+- Territory map
+- Faction chat
+- GUI elements
+- Faction info display
+
+<InfoBox variant="tip" title="Color Codes">
+Use a color picker tool to find hex codes. Common colors:
+- Red: `#FF0000`
+- Blue: `#0000FF`
+- Green: `#00FF00`
+- Yellow: `#FFFF00`
+- Purple: `#800080`
+- Orange: `#FF8000`
+</InfoBox>
+
+## Opening Membership
+
+<CommandBlock
+  commands={[
+    {
+      command: "/f open",
+      description: "Allow anyone to join without invitation",
+      permission: "hyperfactions.open"
+    }
+  ]}
+/>
+
+**Requirements:**
+- Must be the Leader
+- Anyone can join with `/f join FactionName`
+
+<InfoBox variant="info">
+Open factions are good for recruiting but provide less control over membership.
+</InfoBox>
+
+## Closing Membership
+
+<CommandBlock
+  commands={[
+    {
+      command: "/f close",
+      description: "Require invitations to join",
+      permission: "hyperfactions.close"
+    }
+  ]}
+/>
+
+**Requirements:**
+- Must be the Leader
+- Players must be invited to join
+
+This is the default state for new factions.
+
+## Quick Reference
+
+| Command | Description | Role Required |
+|---------|-------------|---------------|
+| `/f rename <name>` | Change faction name | Leader |
+| `/f desc <text>` | Set description | Officer+ |
+| `/f color <hex>` | Set faction color | Officer+ |
+| `/f open` | Allow free joining | Leader |
+| `/f close` | Require invitations | Leader |
+
+## Examples
+
+### Complete Faction Setup
+
+1. **Set a description:**
+   ```
+   /f desc Elite PvP faction. Must have 100+ hours.
+   ```
+
+2. **Choose a color:**
+   ```
+   /f color #FF0000
+   ```
+
+3. **Keep it invite-only:**
+   ```
+   /f close
+   ```
+
+### Rebranding
+
+1. **New name:**
+   ```
+   /f rename Phoenix
+   ```
+
+2. **Updated description:**
+   ```
+   /f desc Risen from the ashes. Stronger than ever.
+   ```
+
+3. **New color:**
+   ```
+   /f color #FF8800
+   ```
+
+### Recruiting Phase
+
+```
+/f desc Looking for active players! Beginners welcome.
+/f open
+```
+
+Now anyone can join. Close it after recruiting:
+
+```
+/f close
+```
+
+## Permission Summary
+
+<PermissionTable
+  title="Settings Permissions"
+  permissions={[
+    {
+      permission: "hyperfactions.rename",
+      description: "Rename the faction",
+      default: "true"
+    },
+    {
+      permission: "hyperfactions.desc",
+      description: "Set faction description",
+      default: "true"
+    },
+    {
+      permission: "hyperfactions.color",
+      description: "Set faction color",
+      default: "true"
+    },
+    {
+      permission: "hyperfactions.open",
+      description: "Open faction membership",
+      default: "true"
+    },
+    {
+      permission: "hyperfactions.close",
+      description: "Close faction membership",
+      default: "true"
+    }
+  ]}
+/>
+
+<InfoBox variant="info">
+While these permissions default to `true`, the role requirement (Leader/Officer) still applies.
+</InfoBox>
+
+## Best Practices
+
+### Choosing a Good Name
+- **Memorable** - Easy to type and remember
+- **Appropriate** - Follows server rules
+- **Unique** - Stands out from others
+
+### Writing a Good Description
+- **Informative** - What is your faction about?
+- **Recruiting info** - Include requirements if applicable
+- **Contact info** - How to reach leadership
+
+### Color Selection
+- **Visible** - Avoid colors too close to UI elements
+- **Unique** - Try to differ from nearby factions
+- **Thematic** - Match your faction's identity
+
+## Related Topics
+
+- [Factions](/plugins/hyperfactions/wiki/concepts/factions) - Faction basics
+- [Roles](/plugins/hyperfactions/wiki/concepts/roles) - Who can change settings
+- [Basic Commands](/plugins/hyperfactions/wiki/commands/basic) - Creating factions

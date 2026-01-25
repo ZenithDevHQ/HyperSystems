@@ -1,0 +1,194 @@
+---
+title: Territories
+description: Learn about claiming, protecting, and managing faction territory.
+order: 3
+---
+
+# Territories
+
+The territory system allows factions to claim chunks of land, protect them from other players, and expand their influence.
+
+## Chunk-Based Claims
+
+Territory is managed in **chunks** - 16x16 block areas that extend from bedrock to sky limit.
+
+<InfoBox variant="tip">
+Press F3+G (in most clients) to see chunk boundaries visualized in-game.
+</InfoBox>
+
+## Claiming Land
+
+### Basic Claiming
+Stand in the chunk you want to claim:
+
+```
+/f claim
+```
+
+**Requirements:**
+- Must have enough faction power
+- Chunk must be unclaimed (or enemy with low power for overclaim)
+- Adjacent mode may require connection to existing claims
+
+### Adjacent Claims Mode
+When enabled (`claims.onlyAdjacent: true`), new claims must connect to existing faction territory.
+
+<InfoBox variant="info">
+Adjacent mode prevents "island" claims and creates more cohesive faction territories.
+</InfoBox>
+
+### Claiming Costs
+Each claim requires power to maintain:
+
+```
+Required Power = Number of Claims × Power Per Claim
+```
+
+| Config Option | Default |
+|---------------|---------|
+| `power.powerPerClaim` | 2 |
+| `claims.maxClaims` | 100 |
+
+## Unclaiming Land
+
+To release a chunk:
+
+```
+/f unclaim
+```
+
+**Anti-Fragmentation:**
+If adjacent mode is enabled, unclaiming may be blocked if it would split your territory into disconnected pieces.
+
+## The Chunk Map
+
+View your territory and surroundings:
+
+```
+/f map
+```
+
+The map displays a 15×15 chunk grid showing:
+- **Your faction's claims** - In your faction color
+- **Enemy claims** - In red
+- **Allied claims** - In green
+- **Neutral claims** - In yellow
+- **SafeZones** - In bright green
+- **WarZones** - In bright red
+- **Wilderness** - Unclaimed areas
+
+## Territory Protection
+
+Claimed land is protected from outsiders:
+
+### Block Protection
+- Block placement blocked
+- Block breaking blocked
+- Fluid placement blocked
+
+### Container Protection
+- Chests locked
+- Furnaces locked
+- Other storage locked
+
+### Mechanism Protection
+- Doors and gates
+- Levers and buttons
+- Redstone components
+
+### Item Protection
+- Item pickup in claimed areas (configurable)
+
+<InfoBox variant="info" title="Allied Access">
+When configured, allied faction members can interact with your territory. Control this in your faction settings.
+</InfoBox>
+
+## Overclaiming
+
+When an enemy faction's power drops too low, you can take their land:
+
+```
+/f overclaim
+```
+
+**Requirements:**
+1. Target chunk must be claimed by another faction
+2. Target faction must have insufficient power for their claims
+3. Must be enemies (if `overclaim.requireEnemyRelation` is true)
+4. Target power must be at or below threshold
+
+| Config Option | Default |
+|---------------|---------|
+| `overclaim.enabled` | true |
+| `overclaim.requireEnemyRelation` | true |
+| `overclaim.powerThreshold` | 0 |
+
+## Claim Decay
+
+Inactive factions can lose claims over time:
+
+| Config Option | Default |
+|---------------|---------|
+| `claims.decayEnabled` | true |
+| `claims.decayDelayMinutes` | 10 |
+| `claims.inactiveDecayDays` | 7 |
+
+**Decay Process:**
+1. Faction becomes inactive (no members online)
+2. After `inactiveDecayDays`, claims begin to decay
+3. Claims are released one by one
+
+## Multi-World Support
+
+HyperFactions supports claims across multiple worlds/dimensions:
+
+- Claims are tracked per-dimension
+- Faction power applies globally
+- Maps show the current dimension only
+
+## Stuck Command
+
+If trapped in enemy territory:
+
+```
+/f stuck
+```
+
+This teleports you to nearby wilderness after a warmup period (default: 30 seconds).
+
+<InfoBox variant="warning">
+The stuck command has a warmup. Movement or damage cancels it.
+</InfoBox>
+
+## Territory Strategy
+
+### Defensive Claims
+- Claim in a connected pattern
+- Don't spread too thin
+- Maintain power buffer
+
+### Offensive Claims
+- Weaken enemies through combat
+- Monitor enemy power levels
+- Strike when they're vulnerable
+
+### Chokepoint Control
+- Claim strategic locations
+- Control access to resources
+- Create defensive perimeters
+
+## Storage
+
+Claims are stored in a global registry:
+
+```
+plugins/HyperFactions/data/claims.json
+```
+
+This allows efficient lookup of claim ownership by chunk coordinates.
+
+## Related Topics
+
+- [Power System](/plugins/hyperfactions/wiki/concepts/power-system) - Power determines claim capacity
+- [Zones](/plugins/hyperfactions/wiki/concepts/zones) - SafeZones and WarZones
+- [Territory Commands](/plugins/hyperfactions/wiki/commands/territory) - Full command reference

@@ -1,0 +1,178 @@
+---
+title: Roles
+description: Understanding faction roles and their permissions.
+order: 5
+---
+
+# Roles
+
+HyperFactions uses a three-tier role hierarchy to manage faction permissions: Leader, Officer, and Member.
+
+## Role Hierarchy
+
+```
+        Leader (1)
+           │
+      Officer (Many)
+           │
+       Member (Many)
+```
+
+Higher roles can perform all actions of lower roles, plus additional privileges.
+
+## Leader
+
+The **Leader** is the founder or current owner of the faction. Each faction has exactly one Leader.
+
+### Leader Permissions
+
+| Action | Description |
+|--------|-------------|
+| Set faction home | Define the `/f home` location |
+| Promote members | Promote Members to Officers |
+| Demote officers | Demote Officers to Members |
+| Transfer leadership | Give leadership to another member |
+| Disband faction | Dissolve the faction entirely |
+| Manage all relations | Ally, enemy, or neutralize any faction |
+| Kick any member | Remove anyone from the faction |
+| All Officer abilities | Everything Officers can do |
+| All Member abilities | Everything Members can do |
+
+### Becoming Leader
+
+1. **Create a faction** - The creator becomes Leader
+2. **Receive transfer** - Current Leader transfers to you
+
+```
+/f transfer PlayerName
+```
+
+<InfoBox variant="warning">
+Leadership transfer is immediate and irreversible. The former Leader becomes an Officer.
+</InfoBox>
+
+## Officer
+
+**Officers** are trusted faction members with management capabilities. A faction can have multiple Officers.
+
+### Officer Permissions
+
+| Action | Description |
+|--------|-------------|
+| Invite players | Send faction invitations |
+| Kick Members | Remove Members (not Officers) |
+| Manage diplomacy | Ally, enemy, neutral commands |
+| Claim territory | Claim chunks for the faction |
+| Unclaim territory | Release faction claims |
+| Overclaim | Take enemy territory |
+| Set description | Update faction description |
+| Set color | Change faction color |
+| All Member abilities | Everything Members can do |
+
+### Becoming an Officer
+
+The Leader promotes you:
+
+```
+/f promote PlayerName
+```
+
+### Losing Officer Status
+
+The Leader demotes you:
+
+```
+/f demote PlayerName
+```
+
+## Member
+
+**Members** are standard faction participants with basic permissions.
+
+### Member Permissions
+
+| Action | Description |
+|--------|-------------|
+| Use faction home | Teleport with `/f home` |
+| View faction info | Access `/f info` |
+| Participate in chat | Use `/f c` faction chat |
+| View logs | Access `/f logs` |
+| Claim territory | With `hyperfactions.claim` permission |
+| Leave faction | Exit with `/f leave` |
+
+### Becoming a Member
+
+1. **Receive invitation** - Get invited by Officer or Leader
+2. **Join open faction** - If faction is open (`/f open`)
+
+```
+/f accept  # Accept an invitation
+```
+
+## Role Comparison
+
+| Capability | Member | Officer | Leader |
+|------------|:------:|:-------:|:------:|
+| Use faction home | ✓ | ✓ | ✓ |
+| View faction info | ✓ | ✓ | ✓ |
+| Faction chat | ✓ | ✓ | ✓ |
+| Alliance chat | ✓ | ✓ | ✓ |
+| Claim land | ✓* | ✓ | ✓ |
+| Unclaim land | ✗ | ✓ | ✓ |
+| Invite players | ✗ | ✓ | ✓ |
+| Kick members | ✗ | ✓** | ✓ |
+| Manage diplomacy | ✗ | ✓ | ✓ |
+| Set description | ✗ | ✓ | ✓ |
+| Set color | ✗ | ✓ | ✓ |
+| Promote | ✗ | ✗ | ✓ |
+| Demote | ✗ | ✗ | ✓ |
+| Set home | ✗ | ✗ | ✓ |
+| Transfer leadership | ✗ | ✗ | ✓ |
+| Disband | ✗ | ✗ | ✓ |
+| Open/Close faction | ✗ | ✗ | ✓ |
+
+\* With appropriate permission  
+\** Officers can only kick Members, not other Officers
+
+## Role Management Commands
+
+### Promote to Officer
+```
+/f promote PlayerName
+```
+*Leader only*
+
+### Demote to Member
+```
+/f demote PlayerName
+```
+*Leader only*
+
+### Transfer Leadership
+```
+/f transfer PlayerName
+```
+*Leader only - you become an Officer*
+
+## Best Practices
+
+### For Leaders
+- **Promote trusted players** - Officers have significant power
+- **Don't over-promote** - Too many Officers can create chaos
+- **Plan succession** - Have a backup in case you leave
+
+### For Officers
+- **Coordinate with Leader** - Major decisions should be discussed
+- **Manage responsibly** - Kicking and diplomacy affect everyone
+- **Train new Members** - Help them understand the faction
+
+### For Members
+- **Earn trust** - Consistent activity leads to promotion
+- **Follow rules** - Respect faction guidelines
+- **Communicate** - Use faction chat to stay connected
+
+## Related Topics
+
+- [Factions](/plugins/hyperfactions/wiki/concepts/factions) - Faction basics
+- [Member Management](/plugins/hyperfactions/wiki/commands/member-management) - Invite, kick, promote commands
+- [Permissions](/plugins/hyperfactions/wiki/reference/permissions) - Permission node reference

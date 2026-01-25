@@ -1,0 +1,197 @@
+---
+title: Basic Commands
+description: Essential faction commands for everyday use.
+order: 1
+---
+
+# Basic Commands
+
+These are the fundamental commands every faction member should know.
+
+## Command Aliases
+
+HyperFactions responds to multiple base commands:
+- `/faction` - Full command name
+- `/f` - Short alias (most common)
+- `/hf` - Alternative alias
+
+All examples in this wiki use `/f`.
+
+## Commands Reference
+
+<CommandBlock
+  title="Faction Menu"
+  commands={[
+    {
+      command: "/f",
+      description: "Open the faction GUI menu",
+      permission: "hyperfactions.use"
+    },
+    {
+      command: "/f menu",
+      description: "Explicitly open the faction GUI",
+      permission: "hyperfactions.use"
+    }
+  ]}
+/>
+
+The GUI provides access to:
+- Faction statistics
+- Member management
+- Chunk map
+- Faction settings
+- Help documentation
+
+## Creating a Faction
+
+<CommandBlock
+  commands={[
+    {
+      command: "/f create <name>",
+      description: "Create a new faction with the specified name",
+      permission: "hyperfactions.create"
+    }
+  ]}
+/>
+
+**Requirements:**
+- Must not already be in a faction
+- Name must be 3-24 characters
+- Name must match allowed pattern (alphanumeric + underscore by default)
+- Name must not be taken
+
+<InfoBox variant="tip">
+After creating a faction, you become its Leader with full administrative powers.
+</InfoBox>
+
+## Leaving a Faction
+
+<CommandBlock
+  commands={[
+    {
+      command: "/f leave",
+      description: "Leave your current faction",
+      permission: "hyperfactions.use"
+    }
+  ]}
+/>
+
+<InfoBox variant="warning">
+Leaders cannot leave their faction. Transfer leadership first or disband the faction.
+</InfoBox>
+
+## Faction Information
+
+<CommandBlock
+  commands={[
+    {
+      command: "/f info",
+      description: "View your faction's information",
+      permission: "hyperfactions.use"
+    },
+    {
+      command: "/f info <faction>",
+      description: "View another faction's information",
+      permission: "hyperfactions.use"
+    }
+  ]}
+/>
+
+Information displayed:
+- Faction name and description
+- Leader and member count
+- Total power and land claims
+- Online members
+- Diplomatic relations
+
+## Listing Factions
+
+<CommandBlock
+  commands={[
+    {
+      command: "/f list",
+      description: "List all factions on the server",
+      permission: "hyperfactions.use"
+    }
+  ]}
+/>
+
+The list shows:
+- Faction names
+- Member counts
+- Power levels
+- Online status
+
+## Getting Help
+
+<CommandBlock
+  commands={[
+    {
+      command: "/f help",
+      description: "Open the help menu with command documentation",
+      permission: "hyperfactions.use"
+    }
+  ]}
+/>
+
+The help menu includes:
+- Command reference
+- Basic tutorials
+- Tips and tricks
+
+## Viewing Logs
+
+<CommandBlock
+  commands={[
+    {
+      command: "/f logs",
+      description: "View faction activity logs",
+      permission: "hyperfactions.logs"
+    }
+  ]}
+/>
+
+Logs include:
+- Member joins and leaves
+- Claims and unclaims
+- Diplomatic changes
+- Leadership changes
+
+## Quick Reference
+
+| Command | Description |
+|---------|-------------|
+| `/f` | Open faction GUI |
+| `/f create <name>` | Create new faction |
+| `/f leave` | Leave your faction |
+| `/f info` | View faction info |
+| `/f info <faction>` | View other faction's info |
+| `/f list` | List all factions |
+| `/f help` | Open help menu |
+| `/f logs` | View activity logs |
+
+## Examples
+
+### Creating a Faction
+```
+/f create Warriors
+```
+Creates a new faction called "Warriors" with you as the Leader.
+
+### Checking Another Faction
+```
+/f info Rivals
+```
+Shows information about the faction named "Rivals".
+
+### Leaving Your Faction
+```
+/f leave
+```
+Removes you from your current faction (Members and Officers only).
+
+## Related Commands
+
+- [Territory Commands](/plugins/hyperfactions/wiki/commands/territory) - Claiming land
+- [Member Management](/plugins/hyperfactions/wiki/commands/member-management) - Invites and kicks
+- [Settings Commands](/plugins/hyperfactions/wiki/commands/settings) - Faction configuration

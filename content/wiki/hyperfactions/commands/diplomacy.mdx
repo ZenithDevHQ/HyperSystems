@@ -1,0 +1,189 @@
+---
+title: Diplomacy Commands
+description: Commands for managing faction relationships and alliances.
+order: 3
+---
+
+# Diplomacy Commands
+
+These commands allow you to manage your faction's relationships with other factions.
+
+## Forming Alliances
+
+<CommandBlock
+  commands={[
+    {
+      command: "/f ally <faction>",
+      description: "Send an alliance request to another faction",
+      permission: "hyperfactions.ally"
+    }
+  ]}
+/>
+
+**How Alliances Work:**
+1. You send alliance request with `/f ally FactionName`
+2. Their Leader or Officer runs `/f ally YourFaction`
+3. Alliance is now active for both factions
+
+<InfoBox variant="info">
+Alliances require mutual agreement. Both factions must `/f ally` each other.
+</InfoBox>
+
+**Allied Benefits:**
+- No friendly fire between members
+- Shared territory access (if configured)
+- Alliance chat with `/f a`
+- Displayed in green on maps
+
+## Declaring Enemies
+
+<CommandBlock
+  commands={[
+    {
+      command: "/f enemy <faction>",
+      description: "Declare another faction as an enemy",
+      permission: "hyperfactions.enemy"
+    }
+  ]}
+/>
+
+**Enemy Declaration:**
+- Takes effect immediately (one-sided)
+- Full PvP enabled against them
+- Overclaiming becomes available (if their power is low)
+- They appear red on your map
+
+<InfoBox variant="warning">
+Enemy declarations are one-sided. The other faction must also `/f enemy` you for mutual war.
+</InfoBox>
+
+## Returning to Neutral
+
+<CommandBlock
+  commands={[
+    {
+      command: "/f neutral <faction>",
+      description: "Reset relationship to neutral (removes ally or enemy status)",
+      permission: "hyperfactions.neutral"
+    }
+  ]}
+/>
+
+**Usage:**
+- Break an alliance (takes effect immediately)
+- Remove enemy status
+- Return to default neutral state
+
+## Viewing Relations
+
+<CommandBlock
+  commands={[
+    {
+      command: "/f relations",
+      description: "View all your faction's diplomatic relationships",
+      permission: "hyperfactions.use"
+    }
+  ]}
+/>
+
+Shows:
+- Current allies
+- Current enemies
+- Pending alliance requests
+
+## Quick Reference
+
+| Command | Description | Role Required |
+|---------|-------------|---------------|
+| `/f ally <faction>` | Request/confirm alliance | Officer+ |
+| `/f enemy <faction>` | Declare as enemy | Officer+ |
+| `/f neutral <faction>` | Reset to neutral | Officer+ |
+| `/f relations` | View all relations | Member+ |
+
+## Examples
+
+### Forming an Alliance
+
+**Step 1:** Your faction sends request
+```
+/f ally FriendlyFaction
+```
+
+**Step 2:** They confirm
+```
+/f ally YourFaction
+```
+
+Alliance is now active.
+
+### Declaring War
+
+```
+/f enemy HostileFaction
+```
+
+They are now your enemy. You can PvP and potentially overclaim them.
+
+### Breaking an Alliance
+
+```
+/f neutral FormerAlly
+```
+
+Immediately ends the alliance. You're now neutral.
+
+### Ending a War
+
+```
+/f neutral FormerEnemy
+```
+
+Removes enemy status. You're now neutral (but they may still consider you an enemy).
+
+## Relationship Matrix
+
+| Scenario | Effect on You | Effect on Them |
+|----------|---------------|----------------|
+| You ally, they don't | No effect yet | No effect yet |
+| Mutual ally | Full alliance | Full alliance |
+| You enemy them | They're your enemy | You're not their enemy |
+| Mutual enemy | Full war | Full war |
+| You neutral them | Relation reset | Their side unchanged |
+
+## PvP Rules by Relationship
+
+| Your Relation | Their Relation | Can You Attack? | Power Loss? |
+|---------------|----------------|-----------------|-------------|
+| Faction mate | Faction mate | No* | N/A |
+| Allied | Allied | No* | N/A |
+| Neutral | Neutral | Yes | Yes |
+| Enemy | Neutral | Yes | Yes |
+| Enemy | Enemy | Yes | Yes |
+
+\* Configurable via `combat.factionDamage` and `combat.allyDamage`
+
+## Strategic Diplomacy
+
+### When to Ally
+- **Shared enemy** - United against a common threat
+- **Trade partners** - Beneficial resource exchange
+- **Protection** - Smaller factions can ally with larger ones
+- **Geography** - Neighboring factions benefit from non-aggression
+
+### When to Declare Enemy
+- **Territory disputes** - They're blocking your expansion
+- **Revenge** - They attacked you or your allies
+- **Competition** - Racing for the same resources
+- **Preparing to overclaim** - You need enemy status first
+
+### Diplomatic Tips
+1. **Don't overextend** - Too many allies means too many wars
+2. **Honor agreements** - Reputation matters
+3. **Strategic neutrality** - Sometimes it's best to stay out
+4. **Check power levels** - Don't enemy a faction you can't defeat
+
+## Related Topics
+
+- [Diplomacy](/plugins/hyperfactions/wiki/concepts/diplomacy) - Full diplomacy concepts
+- [Territories](/plugins/hyperfactions/wiki/concepts/territories) - Overclaiming enemies
+- [Communication](/plugins/hyperfactions/wiki/commands/communication) - Alliance chat

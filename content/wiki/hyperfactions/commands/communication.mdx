@@ -1,0 +1,170 @@
+---
+title: Communication
+description: Commands for faction and alliance chat.
+order: 6
+---
+
+# Communication Commands
+
+HyperFactions provides private chat channels for faction and alliance communication.
+
+## Faction Chat
+
+<CommandBlock
+  commands={[
+    {
+      command: "/f c <message>",
+      description: "Send a message to faction members only",
+      permission: "hyperfactions.chat.faction"
+    }
+  ]}
+/>
+
+**Features:**
+- Only faction members can see the message
+- Distinct formatting with faction color
+- Works across the entire server
+
+<InfoBox variant="info">
+Faction chat is perfect for coordinating without enemies seeing your plans.
+</InfoBox>
+
+## Alliance Chat
+
+<CommandBlock
+  commands={[
+    {
+      command: "/f a <message>",
+      description: "Send a message to all allied factions",
+      permission: "hyperfactions.chat.ally"
+    }
+  ]}
+/>
+
+**Features:**
+- All members of allied factions can see the message
+- Useful for coordinating multi-faction operations
+- Includes your faction tag in the message
+
+<InfoBox variant="tip">
+Use alliance chat to coordinate with allies during wars or events.
+</InfoBox>
+
+## Quick Reference
+
+| Command | Audience | Permission |
+|---------|----------|------------|
+| `/f c <message>` | Your faction only | `hyperfactions.chat.faction` |
+| `/f a <message>` | All allied factions | `hyperfactions.chat.ally` |
+
+## Chat Formatting
+
+Messages in faction/alliance chat have distinct formatting:
+
+### Faction Chat
+```
+[F] [YourFaction] PlayerName: Your message here
+```
+
+### Alliance Chat
+```
+[A] [YourFaction] PlayerName: Your message here
+```
+
+The exact format may vary based on configuration and HyperPerms integration.
+
+## Examples
+
+### Coordinating Defense
+
+```
+/f c Everyone get online! We're being attacked!
+```
+
+Only your faction sees this message.
+
+### Planning with Allies
+
+```
+/f a We'll attack from the north. You take the south.
+```
+
+All players in allied factions see this.
+
+### Quick Messages
+
+```
+/f c base
+/f c help
+/f c gg
+```
+
+Short messages for quick communication.
+
+## Chat Permissions
+
+<PermissionTable
+  permissions={[
+    {
+      permission: "hyperfactions.chat.faction",
+      description: "Use faction chat",
+      default: "true"
+    },
+    {
+      permission: "hyperfactions.chat.ally",
+      description: "Use alliance chat",
+      default: "true"
+    }
+  ]}
+/>
+
+## HyperPerms Integration
+
+When HyperPerms is installed, faction information can appear in regular chat:
+
+```
+[FactionName][Rank] PlayerName: message
+```
+
+**Placeholders available:**
+- `%faction%` - Player's faction name
+- `%faction_rank%` - Player's faction rank (Leader/Officer/Member)
+- `%faction_power%` - Player's current power
+
+<InfoBox variant="info">
+HyperPerms integration is automatic. Just install both mods and the chat formatting works.
+</InfoBox>
+
+## Strategic Communication
+
+### When to Use Faction Chat
+- **Coordinating actions** - "Everyone claim the eastern chunks"
+- **Private discussions** - Internal faction matters
+- **Emergency alerts** - "Enemy at the base!"
+
+### When to Use Alliance Chat
+- **Joint operations** - Coordinated attacks or defense
+- **Sharing intel** - Enemy movements and power levels
+- **Event coordination** - Multi-faction activities
+
+### Communication Tips
+1. **Be clear and concise** - Quick messages in combat
+2. **Use consistently** - Members should check faction chat
+3. **Respect privacy** - Don't share faction chat outside
+4. **Coordinate roles** - Designate a shot-caller
+
+## Chat vs Other Communication
+
+| Method | Scope | Use Case |
+|--------|-------|----------|
+| Faction Chat | Faction only | Internal coordination |
+| Alliance Chat | All allies | Multi-faction coordination |
+| Local Chat | Nearby players | Public communication |
+| Private Message | One player | Direct communication |
+| Discord | External | Out-of-game planning |
+
+## Related Topics
+
+- [Diplomacy](/plugins/hyperfactions/wiki/concepts/diplomacy) - Forming alliances
+- [Roles](/plugins/hyperfactions/wiki/concepts/roles) - Permission levels
+- [Permissions](/plugins/hyperfactions/wiki/reference/permissions) - Chat permissions

@@ -1,0 +1,174 @@
+---
+title: Home & Teleport
+description: Commands for faction home teleportation.
+order: 5
+---
+
+# Home & Teleport Commands
+
+HyperFactions provides a faction home system that allows members to teleport to a shared location.
+
+## Teleporting Home
+
+<CommandBlock
+  commands={[
+    {
+      command: "/f home",
+      description: "Teleport to your faction's home location",
+      permission: "hyperfactions.home"
+    }
+  ]}
+/>
+
+**Teleport Process:**
+1. Command starts a warmup countdown
+2. Player must not move or take damage
+3. After warmup completes, teleportation occurs
+4. Cooldown begins before next use
+
+<InfoBox variant="info">
+Default warmup is 5 seconds. Default cooldown is 5 minutes. Both are configurable.
+</InfoBox>
+
+## Setting Faction Home
+
+<CommandBlock
+  commands={[
+    {
+      command: "/f sethome",
+      description: "Set the faction home to your current location",
+      permission: "hyperfactions.sethome"
+    }
+  ]}
+/>
+
+**Requirements:**
+- Must be the Leader
+- Standing in faction-claimed territory
+- Saves exact position and rotation
+
+<InfoBox variant="tip">
+Set your faction home inside a protected building within your claimed territory for safety.
+</InfoBox>
+
+## Quick Reference
+
+| Command | Description | Role Required |
+|---------|-------------|---------------|
+| `/f home` | Teleport to faction home | Member+ |
+| `/f sethome` | Set faction home location | Leader |
+
+## Teleport Configuration
+
+The teleport system is highly configurable:
+
+| Option | Default | Description |
+|--------|---------|-------------|
+| `teleport.warmupSeconds` | 5 | Seconds before teleport |
+| `teleport.cooldownMinutes` | 5 | Minutes between teleports |
+| `teleport.cancelOnMove` | true | Cancel if player moves |
+| `teleport.cancelOnDamage` | true | Cancel if player takes damage |
+| `teleport.crossWorld` | true | Allow cross-dimension teleport |
+
+## Bypass Permissions
+
+Admins can grant bypass permissions:
+
+<PermissionTable
+  permissions={[
+    {
+      permission: "hyperfactions.bypass.warmup",
+      description: "Skip the teleport warmup",
+      default: "false"
+    },
+    {
+      permission: "hyperfactions.bypass.cooldown",
+      description: "Skip the teleport cooldown",
+      default: "false"
+    }
+  ]}
+/>
+
+## Examples
+
+### Setting Up Faction Home
+
+1. **Claim the area first:**
+   ```
+   /f claim
+   ```
+
+2. **Stand where you want the home:**
+   Position yourself exactly where members should appear.
+
+3. **Set the home:**
+   ```
+   /f sethome
+   ```
+
+4. **Test it:**
+   ```
+   /f home
+   ```
+
+### Using Faction Home
+
+```
+/f home
+```
+
+Output: "Teleporting to faction home in 5 seconds. Don't move!"
+
+*After 5 seconds, you appear at the faction home.*
+
+## Strategic Home Placement
+
+### Good Locations
+- **Inside a secure building** - Protected from enemies
+- **Central to your territory** - Easy access to all claims
+- **Near important resources** - Farms, storage, etc.
+- **Underground or hidden** - Harder for enemies to camp
+
+### Bad Locations
+- **Outside your claims** - Cannot set home in unclaimed land
+- **Exposed areas** - Enemies can wait for teleports
+- **Near territory borders** - Risk of losing the home if overclaimed
+
+## Cross-Dimension Teleportation
+
+When `crossWorld` is enabled:
+- Home can be in any dimension
+- Members teleport across dimensions
+- Useful for bases in different worlds
+
+When `crossWorld` is disabled:
+- Home only works in the same dimension
+- Error message if in a different world
+
+## Warmup Cancellation
+
+Teleportation is cancelled if:
+
+| Action | Config Key |
+|--------|------------|
+| Player moves | `cancelOnMove` |
+| Player takes damage | `cancelOnDamage` |
+
+<InfoBox variant="warning">
+Stay perfectly still and avoid combat during the warmup to ensure successful teleportation.
+</InfoBox>
+
+## Home vs Stuck
+
+| Feature | `/f home` | `/f stuck` |
+|---------|-----------|------------|
+| Destination | Faction home | Nearest wilderness |
+| Requirement | Faction must have home set | Must be in hostile territory |
+| Warmup | Configurable (default 5s) | Fixed (30s) |
+| Cooldown | Configurable (default 5m) | None |
+
+## Related Topics
+
+- [First Setup](/plugins/hyperfactions/wiki/getting-started/first-setup) - Setting up your faction
+- [Territories](/plugins/hyperfactions/wiki/concepts/territories) - Claiming land for your home
+- [Configuration](/plugins/hyperfactions/wiki/getting-started/configuration) - Teleport settings

@@ -1,0 +1,153 @@
+---
+title: Factions
+description: Learn how to create and manage factions in HyperFactions.
+order: 1
+---
+
+# Factions
+
+Factions are the core organizational unit in HyperFactions. A faction is a group of players who share land, resources, and work together toward common goals.
+
+## Creating a Faction
+
+To create a faction, use:
+
+```
+/f create <name>
+```
+
+<InfoBox variant="info" title="Naming Rules">
+- **Length:** 3-24 characters
+- **Characters:** Letters, numbers, and underscores only
+- **Pattern:** Configured via `allowedNamePattern` in config
+</InfoBox>
+
+When you create a faction, you automatically become its **Leader** with full administrative powers.
+
+## Faction Properties
+
+### Name
+The unique identifier for your faction, displayed in chat, on maps, and in the faction list.
+
+### Description
+A short text describing your faction, visible when others view your faction info:
+
+```
+/f desc Our faction rules!
+```
+
+### Color
+A hex color code that represents your faction on maps and in GUI elements:
+
+```
+/f color #FF5500
+```
+
+### Open/Closed Status
+- **Open:** Anyone can join without an invitation
+- **Closed:** Players must be invited to join (default)
+
+```
+/f open   # Allow anyone to join
+/f close  # Require invitations
+```
+
+## Member Limits
+
+Each faction has a configurable maximum member count:
+
+| Config Option | Default | Description |
+|---------------|---------|-------------|
+| `faction.maxMembers` | 50 | Maximum players per faction |
+
+<InfoBox variant="tip">
+Consider your server's player base when setting member limits. Smaller limits encourage more factions and more conflict.
+</InfoBox>
+
+## Faction Power
+
+A faction's power is the sum of all its members' personal power:
+
+```
+Faction Power = Sum of all member power
+```
+
+This determines:
+- How much land the faction can claim
+- Whether the faction can be overclaimed
+- Overall faction strength
+
+See [Power System](/plugins/hyperfactions/wiki/concepts/power-system) for details.
+
+## Viewing Faction Information
+
+### Your Faction
+```
+/f info
+```
+
+### Another Faction
+```
+/f info FactionName
+```
+
+This displays:
+- Faction name and description
+- Leader and member count
+- Total power and claim count
+- Diplomatic relations
+- Online members
+
+## Listing Factions
+
+View all factions on the server:
+
+```
+/f list
+```
+
+The list shows faction names, member counts, and power levels.
+
+## Leaving a Faction
+
+To leave your current faction:
+
+```
+/f leave
+```
+
+<InfoBox variant="warning">
+If you're the Leader, you must either transfer leadership or disband the faction before leaving.
+</InfoBox>
+
+## Disbanding a Faction
+
+As Leader, you can dissolve your faction:
+
+```
+/f disband
+```
+
+<InfoBox variant="danger" title="This is Permanent">
+Disbanding removes all claims, resets all members, and cannot be undone. A confirmation prompt prevents accidents.
+</InfoBox>
+
+## Faction Storage
+
+Each faction's data is stored in a separate JSON file:
+
+```
+plugins/HyperFactions/data/factions/{uuid}.json
+```
+
+This isolation ensures:
+- Fast access to faction data
+- Easy backup of individual factions
+- No data corruption between factions
+
+## Related Topics
+
+- [Roles](/plugins/hyperfactions/wiki/concepts/roles) - Leader, Officer, and Member permissions
+- [Power System](/plugins/hyperfactions/wiki/concepts/power-system) - How power affects your faction
+- [Territories](/plugins/hyperfactions/wiki/concepts/territories) - Claiming and protecting land
+- [Diplomacy](/plugins/hyperfactions/wiki/concepts/diplomacy) - Relations with other factions

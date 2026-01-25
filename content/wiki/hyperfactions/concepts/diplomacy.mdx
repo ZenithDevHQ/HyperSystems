@@ -1,0 +1,176 @@
+---
+title: Diplomacy
+description: Managing alliances, enemies, and faction relationships.
+order: 4
+---
+
+# Diplomacy
+
+The diplomacy system allows factions to form alliances, declare enemies, or maintain neutral relations with other factions.
+
+## Relationship Types
+
+### Neutral (Default)
+All factions start as neutral to each other.
+
+**Neutral Relations:**
+- PvP enabled with penalties
+- No shared land access
+- Standard combat rules apply
+
+### Allied
+Allies are factions that have mutual trust and cooperation.
+
+**Allied Benefits:**
+- No friendly fire between members
+- Shared land access (if configured)
+- Alliance chat communication (`/f a`)
+- Displayed in green on maps and lists
+
+### Enemy
+Enemies are hostile factions marked for conflict.
+
+**Enemy Effects:**
+- Full PvP enabled without penalties
+- Overclaiming available
+- Displayed in red on maps and lists
+- Combat encouraged
+
+## Forming Alliances
+
+Alliance creation requires **mutual agreement** from both factions.
+
+### Step 1: Send Alliance Request
+```
+/f ally FactionName
+```
+
+### Step 2: Other Faction Accepts
+The other faction's leader must also run:
+```
+/f ally YourFaction
+```
+
+<InfoBox variant="info">
+Both factions must `/f ally` each other. One-sided requests don't create alliances.
+</InfoBox>
+
+### Breaking an Alliance
+To end an alliance:
+```
+/f neutral FactionName
+```
+
+The alliance ends immediately without requiring the other faction's agreement.
+
+## Declaring Enemies
+
+Unlike alliances, enemy declarations are **one-sided**.
+
+### Declaring an Enemy
+```
+/f enemy FactionName
+```
+
+This marks them as your enemy, enabling:
+- Full PvP against their members
+- Overclaiming their territory (if their power is low)
+
+<InfoBox variant="warning">
+Declaring someone your enemy doesn't make them your enemy by default. They must also declare you an enemy for the full effect.
+</InfoBox>
+
+### One-Sided vs Mutual Enemies
+| Scenario | Your View | Their View | PvP Rules |
+|----------|-----------|------------|-----------|
+| You enemy them only | Enemy (red) | Neutral | Normal PvP |
+| They enemy you only | Neutral | Enemy (red) | Normal PvP |
+| Mutual enemies | Enemy (red) | Enemy (red) | Full warfare |
+
+## Returning to Neutral
+
+To remove enemy or ally status:
+
+```
+/f neutral FactionName
+```
+
+This resets the relationship to the default neutral state.
+
+## Viewing Relations
+
+### Your Faction's Relations
+```
+/f relations
+```
+
+Shows all your allies and enemies.
+
+### Specific Faction Info
+```
+/f info FactionName
+```
+
+Shows their relations section.
+
+## Strategic Considerations
+
+### Alliance Benefits
+- **Strength in numbers** - Combined forces against enemies
+- **Shared territory access** - Coordinate defense
+- **Communication** - Alliance chat for coordination
+- **No accidents** - Friendly fire prevention
+
+### Alliance Risks
+- **Dragged into wars** - Their enemies become your concern
+- **Resource sharing** - May need to help defend their land
+- **Trust issues** - Betrayal is always possible
+
+### Enemy Tactics
+- **Weaken first** - Reduce their power through combat
+- **Coordinate attacks** - Ally with their enemies
+- **Overclaim** - Take their land when power drops
+- **Cut off resources** - Claim strategic areas
+
+## Permission Requirements
+
+| Action | Required Permission |
+|--------|---------------------|
+| Form alliance | `hyperfactions.ally` |
+| Declare enemy | `hyperfactions.enemy` |
+| Set neutral | `hyperfactions.neutral` |
+
+<InfoBox variant="info">
+By default, only Officers and Leaders can manage diplomatic relations.
+</InfoBox>
+
+## Combat Rules by Relation
+
+| Attacker → Target | Damage Allowed | Power Loss |
+|-------------------|----------------|------------|
+| Same Faction | No (configurable) | N/A |
+| Allied | No (configurable) | N/A |
+| Neutral | Yes | Yes |
+| Enemy | Yes | Yes |
+
+Configuration options:
+- `combat.factionDamage` - Allow same-faction damage
+- `combat.allyDamage` - Allow allied faction damage
+
+## Color Coding
+
+Relations are color-coded throughout the interface:
+
+| Relation | Color | Usage |
+|----------|-------|-------|
+| Your Faction | Cyan/Teal | Your claims, members |
+| Allied | Green | Allied claims, members |
+| Neutral | Yellow | Neutral factions |
+| Enemy | Red | Enemy claims, members |
+
+## Related Topics
+
+- [Factions](/plugins/hyperfactions/wiki/concepts/factions) - Faction basics
+- [Power System](/plugins/hyperfactions/wiki/concepts/power-system) - How power affects warfare
+- [Territories](/plugins/hyperfactions/wiki/concepts/territories) - Overclaiming enemies
+- [Diplomacy Commands](/plugins/hyperfactions/wiki/commands/diplomacy) - Command reference

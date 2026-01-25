@@ -1,5 +1,5 @@
 export type PluginStatus = "stable" | "beta" | "coming-soon" | "planned";
-export type PluginIconName = "Shield" | "Home" | "MapPin" | "Package";
+export type PluginIconName = "Shield" | "Home" | "MapPin" | "Package" | "Swords";
 
 export interface Plugin {
   id: string;
@@ -86,6 +86,32 @@ export const plugins: Plugin[] = [
       "/back Command with Location History",
       "Admin Teleport Commands",
     ],
+  },
+  {
+    id: "hyperfactions",
+    name: "HyperFactions",
+    tagline: "Forge your empire",
+    description:
+      "A comprehensive faction management mod with territory claims, alliances, strategic PvP, power systems, and extensive customization.",
+    status: "beta",
+    iconName: "Swords",
+    features: [
+      "Faction Management with Role Hierarchy",
+      "Chunk-Based Territory System",
+      "Power System for Balanced Expansion",
+      "Diplomatic Relations (Allies, Enemies, Neutral)",
+      "Overclaiming for Strategic Warfare",
+      "Faction & Alliance Chat",
+      "Home Teleportation System",
+      "Combat Tagging",
+      "SafeZones & WarZones",
+      "HyperPerms Integration",
+    ],
+    commands: ["/faction", "/f", "/hf"],
+    links: {
+      github: "https://github.com/HyperSystemsDev/HyperFactions",
+      docs: "/plugins/hyperfactions/wiki",
+    },
   },
   {
     id: "hyperkits",

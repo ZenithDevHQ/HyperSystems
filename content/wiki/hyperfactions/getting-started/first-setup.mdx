@@ -1,0 +1,224 @@
+---
+title: First Setup
+description: Create your first faction and learn the basics.
+order: 3
+---
+
+# First Setup
+
+This guide walks you through creating your first faction, claiming land, and inviting members.
+
+## Creating Your First Faction
+
+### Step 1: Create a Faction
+
+Use the create command with your desired faction name:
+
+```
+/f create MyFaction
+```
+
+<InfoBox variant="info">
+Faction names must be 3-24 characters and can only contain letters, numbers, and underscores.
+</InfoBox>
+
+Congratulations! You're now the **Leader** of your new faction.
+
+### Step 2: Open the Faction GUI
+
+Access the main faction interface:
+
+```
+/f
+```
+
+or
+
+```
+/f menu
+```
+
+This opens the interactive GUI where you can:
+- View faction statistics
+- Manage members
+- Access the chunk map
+- Configure faction settings
+
+## Claiming Your First Territory
+
+### Step 3: Claim Land
+
+Stand in the chunk you want to claim and run:
+
+```
+/f claim
+```
+
+<InfoBox variant="tip" title="Chunk Size">
+Each claim covers one chunk (16x16 blocks). You can see chunk boundaries by pressing F3+G in most clients.
+</InfoBox>
+
+### Step 4: View the Map
+
+Open the chunk management GUI to see your territory:
+
+```
+/f map
+```
+
+The map shows a 15x15 chunk grid with your claims highlighted in your faction color.
+
+### Step 5: Set Your Faction Home
+
+While standing where you want your faction's home to be:
+
+```
+/f sethome
+```
+
+Now faction members can teleport here with `/f home`.
+
+## Inviting Members
+
+### Step 6: Invite a Player
+
+To invite someone to your faction:
+
+```
+/f invite PlayerName
+```
+
+The invited player will receive a notification and can accept with:
+
+```
+/f accept
+```
+
+<InfoBox variant="info">
+Invitations expire after a configurable time (default: 5 minutes). The player must accept before it expires.
+</InfoBox>
+
+### Step 7: Manage Members
+
+As the Leader, you can:
+
+**Promote to Officer:**
+```
+/f promote PlayerName
+```
+
+**Demote to Member:**
+```
+/f demote PlayerName
+```
+
+**Kick a Member:**
+```
+/f kick PlayerName
+```
+
+## Understanding Roles
+
+Your faction has three roles with different permissions:
+
+### Leader (You)
+- Full control over the faction
+- Set faction home
+- Promote/demote members
+- Transfer leadership
+- Disband faction
+- Manage all diplomatic relations
+
+### Officer
+- Invite new players
+- Kick Members (not Officers)
+- Manage diplomatic relations
+- Claim/unclaim territory
+- Use overclaim
+
+### Member
+- Claim territory (with permission)
+- Use faction home
+- View faction info
+- Participate in chat
+
+## Setting Up Diplomacy
+
+### Ally Another Faction
+
+To form an alliance:
+
+```
+/f ally OtherFaction
+```
+
+The other faction's leader must also run `/f ally YourFaction` to confirm.
+
+**Allied factions get:**
+- No friendly fire between members
+- Shared land access (if configured)
+- Alliance chat communication
+
+### Declare an Enemy
+
+To mark a faction as an enemy:
+
+```
+/f enemy OtherFaction
+```
+
+**Enemy factions:**
+- Full PvP enabled
+- Can be overclaimed (if enabled)
+- Marked in red on maps
+
+## Customizing Your Faction
+
+### Set a Description
+
+```
+/f desc This is our faction's description!
+```
+
+### Set a Faction Color
+
+```
+/f color #FF5500
+```
+
+The color appears on maps and in chat.
+
+### Open/Close Membership
+
+**Allow anyone to join:**
+```
+/f open
+```
+
+**Require invitations:**
+```
+/f close
+```
+
+## Quick Reference
+
+| Task | Command |
+|------|---------|
+| Create faction | `/f create <name>` |
+| Open menu | `/f` |
+| Claim chunk | `/f claim` |
+| View map | `/f map` |
+| Set home | `/f sethome` |
+| Go home | `/f home` |
+| Invite player | `/f invite <player>` |
+| View faction info | `/f info` |
+| List all factions | `/f list` |
+
+## Next Steps
+
+Now that you have a faction:
+
+1. Learn about the [Power System](/plugins/hyperfactions/wiki/concepts/power-system) that controls how much land you can claim
+2. Understand [Territories](/plugins/hyperfactions/wiki/concepts/territories) for strategic land control
+3. Set up [Diplomacy](/plugins/hyperfactions/wiki/concepts/diplomacy) with other factions
+4. Review all [Commands](/plugins/hyperfactions/wiki/commands/basic) for complete control
