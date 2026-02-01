@@ -73,6 +73,29 @@ Messages in faction/alliance chat have distinct formatting:
 
 The exact format may vary based on configuration and HyperPerms integration.
 
+## Chat Configuration
+
+Chat formatting can be customized in `config.json`:
+
+```json
+{
+  "chat": {
+    "enabled": true,
+    "format": "[%faction%] %player%: %message%",
+    "tagDisplay": "prefix",
+    "tagFormat": "[%tag%]",
+    "noFactionTag": "",
+    "priority": 100,
+    "relationColors": {
+      "own": "#00FF00",
+      "ally": "#00FFFF",
+      "enemy": "#FF0000",
+      "neutral": "#FFFF00"
+    }
+  }
+}
+```
+
 ## Examples
 
 ### Coordinating Defense
@@ -101,19 +124,20 @@ All players in allied factions see this.
 
 Short messages for quick communication.
 
-## Chat Permissions
+## Permission Summary
 
 <PermissionTable
+  title="Chat Permissions"
   permissions={[
     {
       permission: "hyperfactions.chat.faction",
       description: "Use faction chat",
-      default: "true"
+      default: "false"
     },
     {
       permission: "hyperfactions.chat.ally",
       description: "Use alliance chat",
-      default: "true"
+      default: "false"
     }
   ]}
 />

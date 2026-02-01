@@ -8,6 +8,37 @@ order: 3
 
 This guide walks you through creating your first faction, claiming land, and inviting members.
 
+<InfoBox variant="danger" title="Important: Permissions Required">
+Before players can use factions, you **must configure permissions**. As of v0.3.0, HyperFactions denies all access by default. See [Step 0](#step-0-configure-permissions) below.
+</InfoBox>
+
+## Step 0: Configure Permissions
+
+Before anyone can create or join factions, server administrators must grant the required permissions.
+
+### Using HyperPerms
+
+Run these commands to grant default players access to all standard faction features:
+
+```
+/hp group setperm default hyperfactions.use
+/hp group setperm default hyperfactions.faction.*
+/hp group setperm default hyperfactions.member.*
+/hp group setperm default hyperfactions.territory.*
+/hp group setperm default hyperfactions.teleport.*
+/hp group setperm default hyperfactions.relation.*
+/hp group setperm default hyperfactions.chat.*
+/hp group setperm default hyperfactions.info.*
+```
+
+<InfoBox variant="warning" title="Required Permission">
+The `hyperfactions.use` permission is **required** for any faction access. Without it, players cannot use any `/f` commands.
+</InfoBox>
+
+For detailed permission information, see the [Permissions Reference](/plugins/hyperfactions/wiki/reference/permissions).
+
+---
+
 ## Creating Your First Faction
 
 ### Step 1: Create a Faction
@@ -128,6 +159,7 @@ Your faction has three roles with different permissions:
 - Transfer leadership
 - Disband faction
 - Manage all diplomatic relations
+- Configure faction territory permissions
 
 ### Officer
 - Invite new players
@@ -200,6 +232,27 @@ The color appears on maps and in chat.
 /f close
 ```
 
+### Configure Territory Permissions
+
+Factions can configure what actions are allowed in their territory:
+
+```
+/f permissions
+```
+
+This opens a GUI where Leaders (and Officers if allowed) can toggle 11 different flags:
+- `pvp_enabled` - Allow PvP in territory
+- `friendly_fire` - Allow faction members to damage each other
+- `build_allowed` - Allow building in territory
+- `container_access` - Allow container access
+- `interact_allowed` - Allow interactions (doors, buttons, etc.)
+- `item_drop` - Allow item dropping
+- `item_pickup` - Allow item pickup
+- `mob_spawning` - Allow mob spawning
+- `mob_damage` - Allow mob damage
+- `hunger_loss` - Allow hunger drain
+- `fall_damage` - Allow fall damage
+
 ## Quick Reference
 
 | Task | Command |
@@ -213,6 +266,7 @@ The color appears on maps and in chat.
 | Invite player | `/f invite <player>` |
 | View faction info | `/f info` |
 | List all factions | `/f list` |
+| Escape hostile territory | `/f stuck` |
 
 ## Next Steps
 
@@ -222,3 +276,4 @@ Now that you have a faction:
 2. Understand [Territories](/plugins/hyperfactions/wiki/concepts/territories) for strategic land control
 3. Set up [Diplomacy](/plugins/hyperfactions/wiki/concepts/diplomacy) with other factions
 4. Review all [Commands](/plugins/hyperfactions/wiki/commands/basic) for complete control
+5. Check the [Permissions Reference](/plugins/hyperfactions/wiki/reference/permissions) to understand access control

@@ -15,7 +15,7 @@ These commands let you claim land, manage your territory, and view the world map
     {
       command: "/f claim",
       description: "Claim the chunk you're standing in for your faction",
-      permission: "hyperfactions.claim"
+      permission: "hyperfactions.territory.claim"
     }
   ]}
 />
@@ -37,7 +37,7 @@ Each claim requires power to maintain. Make sure your faction has enough power b
     {
       command: "/f unclaim",
       description: "Release the chunk you're standing in",
-      permission: "hyperfactions.unclaim"
+      permission: "hyperfactions.territory.unclaim"
     }
   ]}
 />
@@ -58,12 +58,12 @@ Unclaiming removes protection from that chunk. Make sure you've moved any valuab
     {
       command: "/f map",
       description: "Open the chunk management GUI with territory map",
-      permission: "hyperfactions.map"
+      permission: "hyperfactions.territory.map"
     }
   ]}
 />
 
-The map displays a 15×15 chunk grid showing:
+The map displays a 15x15 chunk grid showing:
 
 | Symbol | Meaning |
 |--------|---------|
@@ -82,7 +82,7 @@ The map displays a 15×15 chunk grid showing:
     {
       command: "/f overclaim",
       description: "Capture an enemy faction's chunk when their power is too low",
-      permission: "hyperfactions.overclaim"
+      permission: "hyperfactions.territory.overclaim"
     }
   ]}
 />
@@ -94,7 +94,7 @@ The map displays a 15×15 chunk grid showing:
 4. Target power must be at or below threshold
 
 <InfoBox variant="tip" title="When Can You Overclaim?">
-Enemy faction power must be less than: (Their Claims × Power Per Claim)
+Enemy faction power must be less than: (Their Claims x Power Per Claim)
 
 Example: If an enemy has 30 claims and power per claim is 2, you can overclaim when their power drops below 60.
 </InfoBox>
@@ -106,7 +106,7 @@ Example: If an enemy has 30 claims and power per claim is 2, you can overclaim w
     {
       command: "/f stuck",
       description: "Teleport to nearby wilderness when trapped in enemy territory",
-      permission: "hyperfactions.use"
+      permission: "hyperfactions.teleport.stuck"
     }
   ]}
 />
@@ -116,6 +116,7 @@ Example: If an enemy has 30 claims and power per claim is 2, you can overclaim w
 - Cancelled by movement or damage
 - Teleports to nearest unclaimed chunk
 - Only works in hostile territory
+- 5-minute cooldown
 
 <InfoBox variant="info">
 Use this command if you're trapped in enemy territory with no way out.
@@ -159,6 +160,39 @@ Opens the GUI map to see available chunks around you.
 # If their power is too low, stand in their chunk
 /f overclaim
 ```
+
+## Permission Summary
+
+<PermissionTable
+  title="Territory Command Permissions"
+  permissions={[
+    {
+      permission: "hyperfactions.territory.claim",
+      description: "Claim territory",
+      default: "false"
+    },
+    {
+      permission: "hyperfactions.territory.unclaim",
+      description: "Release territory",
+      default: "false"
+    },
+    {
+      permission: "hyperfactions.territory.map",
+      description: "View the chunk map",
+      default: "false"
+    },
+    {
+      permission: "hyperfactions.territory.overclaim",
+      description: "Overclaim enemy territory",
+      default: "false"
+    },
+    {
+      permission: "hyperfactions.teleport.stuck",
+      description: "Use stuck command",
+      default: "false"
+    }
+  ]}
+/>
 
 ## Strategic Tips
 

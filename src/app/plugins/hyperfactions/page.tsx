@@ -13,6 +13,9 @@ import {
   Home,
   Target,
   Flag,
+  Settings,
+  HardDrive,
+  Palette,
 } from "lucide-react";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
@@ -134,6 +137,36 @@ export default function HyperFactionsPage() {
                 <h3 className="mt-4 font-semibold text-hs-text">SafeZones & WarZones</h3>
                 <p className="mt-2 text-sm text-hs-text-muted">
                   Admin-managed zones for spawn protection and designated PvP areas.
+                </p>
+              </Card>
+
+              <Card className="group">
+                <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-gradient-to-br from-hs-primary/20 to-hs-secondary/20">
+                  <Settings className="h-5 w-5 text-hs-secondary" />
+                </div>
+                <h3 className="mt-4 font-semibold text-hs-text">GUI-Based Management</h3>
+                <p className="mt-2 text-sm text-hs-text-muted">
+                  Full graphical interface for managing factions, viewing maps, and configuring settings.
+                </p>
+              </Card>
+
+              <Card className="group">
+                <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-gradient-to-br from-hs-primary/20 to-hs-secondary/20">
+                  <HardDrive className="h-5 w-5 text-hs-primary" />
+                </div>
+                <h3 className="mt-4 font-semibold text-hs-text">Automatic Backups</h3>
+                <p className="mt-2 text-sm text-hs-text-muted">
+                  Built-in backup system with GFS rotation policy for data safety.
+                </p>
+              </Card>
+
+              <Card className="group">
+                <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-gradient-to-br from-hs-primary/20 to-hs-secondary/20">
+                  <Palette className="h-5 w-5 text-hs-secondary" />
+                </div>
+                <h3 className="mt-4 font-semibold text-hs-text">Chat Formatting</h3>
+                <p className="mt-2 text-sm text-hs-text-muted">
+                  Customizable faction tags with relation-based colors in public chat.
                 </p>
               </Card>
             </div>

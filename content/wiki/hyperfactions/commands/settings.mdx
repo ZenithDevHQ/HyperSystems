@@ -15,7 +15,7 @@ These commands allow Leaders and Officers to configure faction settings like nam
     {
       command: "/f rename <name>",
       description: "Change your faction's name",
-      permission: "hyperfactions.rename"
+      permission: "hyperfactions.faction.rename"
     }
   ]}
 />
@@ -36,7 +36,7 @@ Renaming is visible to everyone. Previous name references may become outdated.
     {
       command: "/f desc <text>",
       description: "Set your faction's description",
-      permission: "hyperfactions.desc"
+      permission: "hyperfactions.faction.description"
     }
   ]}
 />
@@ -50,6 +50,27 @@ Renaming is visible to everyone. Previous name references may become outdated.
 /f desc Warriors of the Northern Realm. Recruiting active players!
 ```
 
+## Setting Faction Tag
+
+<CommandBlock
+  commands={[
+    {
+      command: "/f tag <tag>",
+      description: "Set your faction's chat tag",
+      permission: "hyperfactions.faction.tag"
+    }
+  ]}
+/>
+
+**Requirements:**
+- Must be the Leader
+- Tag is shown in chat next to player names
+
+**Example:**
+```
+/f tag WoN
+```
+
 ## Setting Faction Color
 
 <CommandBlock
@@ -57,7 +78,7 @@ Renaming is visible to everyone. Previous name references may become outdated.
     {
       command: "/f color <hex>",
       description: "Set your faction's display color",
-      permission: "hyperfactions.color"
+      permission: "hyperfactions.faction.color"
     }
   ]}
 />
@@ -94,7 +115,7 @@ Use a color picker tool to find hex codes. Common colors:
     {
       command: "/f open",
       description: "Allow anyone to join without invitation",
-      permission: "hyperfactions.open"
+      permission: "hyperfactions.faction.open"
     }
   ]}
 />
@@ -114,7 +135,7 @@ Open factions are good for recruiting but provide less control over membership.
     {
       command: "/f close",
       description: "Require invitations to join",
-      permission: "hyperfactions.close"
+      permission: "hyperfactions.faction.close"
     }
   ]}
 />
@@ -125,15 +146,62 @@ Open factions are good for recruiting but provide less control over membership.
 
 This is the default state for new factions.
 
+## Territory Permissions
+
+<CommandBlock
+  commands={[
+    {
+      command: "/f permissions",
+      description: "Open the territory permissions GUI",
+      permission: "hyperfactions.faction.permissions"
+    }
+  ]}
+/>
+
+**Available flags:**
+- `pvp_enabled` - Allow PvP in territory
+- `friendly_fire` - Allow faction members to damage each other
+- `build_allowed` - Allow building
+- `container_access` - Allow container access
+- `interact_allowed` - Allow interactions
+- `item_drop` / `item_pickup` - Allow item drop/pickup
+- `mob_spawning` / `mob_damage` - Mob settings
+- `hunger_loss` / `fall_damage` - Environment effects
+
+See [Factions](/plugins/hyperfactions/wiki/concepts/factions) for details on territory permissions.
+
+## Disbanding
+
+<CommandBlock
+  commands={[
+    {
+      command: "/f disband",
+      description: "Dissolve your faction permanently",
+      permission: "hyperfactions.faction.disband"
+    }
+  ]}
+/>
+
+**Requirements:**
+- Must be the Leader
+- Requires confirmation
+
+<InfoBox variant="danger" title="Permanent">
+Disbanding cannot be undone. All claims are released and all members are removed.
+</InfoBox>
+
 ## Quick Reference
 
 | Command | Description | Role Required |
 |---------|-------------|---------------|
 | `/f rename <name>` | Change faction name | Leader |
 | `/f desc <text>` | Set description | Officer+ |
+| `/f tag <tag>` | Set chat tag | Leader |
 | `/f color <hex>` | Set faction color | Officer+ |
 | `/f open` | Allow free joining | Leader |
 | `/f close` | Require invitations | Leader |
+| `/f permissions` | Configure territory flags | Leader |
+| `/f disband` | Dissolve faction | Leader |
 
 ## Examples
 
@@ -149,7 +217,12 @@ This is the default state for new factions.
    /f color #FF0000
    ```
 
-3. **Keep it invite-only:**
+3. **Set a tag:**
+   ```
+   /f tag ELITE
+   ```
+
+4. **Keep it invite-only:**
    ```
    /f close
    ```
@@ -190,35 +263,50 @@ Now anyone can join. Close it after recruiting:
   title="Settings Permissions"
   permissions={[
     {
-      permission: "hyperfactions.rename",
+      permission: "hyperfactions.faction.rename",
       description: "Rename the faction",
-      default: "true"
+      default: "false"
     },
     {
-      permission: "hyperfactions.desc",
+      permission: "hyperfactions.faction.description",
       description: "Set faction description",
-      default: "true"
+      default: "false"
     },
     {
-      permission: "hyperfactions.color",
+      permission: "hyperfactions.faction.tag",
+      description: "Set faction tag",
+      default: "false"
+    },
+    {
+      permission: "hyperfactions.faction.color",
       description: "Set faction color",
-      default: "true"
+      default: "false"
     },
     {
-      permission: "hyperfactions.open",
+      permission: "hyperfactions.faction.open",
       description: "Open faction membership",
-      default: "true"
+      default: "false"
     },
     {
-      permission: "hyperfactions.close",
+      permission: "hyperfactions.faction.close",
       description: "Close faction membership",
-      default: "true"
+      default: "false"
+    },
+    {
+      permission: "hyperfactions.faction.permissions",
+      description: "Manage territory permissions",
+      default: "false"
+    },
+    {
+      permission: "hyperfactions.faction.disband",
+      description: "Disband faction",
+      default: "false"
     }
   ]}
 />
 
 <InfoBox variant="info">
-While these permissions default to `true`, the role requirement (Leader/Officer) still applies.
+While these permissions allow attempting these actions, the role requirement (Leader/Officer) still applies.
 </InfoBox>
 
 ## Best Practices

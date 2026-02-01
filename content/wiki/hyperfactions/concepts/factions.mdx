@@ -36,6 +36,13 @@ A short text describing your faction, visible when others view your faction info
 /f desc Our faction rules!
 ```
 
+### Tag
+A short tag/abbreviation for your faction, shown in chat:
+
+```
+/f tag ABC
+```
+
 ### Color
 A hex color code that represents your faction on maps and in GUI elements:
 
@@ -78,6 +85,52 @@ This determines:
 - Overall faction strength
 
 See [Power System](/plugins/hyperfactions/wiki/concepts/power-system) for details.
+
+## Territory Permissions
+
+Factions can configure what actions are allowed in their claimed territory. Leaders (and Officers if `officersCanEdit` is enabled) can manage these through:
+
+```
+/f permissions
+```
+
+### Available Permission Flags
+
+| Flag | Default | Description |
+|------|---------|-------------|
+| `pvp_enabled` | false | Allow PvP in territory |
+| `friendly_fire` | false | Allow faction members to damage each other |
+| `build_allowed` | true | Allow building (for faction members) |
+| `container_access` | true | Allow container access (for faction members) |
+| `interact_allowed` | true | Allow interactions (doors, buttons, etc.) |
+| `item_drop` | true | Allow item dropping |
+| `item_pickup` | true | Allow item pickup |
+| `mob_spawning` | true | Allow mob spawning |
+| `mob_damage` | true | Allow mob damage |
+| `hunger_loss` | true | Allow hunger drain |
+| `fall_damage` | true | Allow fall damage |
+
+<InfoBox variant="info" title="Permission Scope">
+These permissions control behavior within faction territory. They affect all players in the territory, not just faction members.
+</InfoBox>
+
+### Server-Side Permission Locks
+
+Server administrators can lock certain flags to prevent factions from changing them:
+
+```json
+{
+  "factionPermissions": {
+    "locks": ["pvp_enabled", "friendly_fire"],
+    "forced": {
+      "pvp_enabled": true
+    }
+  }
+}
+```
+
+- **locks** - Flags that cannot be changed by faction leaders
+- **forced** - Flags forced to specific values (overrides faction settings)
 
 ## Viewing Faction Information
 

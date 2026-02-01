@@ -15,7 +15,7 @@ These commands let you manage your faction's membership - inviting new players, 
     {
       command: "/f invite <player>",
       description: "Send a faction invitation to a player",
-      permission: "hyperfactions.invite"
+      permission: "hyperfactions.member.invite"
     }
   ]}
 />
@@ -37,13 +37,19 @@ Invitations expire after a configurable time (default: 5 minutes). The player mu
     {
       command: "/f accept",
       description: "Accept a pending faction invitation",
-      permission: "hyperfactions.use"
+      permission: "hyperfactions.member.join"
+    },
+    {
+      command: "/f join <faction>",
+      description: "Join an open faction",
+      permission: "hyperfactions.member.join"
     }
   ]}
 />
 
 **For the invited player:**
-- Must have a pending invitation
+- Must have a pending invitation (for accept)
+- Target faction must be open (for join)
 - Must not already be in a faction
 - Joins as Member role
 
@@ -54,7 +60,7 @@ Invitations expire after a configurable time (default: 5 minutes). The player mu
     {
       command: "/f kick <player>",
       description: "Remove a player from your faction",
-      permission: "hyperfactions.kick"
+      permission: "hyperfactions.member.kick"
     }
   ]}
 />
@@ -77,7 +83,7 @@ You cannot kick someone of equal or higher rank. Officers cannot kick other Offi
     {
       command: "/f promote <player>",
       description: "Promote a Member to Officer",
-      permission: "hyperfactions.promote"
+      permission: "hyperfactions.member.promote"
     }
   ]}
 />
@@ -98,7 +104,7 @@ Only promote players you trust. Officers have significant power including diplom
     {
       command: "/f demote <player>",
       description: "Demote an Officer to Member",
-      permission: "hyperfactions.demote"
+      permission: "hyperfactions.member.demote"
     }
   ]}
 />
@@ -115,7 +121,7 @@ Only promote players you trust. Officers have significant power including diplom
     {
       command: "/f transfer <player>",
       description: "Transfer faction leadership to another member",
-      permission: "hyperfactions.transfer"
+      permission: "hyperfactions.member.transfer"
     }
   ]}
 />
@@ -135,6 +141,7 @@ Leadership transfer cannot be undone by you. The new Leader must transfer back i
 |---------|-------------|---------------|
 | `/f invite <player>` | Invite player | Officer+ |
 | `/f accept` | Accept invitation | Non-member |
+| `/f join <faction>` | Join open faction | Non-member |
 | `/f kick <player>` | Remove player | Officer+ |
 | `/f promote <player>` | Promote to Officer | Leader |
 | `/f demote <player>` | Demote to Member | Leader |
@@ -180,6 +187,49 @@ ProblemPlayer is removed from the faction.
 ```
 
 NewLeader is now the Leader. You're now an Officer.
+
+## Permission Summary
+
+<PermissionTable
+  title="Member Management Permissions"
+  permissions={[
+    {
+      permission: "hyperfactions.member.invite",
+      description: "Invite players",
+      default: "false"
+    },
+    {
+      permission: "hyperfactions.member.join",
+      description: "Join factions / accept invites",
+      default: "false"
+    },
+    {
+      permission: "hyperfactions.member.kick",
+      description: "Kick members",
+      default: "false"
+    },
+    {
+      permission: "hyperfactions.member.promote",
+      description: "Promote members",
+      default: "false"
+    },
+    {
+      permission: "hyperfactions.member.demote",
+      description: "Demote officers",
+      default: "false"
+    },
+    {
+      permission: "hyperfactions.member.transfer",
+      description: "Transfer leadership",
+      default: "false"
+    },
+    {
+      permission: "hyperfactions.member.leave",
+      description: "Leave factions",
+      default: "false"
+    }
+  ]}
+/>
 
 ## Workflow Examples
 

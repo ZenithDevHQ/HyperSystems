@@ -6,7 +6,7 @@ order: 8
 
 # Admin Commands
 
-These commands are for server administrators to manage factions, zones, and the plugin itself. All commands require `hyperfactions.admin` permission.
+These commands are for server administrators to manage factions, zones, backups, and the plugin itself. Admin commands require permissions from the `hyperfactions.admin.*` category.
 
 ## Admin Menu
 
@@ -14,44 +14,128 @@ These commands are for server administrators to manage factions, zones, and the 
   commands={[
     {
       command: "/f admin",
-      description: "Open the admin management menu",
-      permission: "hyperfactions.admin"
+      description: "Open the admin management GUI",
+      permission: "hyperfactions.admin.use"
     }
   ]}
 />
 
-The admin menu provides GUI access to all administrative functions.
+The admin menu provides GUI access to all administrative functions including faction management, zone creation, and system settings.
 
-## Admin Claiming
+## Configuration Commands
 
 <CommandBlock
   commands={[
     {
-      command: "/f admin claim",
-      description: "Admin claim (unlimited, ignores power)",
-      permission: "hyperfactions.admin"
+      command: "/f admin reload",
+      description: "Reload the configuration file",
+      permission: "hyperfactions.admin.reload"
     },
     {
-      command: "/f admin unclaim",
-      description: "Admin unclaim (can remove any faction's claim)",
-      permission: "hyperfactions.admin"
+      command: "/f admin debug",
+      description: "Toggle debug mode for troubleshooting",
+      permission: "hyperfactions.admin.debug"
     }
   ]}
 />
 
-**Admin Claim Features:**
-- No power requirement
-- Can claim SafeZones and WarZones
-- Useful for server maintenance
+**Reload applies:**
+- `config.json` settings
+- Message configuration
+- Power settings
+- All other configuration changes
 
-**Admin Unclaim Features:**
-- Remove any faction's claim
-- Clear problem areas
-- No faction membership required
-
-<InfoBox variant="warning">
-Admin claiming/unclaiming affects player factions directly. Use with caution.
+<InfoBox variant="info">
+Some changes may require a server restart. The reload command handles most configuration changes.
 </InfoBox>
+
+**Debug mode:**
+- Shows detailed logging for troubleshooting
+- Outputs to console and/or chat
+- Categories can be configured in `config.json`
+
+## Zone Management
+
+The zone system allows admins to create named zones that span multiple chunks with customizable flags.
+
+### Creating Zones
+
+<CommandBlock
+  commands={[
+    {
+      command: "/f admin zone create <name> <safe|war>",
+      description: "Create a new named zone (SafeZone or WarZone)",
+      permission: "hyperfactions.admin.zones"
+    }
+  ]}
+/>
+
+**Zone Types:**
+- `safe` - SafeZone (no PvP, no building, protected area)
+- `war` - WarZone (PvP enabled, no power loss by default)
+
+### Claiming Chunks for Zones
+
+<CommandBlock
+  commands={[
+    {
+      command: "/f admin zone claim <name>",
+      description: "Add the current chunk to an existing zone",
+      permission: "hyperfactions.admin.zones"
+    },
+    {
+      command: "/f admin zone radius <name> <radius> [circle]",
+      description: "Claim a radius of chunks for a zone",
+      permission: "hyperfactions.admin.zones"
+    }
+  ]}
+/>
+
+**Radius claiming:**
+- `radius` - Number of chunks from current position
+- Add `circle` to claim in a circular pattern instead of square
+
+**Example:** `/f admin zone radius spawn 5 circle` claims a circular area with 5-chunk radius.
+
+### Managing Zones
+
+<CommandBlock
+  commands={[
+    {
+      command: "/f admin zone unclaim",
+      description: "Remove the current chunk from its zone",
+      permission: "hyperfactions.admin.zones"
+    },
+    {
+      command: "/f admin zone remove <name>",
+      description: "Delete a zone entirely (unclaims all chunks)",
+      permission: "hyperfactions.admin.zones"
+    },
+    {
+      command: "/f admin zone list [safe|war]",
+      description: "List all zones, optionally filtered by type",
+      permission: "hyperfactions.admin.zones"
+    }
+  ]}
+/>
+
+### Zone Flags
+
+Each zone type has configurable flags. Use the admin GUI to modify zone flags:
+
+| Flag | SafeZone Default | WarZone Default | Description |
+|------|------------------|-----------------|-------------|
+| `pvp_enabled` | false | true | Allow PvP |
+| `friendly_fire` | false | true | Allow damage between allies |
+| `build_allowed` | false | false | Allow building |
+| `container_access` | false | false | Allow container access |
+| `interact_allowed` | true | true | Allow interactions |
+| `item_drop` | true | true | Allow item dropping |
+| `item_pickup` | true | true | Allow item pickup |
+| `mob_spawning` | false | true | Allow mob spawning |
+| `mob_damage` | false | true | Allow mob damage |
+| `hunger_loss` | false | true | Allow hunger drain |
+| `fall_damage` | false | true | Allow fall damage |
 
 ## Bypass Mode
 
@@ -60,7 +144,7 @@ Admin claiming/unclaiming affects player factions directly. Use with caution.
     {
       command: "/f admin bypass",
       description: "Toggle admin bypass mode",
-      permission: "hyperfactions.admin"
+      permission: "hyperfactions.admin.use"
     }
   ]}
 />
@@ -79,96 +163,115 @@ Admin claiming/unclaiming affects player factions directly. Use with caution.
 Remember to disable bypass mode when done to avoid accidentally breaking player builds.
 </InfoBox>
 
-## SafeZone Management
+## Faction Management
 
 <CommandBlock
   commands={[
     {
-      command: "/f admin safezone add",
-      description: "Create a SafeZone in the current chunk",
-      permission: "hyperfactions.admin"
+      command: "/f admin disband <faction>",
+      description: "Force disband any faction",
+      permission: "hyperfactions.admin.disband"
     },
     {
-      command: "/f admin safezone remove",
-      description: "Remove SafeZone from the current chunk",
-      permission: "hyperfactions.admin"
+      command: "/f admin modify <faction> <setting> <value>",
+      description: "Modify any faction's settings",
+      permission: "hyperfactions.admin.modify"
     }
   ]}
 />
 
-**SafeZone Properties:**
-- No PvP allowed
-- No building allowed
-- Cannot be claimed by factions
-- Displayed in bright green
+**Modifiable settings:**
+- `name` - Change faction name
+- `description` - Change description
+- `color` - Change faction color
+- `power` - Set faction power
+- `leader` - Change faction leader
+- `open` - Set open/closed status
 
-**Common Uses:**
-- Server spawn
-- Trading areas
-- Tutorial zones
+<InfoBox variant="warning">
+Admin faction modifications bypass role checks. Use with caution as they directly affect player factions.
+</InfoBox>
 
-## WarZone Management
+## Backup System
+
+HyperFactions includes a built-in backup system with GFS (Grandfather-Father-Son) rotation.
 
 <CommandBlock
   commands={[
     {
-      command: "/f admin warzone add",
-      description: "Create a WarZone in the current chunk",
-      permission: "hyperfactions.admin"
+      command: "/f admin backup create [name]",
+      description: "Create a manual backup with optional custom name",
+      permission: "hyperfactions.admin.backup"
     },
     {
-      command: "/f admin warzone remove",
-      description: "Remove WarZone from the current chunk",
-      permission: "hyperfactions.admin"
+      command: "/f admin backup list",
+      description: "List all available backups",
+      permission: "hyperfactions.admin.backup"
+    },
+    {
+      command: "/f admin backup restore <name>",
+      description: "Restore from a specific backup",
+      permission: "hyperfactions.admin.backup"
+    },
+    {
+      command: "/f admin backup delete <name>",
+      description: "Delete a specific backup",
+      permission: "hyperfactions.admin.backup"
     }
   ]}
 />
 
-**WarZone Properties:**
-- PvP always enabled
-- No power loss on death (by default)
-- Cannot be claimed by factions
-- Displayed in bright red
+**Backup retention (configurable):**
+- Hourly backups: 24 (1 day)
+- Daily backups: 7 (1 week)
+- Weekly backups: 4 (1 month)
 
-**Common Uses:**
-- PvP arenas
-- Event battlegrounds
-- Resource competition areas
+<InfoBox variant="danger" title="Restore Warning">
+Restoring a backup overwrites current data. Consider creating a backup before restoring.
+</InfoBox>
 
-## Configuration Reload
+## Update System
 
 <CommandBlock
   commands={[
     {
-      command: "/f admin reload",
-      description: "Reload the configuration file",
-      permission: "hyperfactions.admin"
+      command: "/f admin update",
+      description: "Check for and download updates",
+      permission: "hyperfactions.admin.update"
     }
   ]}
 />
 
-**Reloads:**
-- `config.json` settings
-- Message configuration
-- Power settings
+**Update process:**
+1. Checks GitHub releases for new versions
+2. Downloads the new JAR file
+3. Prompts for server restart to apply
 
 <InfoBox variant="info">
-Some changes may require a server restart. The reload command handles most configuration changes.
+Updates are downloaded but not applied until server restart. This prevents data loss during active sessions.
 </InfoBox>
 
 ## Quick Reference
 
-| Command | Description |
-|---------|-------------|
-| `/f admin` | Open admin menu |
-| `/f admin claim` | Admin claim chunk |
-| `/f admin unclaim` | Admin unclaim chunk |
-| `/f admin bypass` | Toggle bypass mode |
-| `/f admin safezone add` | Create SafeZone |
-| `/f admin safezone remove` | Remove SafeZone |
-| `/f admin warzone add` | Create WarZone |
-| `/f admin warzone remove` | Remove WarZone |
-| `/f admin reload` | Reload configuration |
+| Command | Description | Permission |
+|---------|-------------|------------|
+| `/f admin` | Open admin menu | `hyperfactions.admin.use` |
+| `/f admin reload` | Reload configuration | `hyperfactions.admin.reload` |
+| `/f admin debug` | Toggle debug mode | `hyperfactions.admin.debug` |
+| `/f admin bypass` | Toggle bypass mode | `hyperfactions.admin.use` |
+| `/f admin zone create <name> <type>` | Create a zone | `hyperfactions.admin.zones` |
+| `/f admin zone claim <name>` | Add chunk to zone | `hyperfactions.admin.zones` |
+| `/f admin zone unclaim` | Remove chunk from zone | `hyperfactions.admin.zones` |
+| `/f admin zone remove <name>` | Delete zone | `hyperfactions.admin.zones` |
+| `/f admin zone list` | List zones | `hyperfactions.admin.zones` |
+| `/f admin zone radius <name> <r>` | Claim radius | `hyperfactions.admin.zones` |
+| `/f admin disband <faction>` | Force disband | `hyperfactions.admin.disband` |
+| `/f admin modify <faction> ...` | Modify faction | `hyperfactions.admin.modify` |
+| `/f admin backup create` | Create backup | `hyperfactions.admin.backup` |
+| `/f admin backup list` | List backups | `hyperfactions.admin.backup` |
+| `/f admin backup restore <name>` | Restore backup | `hyperfactions.admin.backup` |
+| `/f admin backup delete <name>` | Delete backup | `hyperfactions.admin.backup` |
+| `/f admin update` | Check for updates | `hyperfactions.admin.update` |
 
 ## Admin Permissions
 
@@ -176,13 +279,53 @@ Some changes may require a server restart. The reload command handles most confi
   title="Admin Permissions"
   permissions={[
     {
-      permission: "hyperfactions.admin",
-      description: "Full admin access to all admin commands",
+      permission: "hyperfactions.admin.use",
+      description: "Access admin menu and basic admin features",
       default: "op"
     },
     {
-      permission: "hyperfactions.bypass.protection",
-      description: "Bypass claim protection without toggle",
+      permission: "hyperfactions.admin.reload",
+      description: "Reload configuration",
+      default: "op"
+    },
+    {
+      permission: "hyperfactions.admin.debug",
+      description: "Toggle debug mode",
+      default: "op"
+    },
+    {
+      permission: "hyperfactions.admin.zones",
+      description: "Manage SafeZones and WarZones",
+      default: "op"
+    },
+    {
+      permission: "hyperfactions.admin.disband",
+      description: "Force disband any faction",
+      default: "op"
+    },
+    {
+      permission: "hyperfactions.admin.modify",
+      description: "Modify any faction's settings",
+      default: "op"
+    },
+    {
+      permission: "hyperfactions.admin.bypass.limits",
+      description: "Bypass claim and power limits",
+      default: "op"
+    },
+    {
+      permission: "hyperfactions.admin.backup",
+      description: "Manage backups",
+      default: "op"
+    },
+    {
+      permission: "hyperfactions.admin.update",
+      description: "Download and install updates",
+      default: "op"
+    },
+    {
+      permission: "hyperfactions.admin.*",
+      description: "All admin permissions",
       default: "op"
     }
   ]}
@@ -192,38 +335,48 @@ Some changes may require a server restart. The reload command handles most confi
 
 ### Setting Up Server Spawn
 
-1. **Navigate to spawn:**
-   Go to each chunk that should be protected.
-
-2. **Create SafeZones:**
+1. **Create the SafeZone:**
    ```
-   /f admin safezone add
+   /f admin zone create spawn safe
    ```
-   Repeat for all spawn chunks.
 
-3. **Verify on map:**
-   Chunks should appear bright green.
+2. **Claim the spawn area:**
+   ```
+   /f admin zone radius spawn 3 circle
+   ```
+   This claims a 3-chunk radius circle around your position.
+
+3. **Verify:**
+   ```
+   /f admin zone list safe
+   ```
 
 ### Creating a PvP Arena
 
-1. **Build the arena:**
-   Construct your arena structure.
+1. **Build the arena structure first**
 
-2. **Mark as WarZone:**
-   Stand in each arena chunk:
+2. **Create the WarZone:**
    ```
-   /f admin warzone add
+   /f admin zone create arena war
    ```
 
-3. **Configure no power loss:**
-   In config.json:
+3. **Stand in the arena and claim:**
+   ```
+   /f admin zone claim arena
+   ```
+   Repeat for each chunk, or use radius:
+   ```
+   /f admin zone radius arena 2
+   ```
+
+4. **Configure no power loss in `config.json`:**
    ```json
    "power": {
      "warzonePowerLoss": false
    }
    ```
 
-4. **Reload config:**
+5. **Reload:**
    ```
    /f admin reload
    ```
@@ -235,41 +388,59 @@ Some changes may require a server restart. The reload command handles most confi
    /f admin bypass
    ```
 
-2. **Investigate the area:**
-   Check claims, builds, containers as needed.
+2. **Enable debug mode if needed:**
+   ```
+   /f admin debug
+   ```
 
-3. **Fix issues if needed:**
-   Admin claim/unclaim as necessary.
+3. **Investigate the area**
 
-4. **Disable bypass:**
+4. **Disable bypass and debug when done:**
    ```
    /f admin bypass
+   /f admin debug
    ```
 
-### Removing Inactive Faction Claims
+### Creating a Manual Backup Before Changes
 
-1. **Identify the faction and chunk**
-
-2. **Admin unclaim:**
+1. **Create named backup:**
    ```
-   /f admin unclaim
+   /f admin backup create pre-update
    ```
 
-3. **Repeat for all problem chunks**
+2. **Make your changes**
+
+3. **If something goes wrong:**
+   ```
+   /f admin backup restore pre-update
+   ```
+
+### Removing Inactive Faction
+
+1. **Check faction info first:**
+   ```
+   /f info InactiveFaction
+   ```
+
+2. **Force disband:**
+   ```
+   /f admin disband InactiveFaction
+   ```
 
 ## Safety Guidelines
 
 ### Do
 - Keep bypass mode disabled when not needed
 - Document zone changes for other admins
-- Test changes on a staging server first
-- Backup data before major changes
+- Create backups before major changes
+- Test configuration changes on a staging server first
+- Use debug mode to troubleshoot issues
 
 ### Don't
 - Leave bypass enabled accidentally
-- Remove claims without investigating
-- Create zones in player territories without notice
-- Modify config without backups
+- Force disband without investigating
+- Restore backups without creating a current backup first
+- Modify factions without documenting the reason
 
 ## Related Topics
 

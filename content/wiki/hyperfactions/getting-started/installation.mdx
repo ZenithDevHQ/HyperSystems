@@ -14,10 +14,10 @@ Before installing HyperFactions, ensure you have:
 
 - **Hytale Server** (Early Access)
 - **Java 21** or higher
-- **Optional:** [HyperPerms](/plugins/hyperperms) for enhanced permission control
+- **Recommended:** [HyperPerms](/plugins/hyperperms) for permission management
 
-<InfoBox variant="tip">
-HyperFactions automatically integrates with HyperPerms when installed. No additional configuration required!
+<InfoBox variant="warning" title="Permission Setup Required">
+As of v0.3.0, HyperFactions requires explicit permission grants. Without a permission manager like HyperPerms, players will be unable to use faction commands. See [Permission Setup](#permission-setup) below.
 </InfoBox>
 
 ## Download
@@ -45,7 +45,7 @@ Copy the `HyperFactions-x.x.x.jar` file to your server's `mods` folder:
 ```
 your-server/
 ├── mods/
-│   └── HyperFactions-0.2.0.jar  ← Place here
+│   └── HyperFactions-0.3.2.jar  ← Place here
 ├── config/
 ├── world/
 └── server.jar
@@ -59,9 +59,34 @@ Start your Hytale server. HyperFactions will automatically generate its configur
 java -jar server.jar
 ```
 
-### 4. Verify Installation
+### 4. Permission Setup
 
-Once the server is running, verify the installation:
+<InfoBox variant="danger" title="Critical Step">
+HyperFactions v0.3.x requires explicit permission grants. Without proper permissions, players cannot access any faction commands.
+</InfoBox>
+
+**Using HyperPerms (Recommended):**
+
+Run these commands from the console or as an operator:
+
+```
+/hp group setperm default hyperfactions.use
+/hp group setperm default hyperfactions.faction.*
+/hp group setperm default hyperfactions.member.*
+/hp group setperm default hyperfactions.territory.*
+/hp group setperm default hyperfactions.teleport.*
+/hp group setperm default hyperfactions.relation.*
+/hp group setperm default hyperfactions.chat.*
+/hp group setperm default hyperfactions.info.*
+```
+
+This grants all standard faction features to the default group.
+
+For detailed permission information, see [Permissions Reference](/plugins/hyperfactions/wiki/reference/permissions).
+
+### 5. Verify Installation
+
+Once the server is running and permissions are configured, verify the installation:
 
 ```
 /f help
@@ -80,14 +105,14 @@ After installation, HyperFactions creates the following structure:
 ```
 plugins/HyperFactions/
 ├── config.json              ← Main configuration
-├── data/
-│   ├── factions/            ← Per-faction data files
-│   │   └── {uuid}.json
-│   ├── claims.json          ← Global claims registry
-│   ├── safezones.json       ← SafeZone definitions
-│   ├── warzones.json        ← WarZone definitions
-│   └── players/             ← Player power & preferences
-│       └── {uuid}.json
+├── backups/                  ← Automatic and manual backups
+└── data/
+    ├── factions/            ← Per-faction data files
+    │   └── {uuid}.json
+    ├── claims.json          ← Global claims registry
+    ├── zones.json           ← SafeZone and WarZone definitions
+    └── players/             ← Player power & preferences
+        └── {uuid}.json
 ```
 
 ## Troubleshooting
@@ -106,8 +131,32 @@ If HyperFactions doesn't appear to load:
 If `/f` commands don't work:
 
 1. Verify the mod loaded (check server startup logs)
-2. Ensure you have the `hyperfactions.use` permission
+2. **Check permissions** - Ensure you have the `hyperfactions.use` permission
 3. Try `/faction` or `/hf` as alternatives
+4. Confirm HyperPerms or your permission system is configured
+
+### Permission Denied Errors
+
+If you see "Permission denied" messages:
+
+1. Verify `hyperfactions.use` is granted to your group
+2. Check that all required permission categories are granted
+3. Use `/hp player info <player>` to verify permissions
+4. See [Permissions Reference](/plugins/hyperfactions/wiki/reference/permissions) for the full list
+
+## Updating HyperFactions
+
+To update to a new version:
+
+1. Stop your server
+2. Backup your `plugins/HyperFactions/` directory
+3. Replace the old JAR with the new one
+4. Start your server
+5. Run `/f admin reload` if prompted
+
+<InfoBox variant="tip">
+HyperFactions includes an automatic update checker. Use `/f admin update` to download and install updates directly (requires `hyperfactions.admin.update` permission).
+</InfoBox>
 
 ## Next Steps
 
@@ -115,3 +164,4 @@ Now that HyperFactions is installed:
 
 1. [Configure the mod](/plugins/hyperfactions/wiki/getting-started/configuration) to match your server's needs
 2. [Set up your first faction](/plugins/hyperfactions/wiki/getting-started/first-setup) to test functionality
+3. Review the [Permissions Reference](/plugins/hyperfactions/wiki/reference/permissions) for complete access control

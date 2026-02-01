@@ -1,92 +1,106 @@
 ---
 title: Permissions
-description: Complete permission reference for HyperFactions.
+description: Complete permission reference for HyperFactions v0.3.x.
 order: 1
 ---
 
 # Permissions Reference
 
-This page documents all permission nodes available in HyperFactions.
+This page documents all permission nodes available in HyperFactions v0.3.x.
 
-## Core Permissions
+<InfoBox variant="danger" title="Breaking Change in v0.3.0">
+As of v0.3.0, HyperFactions requires **explicit permission grants**. The fallback behavior changed from "allow" to "deny". Players without the `hyperfactions.use` permission cannot access any faction commands.
 
-These permissions control access to basic faction functionality.
+**You must configure permissions before players can use factions!**
+</InfoBox>
+
+## Quick Setup with HyperPerms
+
+Grant default players access to all standard faction features:
+
+```
+/hp group setperm default hyperfactions.use
+/hp group setperm default hyperfactions.faction.*
+/hp group setperm default hyperfactions.member.*
+/hp group setperm default hyperfactions.territory.*
+/hp group setperm default hyperfactions.teleport.*
+/hp group setperm default hyperfactions.relation.*
+/hp group setperm default hyperfactions.chat.*
+/hp group setperm default hyperfactions.info.*
+```
+
+## Permission Categories
+
+HyperFactions v0.3.x uses a **category-based permission structure**. Permissions are organized into logical groups for easier management.
+
+### Base Permission (Required)
 
 <PermissionTable
-  title="Core Permissions"
+  title="Base Permission"
   permissions={[
     {
       permission: "hyperfactions.use",
-      description: "Basic faction access (GUI, info, list, help, leave, accept)",
-      default: "true"
-    },
+      description: "Required base permission for all faction commands",
+      default: "false"
+    }
+  ]}
+/>
+
+<InfoBox variant="warning" title="Important">
+Without `hyperfactions.use`, players cannot access ANY faction functionality. This permission must be explicitly granted.
+</InfoBox>
+
+## Faction Management Permissions
+
+These permissions control core faction operations.
+
+<PermissionTable
+  title="Faction Permissions (hyperfactions.faction.*)"
+  permissions={[
     {
-      permission: "hyperfactions.create",
+      permission: "hyperfactions.faction.create",
       description: "Create new factions",
-      default: "true"
+      default: "false"
     },
     {
-      permission: "hyperfactions.invite",
-      description: "Invite players to your faction",
-      default: "true"
-    },
-    {
-      permission: "hyperfactions.kick",
-      description: "Kick members from your faction",
-      default: "true"
-    },
-    {
-      permission: "hyperfactions.disband",
+      permission: "hyperfactions.faction.disband",
       description: "Dissolve your faction",
-      default: "true"
-    }
-  ]}
-/>
-
-## Territory Permissions
-
-These permissions control land claiming and management.
-
-<PermissionTable
-  title="Territory Permissions"
-  permissions={[
-    {
-      permission: "hyperfactions.claim",
-      description: "Claim territory for your faction",
-      default: "true"
+      default: "false"
     },
     {
-      permission: "hyperfactions.unclaim",
-      description: "Release claimed territory",
-      default: "true"
+      permission: "hyperfactions.faction.rename",
+      description: "Rename your faction",
+      default: "false"
     },
     {
-      permission: "hyperfactions.map",
-      description: "View the chunk map",
-      default: "true"
+      permission: "hyperfactions.faction.description",
+      description: "Set faction description",
+      default: "false"
     },
     {
-      permission: "hyperfactions.overclaim",
-      description: "Overclaim enemy territory",
-      default: "true"
-    }
-  ]}
-/>
-
-## Home & Teleport Permissions
-
-<PermissionTable
-  title="Teleport Permissions"
-  permissions={[
-    {
-      permission: "hyperfactions.home",
-      description: "Teleport to faction home",
-      default: "true"
+      permission: "hyperfactions.faction.tag",
+      description: "Set faction tag",
+      default: "false"
     },
     {
-      permission: "hyperfactions.sethome",
-      description: "Set faction home location",
-      default: "true"
+      permission: "hyperfactions.faction.color",
+      description: "Set faction display color",
+      default: "false"
+    },
+    {
+      permission: "hyperfactions.faction.open",
+      description: "Open faction to free joining",
+      default: "false"
+    },
+    {
+      permission: "hyperfactions.faction.close",
+      description: "Close faction (require invites)",
+      default: "false"
+    },
+    {
+      permission: "hyperfactions.faction.permissions",
+      description: "Manage faction territory permissions",
+      default: "false"
     }
   ]}
 />
@@ -94,112 +108,218 @@ These permissions control land claiming and management.
 ## Member Management Permissions
 
 <PermissionTable
-  title="Member Permissions"
+  title="Member Permissions (hyperfactions.member.*)"
   permissions={[
     {
-      permission: "hyperfactions.promote",
+      permission: "hyperfactions.member.invite",
+      description: "Invite players to your faction",
+      default: "false"
+    },
+    {
+      permission: "hyperfactions.member.join",
+      description: "Join open factions or accept invitations",
+      default: "false"
+    },
+    {
+      permission: "hyperfactions.member.leave",
+      description: "Leave your current faction",
+      default: "false"
+    },
+    {
+      permission: "hyperfactions.member.kick",
+      description: "Kick members from your faction",
+      default: "false"
+    },
+    {
+      permission: "hyperfactions.member.promote",
       description: "Promote members to Officer",
-      default: "true"
+      default: "false"
     },
     {
-      permission: "hyperfactions.demote",
+      permission: "hyperfactions.member.demote",
       description: "Demote Officers to Member",
-      default: "true"
+      default: "false"
     },
     {
-      permission: "hyperfactions.transfer",
+      permission: "hyperfactions.member.transfer",
       description: "Transfer faction leadership",
-      default: "true"
+      default: "false"
     }
   ]}
 />
 
-## Diplomacy Permissions
+## Territory Permissions
 
 <PermissionTable
-  title="Diplomacy Permissions"
+  title="Territory Permissions (hyperfactions.territory.*)"
   permissions={[
     {
-      permission: "hyperfactions.ally",
+      permission: "hyperfactions.territory.claim",
+      description: "Claim territory for your faction",
+      default: "false"
+    },
+    {
+      permission: "hyperfactions.territory.unclaim",
+      description: "Release claimed territory",
+      default: "false"
+    },
+    {
+      permission: "hyperfactions.territory.overclaim",
+      description: "Overclaim enemy territory when their power is low",
+      default: "false"
+    },
+    {
+      permission: "hyperfactions.territory.map",
+      description: "View the chunk map",
+      default: "false"
+    }
+  ]}
+/>
+
+## Teleport Permissions
+
+<PermissionTable
+  title="Teleport Permissions (hyperfactions.teleport.*)"
+  permissions={[
+    {
+      permission: "hyperfactions.teleport.home",
+      description: "Teleport to faction home",
+      default: "false"
+    },
+    {
+      permission: "hyperfactions.teleport.sethome",
+      description: "Set faction home location",
+      default: "false"
+    },
+    {
+      permission: "hyperfactions.teleport.stuck",
+      description: "Use /f stuck to escape hostile territory",
+      default: "false"
+    }
+  ]}
+/>
+
+## Relation Permissions
+
+<PermissionTable
+  title="Relation Permissions (hyperfactions.relation.*)"
+  permissions={[
+    {
+      permission: "hyperfactions.relation.ally",
       description: "Manage faction alliances",
-      default: "true"
+      default: "false"
     },
     {
-      permission: "hyperfactions.enemy",
+      permission: "hyperfactions.relation.enemy",
       description: "Declare factions as enemies",
-      default: "true"
+      default: "false"
     },
     {
-      permission: "hyperfactions.neutral",
+      permission: "hyperfactions.relation.neutral",
       description: "Reset relations to neutral",
-      default: "true"
+      default: "false"
+    },
+    {
+      permission: "hyperfactions.relation.view",
+      description: "View faction relations",
+      default: "false"
     }
   ]}
 />
 
-## Settings Permissions
+## Chat Permissions
 
 <PermissionTable
-  title="Settings Permissions"
-  permissions={[
-    {
-      permission: "hyperfactions.rename",
-      description: "Rename your faction",
-      default: "true"
-    },
-    {
-      permission: "hyperfactions.desc",
-      description: "Set faction description",
-      default: "true"
-    },
-    {
-      permission: "hyperfactions.color",
-      description: "Set faction display color",
-      default: "true"
-    },
-    {
-      permission: "hyperfactions.open",
-      description: "Open faction to free joining",
-      default: "true"
-    },
-    {
-      permission: "hyperfactions.close",
-      description: "Close faction (require invites)",
-      default: "true"
-    }
-  ]}
-/>
-
-## Communication Permissions
-
-<PermissionTable
-  title="Chat Permissions"
+  title="Chat Permissions (hyperfactions.chat.*)"
   permissions={[
     {
       permission: "hyperfactions.chat.faction",
       description: "Use faction chat (/f c)",
-      default: "true"
+      default: "false"
     },
     {
       permission: "hyperfactions.chat.ally",
       description: "Use alliance chat (/f a)",
-      default: "true"
+      default: "false"
+    }
+  ]}
+/>
+
+## Info Permissions
+
+<PermissionTable
+  title="Info Permissions (hyperfactions.info.*)"
+  permissions={[
+    {
+      permission: "hyperfactions.info.faction",
+      description: "View faction information",
+      default: "false"
     },
     {
-      permission: "hyperfactions.logs",
+      permission: "hyperfactions.info.list",
+      description: "List all factions",
+      default: "false"
+    },
+    {
+      permission: "hyperfactions.info.player",
+      description: "View player faction information",
+      default: "false"
+    },
+    {
+      permission: "hyperfactions.info.power",
+      description: "View power information",
+      default: "false"
+    },
+    {
+      permission: "hyperfactions.info.members",
+      description: "View faction member list",
+      default: "false"
+    },
+    {
+      permission: "hyperfactions.info.logs",
       description: "View faction activity logs",
-      default: "true"
+      default: "false"
+    },
+    {
+      permission: "hyperfactions.info.help",
+      description: "Access help documentation",
+      default: "false"
     }
   ]}
 />
 
 ## Bypass Permissions
 
-These permissions allow skipping certain restrictions.
+These permissions allow bypassing certain restrictions. Grant with caution.
 
 <PermissionTable
-  title="Bypass Permissions"
+  title="Bypass Permissions (hyperfactions.bypass.*)"
   permissions={[
+    {
+      permission: "hyperfactions.bypass.build",
+      description: "Build in any claimed territory",
+      default: "op"
+    },
+    {
+      permission: "hyperfactions.bypass.interact",
+      description: "Interact with mechanisms anywhere",
+      default: "op"
+    },
+    {
+      permission: "hyperfactions.bypass.container",
+      description: "Access containers anywhere",
+      default: "op"
+    },
+    {
+      permission: "hyperfactions.bypass.damage",
+      description: "Bypass PvP restrictions",
+      default: "op"
+    },
+    {
+      permission: "hyperfactions.bypass.use",
+      description: "Use items anywhere",
+      default: "op"
+    },
     {
       permission: "hyperfactions.bypass.warmup",
       description: "Skip home teleport warmup",
@@ -209,11 +329,6 @@ These permissions allow skipping certain restrictions.
       permission: "hyperfactions.bypass.cooldown",
       description: "Skip home teleport cooldown",
       default: "false"
-    },
-    {
-      permission: "hyperfactions.bypass.protection",
-      description: "Bypass all claim protection",
-      default: "op"
     }
   ]}
 />
@@ -225,68 +340,181 @@ Bypass permissions should only be granted to trusted staff. They allow circumven
 ## Admin Permissions
 
 <PermissionTable
-  title="Admin Permissions"
+  title="Admin Permissions (hyperfactions.admin.*)"
   permissions={[
     {
-      permission: "hyperfactions.admin",
-      description: "Full admin access (all admin commands)",
+      permission: "hyperfactions.admin.use",
+      description: "Access admin menu and basic admin features",
+      default: "op"
+    },
+    {
+      permission: "hyperfactions.admin.reload",
+      description: "Reload configuration",
+      default: "op"
+    },
+    {
+      permission: "hyperfactions.admin.debug",
+      description: "Toggle debug mode",
+      default: "op"
+    },
+    {
+      permission: "hyperfactions.admin.zones",
+      description: "Manage SafeZones and WarZones",
+      default: "op"
+    },
+    {
+      permission: "hyperfactions.admin.disband",
+      description: "Force disband any faction",
+      default: "op"
+    },
+    {
+      permission: "hyperfactions.admin.modify",
+      description: "Modify any faction's settings",
+      default: "op"
+    },
+    {
+      permission: "hyperfactions.admin.bypass.limits",
+      description: "Bypass claim and power limits",
+      default: "op"
+    },
+    {
+      permission: "hyperfactions.admin.backup",
+      description: "Create, list, restore, and delete backups",
+      default: "op"
+    },
+    {
+      permission: "hyperfactions.admin.update",
+      description: "Download and install updates",
       default: "op"
     }
   ]}
 />
 
-The `hyperfactions.admin` permission grants access to:
-- `/f admin` menu
-- `/f admin claim/unclaim`
-- `/f admin bypass`
-- `/f admin safezone add/remove`
-- `/f admin warzone add/remove`
-- `/f admin reload`
+## Limit Permissions
+
+These permissions allow setting per-player or per-group limits.
+
+<PermissionTable
+  title="Limit Permissions"
+  permissions={[
+    {
+      permission: "hyperfactions.limit.claims.<n>",
+      description: "Set maximum claims limit (e.g., hyperfactions.limit.claims.50)",
+      default: "false"
+    },
+    {
+      permission: "hyperfactions.limit.power.<n>",
+      description: "Set maximum power limit (e.g., hyperfactions.limit.power.100)",
+      default: "false"
+    }
+  ]}
+/>
+
+<InfoBox variant="tip" title="Limit Permissions">
+Replace `<n>` with a number. For example, `hyperfactions.limit.claims.100` allows up to 100 claims. The highest matching limit is used.
+</InfoBox>
 
 ## Wildcard Permissions
 
 <PermissionTable
+  title="Wildcard Permissions"
   permissions={[
     {
       permission: "hyperfactions.*",
-      description: "All HyperFactions permissions",
+      description: "All HyperFactions permissions including admin",
+      default: "op"
+    },
+    {
+      permission: "hyperfactions.faction.*",
+      description: "All faction management permissions",
+      default: "false"
+    },
+    {
+      permission: "hyperfactions.member.*",
+      description: "All member management permissions",
+      default: "false"
+    },
+    {
+      permission: "hyperfactions.territory.*",
+      description: "All territory permissions",
+      default: "false"
+    },
+    {
+      permission: "hyperfactions.teleport.*",
+      description: "All teleport permissions",
+      default: "false"
+    },
+    {
+      permission: "hyperfactions.relation.*",
+      description: "All relation permissions",
+      default: "false"
+    },
+    {
+      permission: "hyperfactions.chat.*",
+      description: "All chat permissions",
+      default: "false"
+    },
+    {
+      permission: "hyperfactions.info.*",
+      description: "All info permissions",
+      default: "false"
+    },
+    {
+      permission: "hyperfactions.bypass.*",
+      description: "All bypass permissions",
+      default: "op"
+    },
+    {
+      permission: "hyperfactions.admin.*",
+      description: "All admin permissions",
       default: "op"
     }
   ]}
 />
-
-<InfoBox variant="info">
-Using `hyperfactions.*` grants every permission including admin. Use with caution.
-</InfoBox>
 
 ## Permission Defaults
 
 | Default | Meaning |
 |---------|---------|
-| `true` | All players have this permission by default |
 | `false` | Must be explicitly granted |
 | `op` | Only server operators have this by default |
 
+<InfoBox variant="info" title="No True Defaults">
+Unlike previous versions, **no permissions default to true** in v0.3.x. All permissions must be explicitly granted through your permission system.
+</InfoBox>
+
 ## HyperPerms Integration
 
-When using HyperPerms, you can set these permissions per-group:
+### Recommended Setup
 
-```yaml
-groups:
-  default:
-    permissions:
-      hyperfactions.use: true
-      hyperfactions.create: true
-      hyperfactions.home: true
-  
-  member:
-    permissions:
-      hyperfactions.*: true
-      hyperfactions.admin: false
-  
-  admin:
-    permissions:
-      hyperfactions.*: true
+**Default Players (all standard features):**
+```
+/hp group setperm default hyperfactions.use
+/hp group setperm default hyperfactions.faction.*
+/hp group setperm default hyperfactions.member.*
+/hp group setperm default hyperfactions.territory.*
+/hp group setperm default hyperfactions.teleport.*
+/hp group setperm default hyperfactions.relation.*
+/hp group setperm default hyperfactions.chat.*
+/hp group setperm default hyperfactions.info.*
+```
+
+**VIP Players (bypass teleport delays):**
+```
+/hp group setperm vip hyperfactions.bypass.warmup
+/hp group setperm vip hyperfactions.bypass.cooldown
+```
+
+**Moderators (bypass protection for investigations):**
+```
+/hp group setperm moderator hyperfactions.bypass.build
+/hp group setperm moderator hyperfactions.bypass.container
+/hp group setperm moderator hyperfactions.bypass.interact
+```
+
+**Administrators (full access):**
+```
+/hp group setperm admin hyperfactions.*
 ```
 
 ## Permission by Role
@@ -295,77 +523,58 @@ While permissions control *who can attempt* an action, faction roles control *wh
 
 | Permission Has | Role Has | Result |
 |----------------|----------|--------|
-| ✓ Permission | ✓ Role | Success |
-| ✓ Permission | ✗ Role | Role denied |
-| ✗ Permission | ✓ Role | Permission denied |
-| ✗ Permission | ✗ Role | Permission denied |
+| Yes | Yes | Success |
+| Yes | No | Role denied |
+| No | Yes | Permission denied |
+| No | No | Permission denied |
 
-**Example:** A Member with `hyperfactions.promote` permission still cannot promote others because only Leaders can promote.
+**Example:** A Member with `hyperfactions.member.promote` permission still cannot promote others because only Leaders can promote by role.
 
-## Common Permission Setups
+## Migration from v0.2.x
 
-### Default Player
-```
-hyperfactions.use: true
-hyperfactions.create: true
-hyperfactions.claim: true
-hyperfactions.home: true
-hyperfactions.chat.faction: true
-```
+If upgrading from v0.2.x, update your permission nodes:
 
-### VIP Player
-```
-hyperfactions.*: true
-hyperfactions.admin: false
-hyperfactions.bypass.warmup: true
-```
-
-### Moderator
-```
-hyperfactions.*: true
-hyperfactions.admin: false
-hyperfactions.bypass.protection: true
-```
-
-### Administrator
-```
-hyperfactions.*: true
-```
+| Old (v0.2.x) | New (v0.3.x) |
+|--------------|--------------|
+| `hyperfactions.create` | `hyperfactions.faction.create` |
+| `hyperfactions.invite` | `hyperfactions.member.invite` |
+| `hyperfactions.kick` | `hyperfactions.member.kick` |
+| `hyperfactions.claim` | `hyperfactions.territory.claim` |
+| `hyperfactions.unclaim` | `hyperfactions.territory.unclaim` |
+| `hyperfactions.map` | `hyperfactions.territory.map` |
+| `hyperfactions.overclaim` | `hyperfactions.territory.overclaim` |
+| `hyperfactions.home` | `hyperfactions.teleport.home` |
+| `hyperfactions.sethome` | `hyperfactions.teleport.sethome` |
+| `hyperfactions.promote` | `hyperfactions.member.promote` |
+| `hyperfactions.demote` | `hyperfactions.member.demote` |
+| `hyperfactions.transfer` | `hyperfactions.member.transfer` |
+| `hyperfactions.ally` | `hyperfactions.relation.ally` |
+| `hyperfactions.enemy` | `hyperfactions.relation.enemy` |
+| `hyperfactions.neutral` | `hyperfactions.relation.neutral` |
+| `hyperfactions.disband` | `hyperfactions.faction.disband` |
+| `hyperfactions.rename` | `hyperfactions.faction.rename` |
+| `hyperfactions.desc` | `hyperfactions.faction.description` |
+| `hyperfactions.color` | `hyperfactions.faction.color` |
+| `hyperfactions.open` | `hyperfactions.faction.open` |
+| `hyperfactions.close` | `hyperfactions.faction.close` |
+| `hyperfactions.logs` | `hyperfactions.info.logs` |
+| `hyperfactions.bypass.protection` | `hyperfactions.bypass.*` (multiple nodes) |
+| `hyperfactions.admin` | `hyperfactions.admin.*` |
 
 ## Quick Reference Table
 
-| Permission | Description | Default |
-|------------|-------------|---------|
-| `hyperfactions.use` | Basic access | true |
-| `hyperfactions.create` | Create factions | true |
-| `hyperfactions.invite` | Invite players | true |
-| `hyperfactions.kick` | Kick members | true |
-| `hyperfactions.claim` | Claim land | true |
-| `hyperfactions.unclaim` | Release land | true |
-| `hyperfactions.map` | View map | true |
-| `hyperfactions.overclaim` | Overclaim enemies | true |
-| `hyperfactions.home` | Teleport home | true |
-| `hyperfactions.sethome` | Set home | true |
-| `hyperfactions.promote` | Promote members | true |
-| `hyperfactions.demote` | Demote officers | true |
-| `hyperfactions.transfer` | Transfer leadership | true |
-| `hyperfactions.ally` | Manage allies | true |
-| `hyperfactions.enemy` | Declare enemies | true |
-| `hyperfactions.neutral` | Set neutral | true |
-| `hyperfactions.disband` | Dissolve faction | true |
-| `hyperfactions.rename` | Rename faction | true |
-| `hyperfactions.desc` | Set description | true |
-| `hyperfactions.color` | Set color | true |
-| `hyperfactions.open` | Open membership | true |
-| `hyperfactions.close` | Close membership | true |
-| `hyperfactions.chat.faction` | Faction chat | true |
-| `hyperfactions.chat.ally` | Alliance chat | true |
-| `hyperfactions.logs` | View logs | true |
-| `hyperfactions.bypass.warmup` | Skip warmup | false |
-| `hyperfactions.bypass.cooldown` | Skip cooldown | false |
-| `hyperfactions.bypass.protection` | Bypass protection | op |
-| `hyperfactions.admin` | Admin access | op |
-| `hyperfactions.*` | All permissions | op |
+| Permission | Description |
+|------------|-------------|
+| `hyperfactions.use` | **Required** base permission |
+| `hyperfactions.faction.*` | All faction management |
+| `hyperfactions.member.*` | All member management |
+| `hyperfactions.territory.*` | All territory management |
+| `hyperfactions.teleport.*` | All teleport features |
+| `hyperfactions.relation.*` | All diplomacy features |
+| `hyperfactions.chat.*` | All chat features |
+| `hyperfactions.info.*` | All info commands |
+| `hyperfactions.bypass.*` | All bypass permissions |
+| `hyperfactions.admin.*` | All admin permissions |
 
 ## Related Topics
 

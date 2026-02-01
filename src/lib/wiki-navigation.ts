@@ -64,6 +64,7 @@ export const wikiNavigation: Record<string, WikiNavSection[]> = {
       title: "Reference",
       items: [
         { title: "Permissions", href: "/plugins/hyperfactions/wiki/reference/permissions" },
+        { title: "Configuration", href: "/plugins/hyperfactions/wiki/reference/configuration" },
       ],
     },
   ],

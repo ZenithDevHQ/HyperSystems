@@ -1,0 +1,385 @@
+---
+title: Configuration Reference
+description: Complete reference for all HyperFactions configuration options.
+order: 2
+---
+
+# Configuration Reference
+
+This page provides a complete reference for all HyperFactions configuration options. For a guide-style walkthrough, see [Configuration](/plugins/hyperfactions/wiki/getting-started/configuration).
+
+## Configuration File Location
+
+```
+plugins/HyperFactions/config.json
+```
+
+<InfoBox variant="info">
+Changes require `/f admin reload` or server restart to take effect.
+</InfoBox>
+
+## All Options
+
+### faction
+
+Settings for faction names and limits.
+
+| Key | Type | Default | Description |
+|-----|------|---------|-------------|
+| `faction.maxMembers` | integer | 50 | Maximum members per faction |
+| `faction.maxNameLength` | integer | 24 | Maximum faction name length |
+| `faction.minNameLength` | integer | 3 | Minimum faction name length |
+| `faction.allowedNamePattern` | regex | `^[a-zA-Z0-9_]+$` | Regex pattern for valid names |
+
+### power
+
+Power system settings.
+
+| Key | Type | Default | Description |
+|-----|------|---------|-------------|
+| `power.maxPlayerPower` | integer | 20 | Maximum power per player |
+| `power.startingPower` | integer | 10 | Initial power for new players |
+| `power.powerPerClaim` | integer | 2 | Power required per claim |
+| `power.regenPerMinute` | float | 0.0167 | Power regenerated per minute |
+| `power.deathPenalty` | integer | 1 | Power lost on death |
+| `power.neutralKillPenalty` | integer | 1 | Power lost for killing neutrals |
+| `power.warzonePowerLoss` | boolean | false | Lose power on WarZone death |
+
+### claims
+
+Territory claiming settings.
+
+| Key | Type | Default | Description |
+|-----|------|---------|-------------|
+| `claims.maxClaims` | integer | 100 | Maximum claims per faction |
+| `claims.onlyAdjacent` | boolean | false | Require adjacent claims |
+| `claims.decayEnabled` | boolean | true | Enable inactive claim decay |
+| `claims.decayDelayDays` | integer | 7 | Days before decay starts |
+| `claims.decayRatePerDay` | integer | 1 | Claims lost per day |
+| `claims.showOnMap` | boolean | true | Show claims on world map |
+| `claims.worldWhitelist` | array | `[]` | Only allow claims in these worlds |
+| `claims.worldBlacklist` | array | `[]` | Block claims in these worlds |
+
+### overclaim
+
+Overclaiming mechanics.
+
+| Key | Type | Default | Description |
+|-----|------|---------|-------------|
+| `overclaim.enabled` | boolean | true | Enable overclaiming |
+| `overclaim.requireEnemyRelation` | boolean | true | Require enemy status |
+| `overclaim.powerThreshold` | integer | 0 | Power threshold for overclaim |
+
+### combat
+
+Combat and PvP settings.
+
+| Key | Type | Default | Description |
+|-----|------|---------|-------------|
+| `combat.tagDurationSeconds` | integer | 15 | Combat tag duration |
+| `combat.allyDamage` | boolean | false | Allow ally damage |
+| `combat.factionDamage` | boolean | false | Allow faction damage |
+
+### teleport
+
+Faction home teleportation.
+
+| Key | Type | Default | Description |
+|-----|------|---------|-------------|
+| `teleport.warmupSeconds` | integer | 5 | Teleport warmup duration |
+| `teleport.cooldownSeconds` | integer | 300 | Cooldown between teleports |
+| `teleport.cancelOnMove` | boolean | true | Cancel on movement |
+| `teleport.cancelOnDamage` | boolean | true | Cancel on damage |
+| `teleport.crossWorld` | boolean | true | Allow cross-dimension teleport |
+
+### stuck
+
+Stuck command settings.
+
+| Key | Type | Default | Description |
+|-----|------|---------|-------------|
+| `stuck.warmupSeconds` | integer | 30 | Stuck warmup duration |
+| `stuck.cooldownSeconds` | integer | 300 | Stuck cooldown |
+
+### invites
+
+Invitation system settings.
+
+| Key | Type | Default | Description |
+|-----|------|---------|-------------|
+| `invites.inviteExpirationMinutes` | integer | 5 | Minutes before invite expires |
+| `invites.joinRequestExpirationHours` | integer | 24 | Hours before request expires |
+
+### backup
+
+Automatic backup system.
+
+| Key | Type | Default | Description |
+|-----|------|---------|-------------|
+| `backup.enabled` | boolean | true | Enable automatic backups |
+| `backup.hourlyRetention` | integer | 24 | Hourly backups to keep |
+| `backup.dailyRetention` | integer | 7 | Daily backups to keep |
+| `backup.weeklyRetention` | integer | 4 | Weekly backups to keep |
+| `backup.onShutdown` | boolean | true | Backup on server shutdown |
+
+### autoSave
+
+Auto-save settings.
+
+| Key | Type | Default | Description |
+|-----|------|---------|-------------|
+| `autoSave.enabled` | boolean | true | Enable auto-save |
+| `autoSave.intervalMinutes` | integer | 5 | Minutes between saves |
+
+### economy
+
+Economy integration (optional).
+
+| Key | Type | Default | Description |
+|-----|------|---------|-------------|
+| `economy.enabled` | boolean | false | Enable economy features |
+| `economy.currencyName` | string | "Coin" | Currency name (singular) |
+| `economy.currencyNamePlural` | string | "Coins" | Currency name (plural) |
+| `economy.currencySymbol` | string | "$" | Currency symbol |
+| `economy.startingBalance` | integer | 0 | Starting balance for factions |
+
+### chat
+
+Chat formatting and integration.
+
+| Key | Type | Default | Description |
+|-----|------|---------|-------------|
+| `chat.enabled` | boolean | true | Enable chat formatting |
+| `chat.format` | string | `[%faction%] %player%: %message%` | Chat format |
+| `chat.tagDisplay` | string | "prefix" | Tag position (prefix/suffix/none) |
+| `chat.tagFormat` | string | `[%tag%]` | Tag format string |
+| `chat.noFactionTag` | string | "" | Tag for non-faction players |
+| `chat.priority` | integer | 100 | Chat event priority |
+| `chat.relationColors.own` | hex | `#00FF00` | Own faction color |
+| `chat.relationColors.ally` | hex | `#00FFFF` | Ally color |
+| `chat.relationColors.enemy` | hex | `#FF0000` | Enemy color |
+| `chat.relationColors.neutral` | hex | `#FFFF00` | Neutral color |
+
+### territoryNotifications
+
+Territory enter/exit notifications.
+
+| Key | Type | Default | Description |
+|-----|------|---------|-------------|
+| `territoryNotifications.enabled` | boolean | true | Enable notifications |
+
+### spawnProtection
+
+New player spawn protection.
+
+| Key | Type | Default | Description |
+|-----|------|---------|-------------|
+| `spawnProtection.enabled` | boolean | true | Enable spawn protection |
+| `spawnProtection.durationSeconds` | integer | 10 | Protection duration |
+| `spawnProtection.breakOnAttack` | boolean | true | Break on attacking |
+| `spawnProtection.breakOnMove` | boolean | false | Break on movement |
+
+### factionPermissions
+
+Territory permission defaults and locks.
+
+| Key | Type | Default | Description |
+|-----|------|---------|-------------|
+| `factionPermissions.defaults.pvp_enabled` | boolean | false | Default PvP flag |
+| `factionPermissions.defaults.friendly_fire` | boolean | false | Default friendly fire |
+| `factionPermissions.defaults.build_allowed` | boolean | true | Default build flag |
+| `factionPermissions.defaults.container_access` | boolean | true | Default container flag |
+| `factionPermissions.defaults.interact_allowed` | boolean | true | Default interact flag |
+| `factionPermissions.defaults.item_drop` | boolean | true | Default item drop |
+| `factionPermissions.defaults.item_pickup` | boolean | true | Default item pickup |
+| `factionPermissions.defaults.mob_spawning` | boolean | true | Default mob spawning |
+| `factionPermissions.defaults.mob_damage` | boolean | true | Default mob damage |
+| `factionPermissions.defaults.hunger_loss` | boolean | true | Default hunger loss |
+| `factionPermissions.defaults.fall_damage` | boolean | true | Default fall damage |
+| `factionPermissions.locks` | array | `[]` | Locked flags (cannot change) |
+| `factionPermissions.forced` | object | `{}` | Forced flag values |
+
+### debug
+
+Debug and logging settings.
+
+| Key | Type | Default | Description |
+|-----|------|---------|-------------|
+| `debug.enabledByDefault` | boolean | false | Start with debug on |
+| `debug.logToConsole` | boolean | true | Log to server console |
+| `debug.categories` | array | `["claims", "power", "combat"]` | Active debug categories |
+
+### updates
+
+Update checking system.
+
+| Key | Type | Default | Description |
+|-----|------|---------|-------------|
+| `updates.enabled` | boolean | true | Enable update checks |
+| `updates.url` | string | GitHub API URL | Update check URL |
+| `updates.releaseChannel` | string | "stable" | Release channel |
+
+### integration
+
+Third-party integration.
+
+| Key | Type | Default | Description |
+|-----|------|---------|-------------|
+| `integration.hyperpermsEnabled` | boolean | true | Enable HyperPerms |
+| `integration.showFactionInChat` | boolean | true | Show faction in chat |
+| `integration.showFactionOnMap` | boolean | true | Show on map |
+
+### messages
+
+Message formatting.
+
+| Key | Type | Default | Description |
+|-----|------|---------|-------------|
+| `messages.prefix` | string | `[HyperFactions] ` | Message prefix |
+| `messages.primaryColor` | hex | `#00FFFF` | Primary color |
+| `messages.secondaryColor` | hex | `#AAAAAA` | Secondary color |
+| `messages.errorColor` | hex | `#FF5555` | Error color |
+| `messages.successColor` | hex | `#55FF55` | Success color |
+
+## Default Configuration
+
+<CodeBlock language="json" filename="config.json">
+{`{
+  "faction": {
+    "maxMembers": 50,
+    "maxNameLength": 24,
+    "minNameLength": 3,
+    "allowedNamePattern": "^[a-zA-Z0-9_]+$"
+  },
+  "power": {
+    "maxPlayerPower": 20,
+    "startingPower": 10,
+    "powerPerClaim": 2,
+    "regenPerMinute": 0.0167,
+    "deathPenalty": 1,
+    "neutralKillPenalty": 1,
+    "warzonePowerLoss": false
+  },
+  "claims": {
+    "maxClaims": 100,
+    "onlyAdjacent": false,
+    "decayEnabled": true,
+    "decayDelayDays": 7,
+    "decayRatePerDay": 1,
+    "showOnMap": true,
+    "worldWhitelist": [],
+    "worldBlacklist": []
+  },
+  "overclaim": {
+    "enabled": true,
+    "requireEnemyRelation": true,
+    "powerThreshold": 0
+  },
+  "combat": {
+    "tagDurationSeconds": 15,
+    "allyDamage": false,
+    "factionDamage": false
+  },
+  "teleport": {
+    "warmupSeconds": 5,
+    "cooldownSeconds": 300,
+    "cancelOnMove": true,
+    "cancelOnDamage": true,
+    "crossWorld": true
+  },
+  "stuck": {
+    "warmupSeconds": 30,
+    "cooldownSeconds": 300
+  },
+  "invites": {
+    "inviteExpirationMinutes": 5,
+    "joinRequestExpirationHours": 24
+  },
+  "backup": {
+    "enabled": true,
+    "hourlyRetention": 24,
+    "dailyRetention": 7,
+    "weeklyRetention": 4,
+    "onShutdown": true
+  },
+  "autoSave": {
+    "enabled": true,
+    "intervalMinutes": 5
+  },
+  "economy": {
+    "enabled": false,
+    "currencyName": "Coin",
+    "currencyNamePlural": "Coins",
+    "currencySymbol": "$",
+    "startingBalance": 0
+  },
+  "chat": {
+    "enabled": true,
+    "format": "[%faction%] %player%: %message%",
+    "tagDisplay": "prefix",
+    "tagFormat": "[%tag%]",
+    "noFactionTag": "",
+    "priority": 100,
+    "relationColors": {
+      "own": "#00FF00",
+      "ally": "#00FFFF",
+      "enemy": "#FF0000",
+      "neutral": "#FFFF00"
+    }
+  },
+  "territoryNotifications": {
+    "enabled": true
+  },
+  "spawnProtection": {
+    "enabled": true,
+    "durationSeconds": 10,
+    "breakOnAttack": true,
+    "breakOnMove": false
+  },
+  "factionPermissions": {
+    "defaults": {
+      "pvp_enabled": false,
+      "friendly_fire": false,
+      "build_allowed": true,
+      "container_access": true,
+      "interact_allowed": true,
+      "item_drop": true,
+      "item_pickup": true,
+      "mob_spawning": true,
+      "mob_damage": true,
+      "hunger_loss": true,
+      "fall_damage": true
+    },
+    "locks": [],
+    "forced": {}
+  },
+  "debug": {
+    "enabledByDefault": false,
+    "logToConsole": true,
+    "categories": ["claims", "power", "combat"]
+  },
+  "updates": {
+    "enabled": true,
+    "url": "https://api.github.com/repos/HyperSystemsDev/HyperFactions/releases/latest",
+    "releaseChannel": "stable"
+  },
+  "integration": {
+    "hyperpermsEnabled": true,
+    "showFactionInChat": true,
+    "showFactionOnMap": true
+  },
+  "messages": {
+    "prefix": "[HyperFactions] ",
+    "primaryColor": "#00FFFF",
+    "secondaryColor": "#AAAAAA",
+    "errorColor": "#FF5555",
+    "successColor": "#55FF55"
+  }
+}`}
+</CodeBlock>
+
+## Related Topics
+
+- [Configuration Guide](/plugins/hyperfactions/wiki/getting-started/configuration) - Walkthrough and examples
+- [Permissions](/plugins/hyperfactions/wiki/reference/permissions) - Permission nodes
+- [Admin Commands](/plugins/hyperfactions/wiki/commands/admin) - Reload command

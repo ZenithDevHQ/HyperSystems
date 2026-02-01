@@ -36,8 +36,7 @@ Here's the full configuration file with all options:
     "maxPlayerPower": 20,
     "startingPower": 10,
     "powerPerClaim": 2,
-    "regenerationMinutes": 60,
-    "regenerationAmount": 1,
+    "regenPerMinute": 0.0167,
     "deathPenalty": 1,
     "neutralKillPenalty": 1,
     "warzonePowerLoss": false
@@ -46,9 +45,11 @@ Here's the full configuration file with all options:
     "maxClaims": 100,
     "onlyAdjacent": false,
     "decayEnabled": true,
-    "decayDelayMinutes": 10,
-    "inactiveDecayDays": 7,
-    "showOnMap": true
+    "decayDelayDays": 7,
+    "decayRatePerDay": 1,
+    "showOnMap": true,
+    "worldWhitelist": [],
+    "worldBlacklist": []
   },
   "overclaim": {
     "enabled": true,
@@ -62,10 +63,86 @@ Here's the full configuration file with all options:
   },
   "teleport": {
     "warmupSeconds": 5,
-    "cooldownMinutes": 5,
+    "cooldownSeconds": 300,
     "cancelOnMove": true,
     "cancelOnDamage": true,
     "crossWorld": true
+  },
+  "stuck": {
+    "warmupSeconds": 30,
+    "cooldownSeconds": 300
+  },
+  "invites": {
+    "inviteExpirationMinutes": 5,
+    "joinRequestExpirationHours": 24
+  },
+  "backup": {
+    "enabled": true,
+    "hourlyRetention": 24,
+    "dailyRetention": 7,
+    "weeklyRetention": 4,
+    "onShutdown": true
+  },
+  "autoSave": {
+    "enabled": true,
+    "intervalMinutes": 5
+  },
+  "economy": {
+    "enabled": false,
+    "currencyName": "Coin",
+    "currencyNamePlural": "Coins",
+    "currencySymbol": "$",
+    "startingBalance": 0
+  },
+  "chat": {
+    "enabled": true,
+    "format": "[%faction%] %player%: %message%",
+    "tagDisplay": "prefix",
+    "tagFormat": "[%tag%]",
+    "noFactionTag": "",
+    "priority": 100,
+    "relationColors": {
+      "own": "#00FF00",
+      "ally": "#00FFFF",
+      "enemy": "#FF0000",
+      "neutral": "#FFFF00"
+    }
+  },
+  "territoryNotifications": {
+    "enabled": true
+  },
+  "spawnProtection": {
+    "enabled": true,
+    "durationSeconds": 10,
+    "breakOnAttack": true,
+    "breakOnMove": false
+  },
+  "factionPermissions": {
+    "defaults": {
+      "pvp_enabled": false,
+      "friendly_fire": false,
+      "build_allowed": true,
+      "container_access": true,
+      "interact_allowed": true,
+      "item_drop": true,
+      "item_pickup": true,
+      "mob_spawning": true,
+      "mob_damage": true,
+      "hunger_loss": true,
+      "fall_damage": true
+    },
+    "locks": [],
+    "forced": {}
+  },
+  "debug": {
+    "enabledByDefault": false,
+    "logToConsole": true,
+    "categories": ["claims", "power", "combat"]
+  },
+  "updates": {
+    "enabled": true,
+    "url": "https://api.github.com/repos/HyperSystemsDev/HyperFactions/releases/latest",
+    "releaseChannel": "stable"
   },
   "integration": {
     "hyperpermsEnabled": true,
@@ -100,8 +177,7 @@ Here's the full configuration file with all options:
 | `maxPlayerPower` | integer | 20 | Maximum power per player |
 | `startingPower` | integer | 10 | Power new players start with |
 | `powerPerClaim` | integer | 2 | Power required to maintain each claim |
-| `regenerationMinutes` | integer | 60 | Minutes between power regeneration |
-| `regenerationAmount` | integer | 1 | Power gained per regeneration tick |
+| `regenPerMinute` | float | 0.0167 | Power regenerated per minute (~1/hour) |
 | `deathPenalty` | integer | 1 | Power lost on death |
 | `neutralKillPenalty` | integer | 1 | Power lost for killing neutral players |
 | `warzonePowerLoss` | boolean | false | Whether to lose power on WarZone deaths |
@@ -117,9 +193,11 @@ The `powerPerClaim` setting is crucial for balance. Higher values mean factions 
 | `maxClaims` | integer | 100 | Maximum claims per faction |
 | `onlyAdjacent` | boolean | false | Require claims to be adjacent |
 | `decayEnabled` | boolean | true | Enable inactive claim decay |
-| `decayDelayMinutes` | integer | 10 | Delay before decay starts |
-| `inactiveDecayDays` | integer | 7 | Days of inactivity before claims decay |
+| `decayDelayDays` | integer | 7 | Days of inactivity before claims decay |
+| `decayRatePerDay` | integer | 1 | Claims lost per day after decay starts |
 | `showOnMap` | boolean | true | Show claims on the world map |
+| `worldWhitelist` | array | `[]` | Only allow claims in these worlds (empty = all) |
+| `worldBlacklist` | array | `[]` | Block claims in these worlds |
 
 ### Overclaim Settings
 
@@ -142,10 +220,128 @@ The `powerPerClaim` setting is crucial for balance. Higher values mean factions 
 | Option | Type | Default | Description |
 |--------|------|---------|-------------|
 | `warmupSeconds` | integer | 5 | Teleport warmup duration |
-| `cooldownMinutes` | integer | 5 | Cooldown between teleports |
+| `cooldownSeconds` | integer | 300 | Cooldown between teleports (in seconds) |
 | `cancelOnMove` | boolean | true | Cancel teleport if player moves |
 | `cancelOnDamage` | boolean | true | Cancel teleport if player takes damage |
 | `crossWorld` | boolean | true | Allow cross-dimension teleportation |
+
+### Stuck Command Settings
+
+| Option | Type | Default | Description |
+|--------|------|---------|-------------|
+| `warmupSeconds` | integer | 30 | Stuck command warmup duration |
+| `cooldownSeconds` | integer | 300 | Cooldown between stuck uses (in seconds) |
+
+### Invite Settings
+
+| Option | Type | Default | Description |
+|--------|------|---------|-------------|
+| `inviteExpirationMinutes` | integer | 5 | Minutes before invites expire |
+| `joinRequestExpirationHours` | integer | 24 | Hours before join requests expire |
+
+### Backup Settings
+
+| Option | Type | Default | Description |
+|--------|------|---------|-------------|
+| `enabled` | boolean | true | Enable automatic backups |
+| `hourlyRetention` | integer | 24 | Number of hourly backups to keep |
+| `dailyRetention` | integer | 7 | Number of daily backups to keep |
+| `weeklyRetention` | integer | 4 | Number of weekly backups to keep |
+| `onShutdown` | boolean | true | Create backup on server shutdown |
+
+<InfoBox variant="info" title="GFS Rotation">
+Backups use a Grandfather-Father-Son rotation policy. Hourly backups are kept for 24 hours, then consolidated into daily, then weekly.
+</InfoBox>
+
+### Auto-Save Settings
+
+| Option | Type | Default | Description |
+|--------|------|---------|-------------|
+| `enabled` | boolean | true | Enable automatic saves |
+| `intervalMinutes` | integer | 5 | Minutes between auto-saves |
+
+### Economy Settings
+
+| Option | Type | Default | Description |
+|--------|------|---------|-------------|
+| `enabled` | boolean | false | Enable economy features |
+| `currencyName` | string | "Coin" | Currency name (singular) |
+| `currencyNamePlural` | string | "Coins" | Currency name (plural) |
+| `currencySymbol` | string | "$" | Currency symbol |
+| `startingBalance` | integer | 0 | Starting balance for new factions |
+
+### Chat Settings
+
+| Option | Type | Default | Description |
+|--------|------|---------|-------------|
+| `enabled` | boolean | true | Enable chat formatting |
+| `format` | string | `[%faction%] %player%: %message%` | Chat format string |
+| `tagDisplay` | string | "prefix" | Where to show faction tag (prefix/suffix/none) |
+| `tagFormat` | string | `[%tag%]` | Format for the faction tag |
+| `noFactionTag` | string | "" | Tag for players without a faction |
+| `priority` | integer | 100 | Chat event priority |
+| `relationColors.own` | hex | `#00FF00` | Color for own faction |
+| `relationColors.ally` | hex | `#00FFFF` | Color for allies |
+| `relationColors.enemy` | hex | `#FF0000` | Color for enemies |
+| `relationColors.neutral` | hex | `#FFFF00` | Color for neutral factions |
+
+### Territory Notifications
+
+| Option | Type | Default | Description |
+|--------|------|---------|-------------|
+| `enabled` | boolean | true | Show notifications when entering territories |
+
+### Spawn Protection Settings
+
+| Option | Type | Default | Description |
+|--------|------|---------|-------------|
+| `enabled` | boolean | true | Enable spawn protection |
+| `durationSeconds` | integer | 10 | Duration of spawn protection |
+| `breakOnAttack` | boolean | true | Remove protection if player attacks |
+| `breakOnMove` | boolean | false | Remove protection if player moves |
+
+### Faction Permissions Settings
+
+Control the defaults and restrictions for faction territory permissions.
+
+| Option | Type | Description |
+|--------|------|-------------|
+| `defaults` | object | Default values for each permission flag |
+| `locks` | array | Flags that factions cannot change |
+| `forced` | object | Flags forced to specific values |
+
+**Available permission flags:**
+- `pvp_enabled` - Allow PvP in territory
+- `friendly_fire` - Allow faction members to damage each other
+- `build_allowed` - Allow building in territory
+- `container_access` - Allow container access
+- `interact_allowed` - Allow interactions (doors, buttons, etc.)
+- `item_drop` - Allow item dropping
+- `item_pickup` - Allow item pickup
+- `mob_spawning` - Allow mob spawning
+- `mob_damage` - Allow mob damage
+- `hunger_loss` - Allow hunger drain
+- `fall_damage` - Allow fall damage
+
+<InfoBox variant="tip" title="Locking Permissions">
+Use `locks` to prevent factions from changing specific flags. Use `forced` to override values regardless of faction settings.
+</InfoBox>
+
+### Debug Settings
+
+| Option | Type | Default | Description |
+|--------|------|---------|-------------|
+| `enabledByDefault` | boolean | false | Start with debug mode enabled |
+| `logToConsole` | boolean | true | Log debug messages to console |
+| `categories` | array | `["claims", "power", "combat"]` | Active debug categories |
+
+### Update Settings
+
+| Option | Type | Default | Description |
+|--------|------|---------|-------------|
+| `enabled` | boolean | true | Enable update checking |
+| `url` | string | GitHub API URL | Update check endpoint |
+| `releaseChannel` | string | "stable" | Release channel (stable/beta) |
 
 ### Integration Settings
 
@@ -174,7 +370,7 @@ The `powerPerClaim` setting is crucial for balance. Higher values mean factions 
   "power": {
     "maxPlayerPower": 10,
     "deathPenalty": 2,
-    "regenerationMinutes": 30
+    "regenPerMinute": 0.033
   },
   "combat": {
     "tagDurationSeconds": 30
@@ -182,6 +378,11 @@ The `powerPerClaim` setting is crucial for balance. Higher values mean factions 
   "overclaim": {
     "enabled": true,
     "powerThreshold": 0
+  },
+  "factionPermissions": {
+    "defaults": {
+      "pvp_enabled": true
+    }
   }
 }
 ```
@@ -200,6 +401,14 @@ The `powerPerClaim` setting is crucial for balance. Higher values mean factions 
   },
   "overclaim": {
     "enabled": false
+  },
+  "factionPermissions": {
+    "defaults": {
+      "pvp_enabled": false
+    },
+    "forced": {
+      "pvp_enabled": false
+    }
   }
 }
 ```
@@ -217,6 +426,11 @@ The `powerPerClaim` setting is crucial for balance. Higher values mean factions 
   },
   "teleport": {
     "warmupSeconds": 10
+  },
+  "chat": {
+    "enabled": true,
+    "tagDisplay": "prefix",
+    "tagFormat": "[%tag%] "
   }
 }
 ```
@@ -227,3 +441,4 @@ Now that you've configured HyperFactions:
 
 1. [Create your first faction](/plugins/hyperfactions/wiki/getting-started/first-setup) to test your configuration
 2. Learn about the [Power System](/plugins/hyperfactions/wiki/concepts/power-system) to understand balance
+3. See the [Configuration Reference](/plugins/hyperfactions/wiki/reference/configuration) for the complete option list

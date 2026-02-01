@@ -15,7 +15,7 @@ These commands allow you to manage your faction's relationships with other facti
     {
       command: "/f ally <faction>",
       description: "Send an alliance request to another faction",
-      permission: "hyperfactions.ally"
+      permission: "hyperfactions.relation.ally"
     }
   ]}
 />
@@ -42,7 +42,7 @@ Alliances require mutual agreement. Both factions must `/f ally` each other.
     {
       command: "/f enemy <faction>",
       description: "Declare another faction as an enemy",
-      permission: "hyperfactions.enemy"
+      permission: "hyperfactions.relation.enemy"
     }
   ]}
 />
@@ -64,7 +64,7 @@ Enemy declarations are one-sided. The other faction must also `/f enemy` you for
     {
       command: "/f neutral <faction>",
       description: "Reset relationship to neutral (removes ally or enemy status)",
-      permission: "hyperfactions.neutral"
+      permission: "hyperfactions.relation.neutral"
     }
   ]}
 />
@@ -81,7 +81,7 @@ Enemy declarations are one-sided. The other faction must also `/f enemy` you for
     {
       command: "/f relations",
       description: "View all your faction's diplomatic relationships",
-      permission: "hyperfactions.use"
+      permission: "hyperfactions.relation.view"
     }
   ]}
 />
@@ -139,6 +139,34 @@ Immediately ends the alliance. You're now neutral.
 ```
 
 Removes enemy status. You're now neutral (but they may still consider you an enemy).
+
+## Permission Summary
+
+<PermissionTable
+  title="Diplomacy Command Permissions"
+  permissions={[
+    {
+      permission: "hyperfactions.relation.ally",
+      description: "Manage alliances",
+      default: "false"
+    },
+    {
+      permission: "hyperfactions.relation.enemy",
+      description: "Declare enemies",
+      default: "false"
+    },
+    {
+      permission: "hyperfactions.relation.neutral",
+      description: "Reset relations to neutral",
+      default: "false"
+    },
+    {
+      permission: "hyperfactions.relation.view",
+      description: "View faction relations",
+      default: "false"
+    }
+  ]}
+/>
 
 ## Relationship Matrix
 

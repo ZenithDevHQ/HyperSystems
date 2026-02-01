@@ -1,12 +1,12 @@
 ---
 title: Home & Teleport
-description: Commands for faction home teleportation.
+description: Commands for faction home teleportation and escape.
 order: 5
 ---
 
 # Home & Teleport Commands
 
-HyperFactions provides a faction home system that allows members to teleport to a shared location.
+HyperFactions provides a faction home system that allows members to teleport to a shared location, plus a stuck command for escaping hostile territory.
 
 ## Teleporting Home
 
@@ -15,7 +15,7 @@ HyperFactions provides a faction home system that allows members to teleport to 
     {
       command: "/f home",
       description: "Teleport to your faction's home location",
-      permission: "hyperfactions.home"
+      permission: "hyperfactions.teleport.home"
     }
   ]}
 />
@@ -37,7 +37,7 @@ Default warmup is 5 seconds. Default cooldown is 5 minutes. Both are configurabl
     {
       command: "/f sethome",
       description: "Set the faction home to your current location",
-      permission: "hyperfactions.sethome"
+      permission: "hyperfactions.teleport.sethome"
     }
   ]}
 />
@@ -51,12 +51,43 @@ Default warmup is 5 seconds. Default cooldown is 5 minutes. Both are configurabl
 Set your faction home inside a protected building within your claimed territory for safety.
 </InfoBox>
 
+## Stuck Command
+
+<CommandBlock
+  commands={[
+    {
+      command: "/f stuck",
+      description: "Teleport to nearby wilderness when trapped in hostile territory",
+      permission: "hyperfactions.teleport.stuck"
+    }
+  ]}
+/>
+
+**Behavior:**
+- 30-second warmup by default
+- 5-minute cooldown by default
+- Cancelled by movement or damage
+- Teleports to nearest unclaimed chunk
+- Only works in territory you don't own
+
+<InfoBox variant="info" title="When to Use">
+Use `/f stuck` when you're trapped in enemy territory with no way to escape. The long warmup prevents combat abuse.
+</InfoBox>
+
+### Stuck Configuration
+
+| Option | Default | Description |
+|--------|---------|-------------|
+| `stuck.warmupSeconds` | 30 | Warmup before teleport |
+| `stuck.cooldownSeconds` | 300 | Cooldown between uses |
+
 ## Quick Reference
 
 | Command | Description | Role Required |
 |---------|-------------|---------------|
 | `/f home` | Teleport to faction home | Member+ |
 | `/f sethome` | Set faction home location | Leader |
+| `/f stuck` | Escape hostile territory | Member+ |
 
 ## Teleport Configuration
 
@@ -64,26 +95,40 @@ The teleport system is highly configurable:
 
 | Option | Default | Description |
 |--------|---------|-------------|
-| `teleport.warmupSeconds` | 5 | Seconds before teleport |
-| `teleport.cooldownMinutes` | 5 | Minutes between teleports |
+| `teleport.warmupSeconds` | 5 | Seconds before home teleport |
+| `teleport.cooldownSeconds` | 300 | Seconds between home teleports |
 | `teleport.cancelOnMove` | true | Cancel if player moves |
 | `teleport.cancelOnDamage` | true | Cancel if player takes damage |
 | `teleport.crossWorld` | true | Allow cross-dimension teleport |
 
-## Bypass Permissions
-
-Admins can grant bypass permissions:
+## Permission Summary
 
 <PermissionTable
+  title="Teleport Permissions"
   permissions={[
     {
+      permission: "hyperfactions.teleport.home",
+      description: "Teleport to faction home",
+      default: "false"
+    },
+    {
+      permission: "hyperfactions.teleport.sethome",
+      description: "Set faction home location",
+      default: "false"
+    },
+    {
+      permission: "hyperfactions.teleport.stuck",
+      description: "Use stuck escape command",
+      default: "false"
+    },
+    {
       permission: "hyperfactions.bypass.warmup",
-      description: "Skip the teleport warmup",
+      description: "Skip teleport warmup",
       default: "false"
     },
     {
       permission: "hyperfactions.bypass.cooldown",
-      description: "Skip the teleport cooldown",
+      description: "Skip teleport cooldown",
       default: "false"
     }
   ]}
@@ -120,6 +165,16 @@ Admins can grant bypass permissions:
 Output: "Teleporting to faction home in 5 seconds. Don't move!"
 
 *After 5 seconds, you appear at the faction home.*
+
+### Escaping Enemy Territory
+
+```
+/f stuck
+```
+
+Output: "Teleporting to wilderness in 30 seconds. Don't move or take damage!"
+
+*After 30 seconds, you appear at the nearest unclaimed chunk.*
 
 ## Strategic Home Placement
 
@@ -158,14 +213,25 @@ Teleportation is cancelled if:
 Stay perfectly still and avoid combat during the warmup to ensure successful teleportation.
 </InfoBox>
 
-## Home vs Stuck
+## Home vs Stuck Comparison
 
 | Feature | `/f home` | `/f stuck` |
 |---------|-----------|------------|
 | Destination | Faction home | Nearest wilderness |
-| Requirement | Faction must have home set | Must be in hostile territory |
-| Warmup | Configurable (default 5s) | Fixed (30s) |
-| Cooldown | Configurable (default 5m) | None |
+| Requirement | Faction must have home set | Must be in non-owned territory |
+| Warmup | 5 seconds (default) | 30 seconds (default) |
+| Cooldown | 5 minutes (default) | 5 minutes (default) |
+| Combat use | Can be used anywhere | For escaping only |
+| Permission | `hyperfactions.teleport.home` | `hyperfactions.teleport.stuck` |
+
+## VIP Bypass Permissions
+
+Grant VIP players instant teleports:
+
+```
+/hp group setperm vip hyperfactions.bypass.warmup
+/hp group setperm vip hyperfactions.bypass.cooldown
+```
 
 ## Related Topics
 

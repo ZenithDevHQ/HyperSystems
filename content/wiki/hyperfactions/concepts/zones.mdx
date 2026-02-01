@@ -6,24 +6,46 @@ order: 6
 
 # Zones
 
-HyperFactions provides two special zone types for server administration: **SafeZones** and **WarZones**. These are admin-managed areas with special rules.
+HyperFactions provides two special zone types for server administration: **SafeZones** and **WarZones**. These are admin-managed areas with special rules that can span multiple chunks.
+
+## Zone System Overview
+
+As of v0.2.0, zones are named entities that can contain multiple chunks. This allows for more flexible zone management compared to single-chunk zones.
+
+**Key features:**
+- Named zones (e.g., "spawn", "arena", "market")
+- Multi-chunk support
+- 11 configurable flags per zone
+- GUI-based management
+- Radius claiming
 
 ## SafeZones
 
-SafeZones are completely protected areas where PvP is disabled and no one can build.
+SafeZones are protected areas where PvP is disabled and players are generally safe.
 
-### SafeZone Properties
-- **No PvP** - All damage between players is prevented
-- **No building** - Block placement and breaking disabled
-- **No claiming** - Players cannot claim SafeZone chunks
-- **Color:** Bright green on maps
+### SafeZone Default Properties
 
-### Common Uses
-- Spawn areas
+| Flag | Default | Description |
+|------|---------|-------------|
+| `pvp_enabled` | false | No PvP |
+| `friendly_fire` | false | No friendly damage |
+| `build_allowed` | false | No building |
+| `container_access` | false | No container access |
+| `interact_allowed` | true | Can use doors, buttons |
+| `item_drop` | true | Can drop items |
+| `item_pickup` | true | Can pick up items |
+| `mob_spawning` | false | No mob spawning |
+| `mob_damage` | false | No mob damage |
+| `hunger_loss` | false | No hunger drain |
+| `fall_damage` | false | No fall damage |
+
+### Common SafeZone Uses
+- Server spawn areas
 - Server hubs
-- Trading centers
+- Trading centers / markets
 - Event venues
 - Tutorial areas
+- NPC villages
 
 <InfoBox variant="info">
 SafeZones are typically used for server spawn points and communal areas where players should feel safe.
@@ -31,53 +53,133 @@ SafeZones are typically used for server spawn points and communal areas where pl
 
 ## WarZones
 
-WarZones are designated combat areas where PvP is always enabled, typically without power penalties.
+WarZones are designated combat areas where PvP is always enabled.
 
-### WarZone Properties
-- **PvP always enabled** - Combat allowed regardless of relations
-- **No power loss** (configurable) - Deaths don't reduce power
-- **No claiming** - Players cannot claim WarZone chunks
-- **Color:** Bright red on maps
+### WarZone Default Properties
 
-### Common Uses
-- Arena areas
-- PvP zones
+| Flag | Default | Description |
+|------|---------|-------------|
+| `pvp_enabled` | true | PvP enabled |
+| `friendly_fire` | true | Friendly fire enabled |
+| `build_allowed` | false | No building |
+| `container_access` | false | No container access |
+| `interact_allowed` | true | Can use doors, buttons |
+| `item_drop` | true | Can drop items |
+| `item_pickup` | true | Can pick up items |
+| `mob_spawning` | true | Mobs can spawn |
+| `mob_damage` | true | Mobs can deal damage |
+| `hunger_loss` | true | Hunger drains |
+| `fall_damage` | true | Fall damage applies |
+
+### Common WarZone Uses
+- PvP arenas
 - Event battlegrounds
 - Resource competition areas
+- King of the Hill zones
 
 <InfoBox variant="tip">
-WarZones are great for designated PvP areas where players can fight without affecting their faction's territorial power.
+WarZones are great for designated PvP areas where players can fight without affecting their faction's territorial power (when `warzonePowerLoss` is false).
 </InfoBox>
 
 ## Zone Management
 
-Only admins with `hyperfactions.admin` permission can manage zones.
+Only admins with `hyperfactions.admin.zones` permission can manage zones.
 
-### Creating a SafeZone
-Stand in the chunk and run:
+### Creating a Zone
+
+1. **Create the named zone:**
+   ```
+   /f admin zone create <name> <safe|war>
+   ```
+   Example: `/f admin zone create spawn safe`
+
+2. **Claim chunks for the zone:**
+   Stand in each chunk and run:
+   ```
+   /f admin zone claim <name>
+   ```
+
+   Or use radius claiming:
+   ```
+   /f admin zone radius <name> <radius> [circle]
+   ```
+
+### Radius Claiming
+
+Claim multiple chunks at once:
+
 ```
-/f admin safezone add
+/f admin zone radius spawn 5
+```
+Claims a 5-chunk square (11x11 chunks total) centered on your position.
+
+```
+/f admin zone radius spawn 5 circle
+```
+Claims a circular area with 5-chunk radius.
+
+### Managing Zones
+
+**Remove a single chunk:**
+```
+/f admin zone unclaim
 ```
 
-### Removing a SafeZone
+**Delete an entire zone:**
 ```
-/f admin safezone remove
+/f admin zone remove <name>
 ```
+This removes the zone and unclaims all its chunks.
 
-### Creating a WarZone
-Stand in the chunk and run:
+**List zones:**
 ```
-/f admin warzone add
-```
-
-### Removing a WarZone
-```
-/f admin warzone remove
+/f admin zone list [safe|war]
 ```
 
 <InfoBox variant="warning">
 Zone changes take effect immediately. Players in the area will be subject to new rules instantly.
 </InfoBox>
+
+## Zone Flags
+
+Each zone has 11 configurable flags that control behavior:
+
+### Combat Flags
+| Flag | Description |
+|------|-------------|
+| `pvp_enabled` | Allow player vs player damage |
+| `friendly_fire` | Allow damage between faction/allied players |
+
+### Building Flags
+| Flag | Description |
+|------|-------------|
+| `build_allowed` | Allow block placement and breaking |
+| `container_access` | Allow opening chests, furnaces, etc. |
+| `interact_allowed` | Allow using doors, buttons, levers |
+
+### Item Flags
+| Flag | Description |
+|------|-------------|
+| `item_drop` | Allow dropping items |
+| `item_pickup` | Allow picking up items |
+
+### Environment Flags
+| Flag | Description |
+|------|-------------|
+| `mob_spawning` | Allow mob spawning |
+| `mob_damage` | Allow mobs to deal damage |
+| `hunger_loss` | Allow hunger to drain |
+| `fall_damage` | Allow fall damage |
+
+### Modifying Zone Flags
+
+Use the admin GUI to modify zone flags:
+
+```
+/f admin
+```
+
+Navigate to **Zones** → Select zone → **Configure Flags**
 
 ## Zone Configuration
 
@@ -125,27 +227,28 @@ Zones are visible on the faction map:
 
 ## Zone Storage
 
-Zone data is stored separately:
+Zone data is stored in a single file:
 
 ```
-plugins/HyperFactions/data/
-├── safezones.json    # SafeZone chunk coordinates
-└── warzones.json     # WarZone chunk coordinates
+plugins/HyperFactions/data/zones.json
 ```
+
+This file contains all named zones with their chunks and flag configurations.
 
 ## Strategic Zone Placement
 
 ### Server Spawn
 Create a SafeZone around spawn:
-1. Navigate to spawn area
-2. For each chunk: `/f admin safezone add`
+1. Create the zone: `/f admin zone create spawn safe`
+2. Use radius: `/f admin zone radius spawn 3 circle`
 3. Consider a buffer zone around the core
 
 ### PvP Arena
 Create a WarZone for arenas:
 1. Build your arena
-2. Mark arena chunks: `/f admin warzone add`
-3. Set `warzonePowerLoss: false` for penalty-free combat
+2. Create zone: `/f admin zone create arena war`
+3. Mark arena chunks: `/f admin zone radius arena 2`
+4. Set `warzonePowerLoss: false` for penalty-free combat
 
 ### Resource Areas
 Consider WarZones for contested resources:
@@ -153,15 +256,24 @@ Consider WarZones for contested resources:
 - No power penalties keep it fair
 - Creates natural PvP hotspots
 
+### Market/Trading Areas
+Create a SafeZone for trading:
+1. Create zone: `/f admin zone create market safe`
+2. Claim the area
+3. Players can trade safely without PvP risk
+
 ## Comparison Table
 
 | Feature | SafeZone | WarZone | Faction Claim |
 |---------|:--------:|:-------:|:-------------:|
-| PvP | ✗ | ✓ | Varies |
-| Building | ✗ | ✗ | Owner only |
+| PvP | No (default) | Yes (default) | Configurable |
+| Building | No (default) | No (default) | Owner only |
 | Power loss on death | N/A | Optional | Yes |
-| Can be claimed | ✗ | ✗ | N/A |
-| Admin only | ✓ | ✓ | ✗ |
+| Can be claimed | No | No | N/A |
+| Admin only | Yes | Yes | No |
+| Multi-chunk | Yes | Yes | Yes |
+| Named | Yes | Yes | No |
+| Custom flags | Yes | Yes | Yes |
 
 ## Related Topics
 

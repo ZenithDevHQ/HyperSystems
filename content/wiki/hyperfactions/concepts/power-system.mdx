@@ -56,8 +56,9 @@ Power regenerates automatically over time:
 
 | Property | Default | Config Key |
 |----------|---------|------------|
-| Regeneration Interval | 60 minutes | `power.regenerationMinutes` |
-| Regeneration Amount | 1 | `power.regenerationAmount` |
+| Regeneration Rate | ~1 per hour | `power.regenPerMinute` |
+
+The default `regenPerMinute` of 0.0167 results in approximately 1 power per hour.
 
 <InfoBox variant="info">
 Power regeneration happens per player, not per faction. Each online player regenerates independently.
@@ -85,6 +86,20 @@ By default, deaths in WarZones don't cause power loss:
 | Property | Default | Config Key |
 |----------|---------|------------|
 | WarZone Power Loss | false | `power.warzonePowerLoss` |
+
+## Power Limits via Permissions
+
+Server administrators can grant per-player or per-group power limits using permissions:
+
+```
+hyperfactions.limit.power.<n>
+```
+
+Example: `hyperfactions.limit.power.50` allows a player to have up to 50 power.
+
+<InfoBox variant="tip" title="VIP Power">
+Grant VIP players higher power limits: `/hp group setperm vip hyperfactions.limit.power.50`
+</InfoBox>
 
 ## Power and Overclaiming
 
@@ -156,7 +171,7 @@ Your faction is **vulnerable** to overclaiming (50 < 60).
   "power": {
     "maxPlayerPower": 10,
     "deathPenalty": 2,
-    "regenerationMinutes": 30
+    "regenPerMinute": 0.033
   }
 }
 ```
@@ -170,7 +185,7 @@ Your faction is **vulnerable** to overclaiming (50 < 60).
   "power": {
     "maxPlayerPower": 50,
     "deathPenalty": 0,
-    "regenerationMinutes": 120
+    "regenPerMinute": 0.0083
   }
 }
 ```

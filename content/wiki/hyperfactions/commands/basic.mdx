@@ -49,7 +49,7 @@ The GUI provides access to:
     {
       command: "/f create <name>",
       description: "Create a new faction with the specified name",
-      permission: "hyperfactions.create"
+      permission: "hyperfactions.faction.create"
     }
   ]}
 />
@@ -71,7 +71,7 @@ After creating a faction, you become its Leader with full administrative powers.
     {
       command: "/f leave",
       description: "Leave your current faction",
-      permission: "hyperfactions.use"
+      permission: "hyperfactions.member.leave"
     }
   ]}
 />
@@ -87,12 +87,12 @@ Leaders cannot leave their faction. Transfer leadership first or disband the fac
     {
       command: "/f info",
       description: "View your faction's information",
-      permission: "hyperfactions.use"
+      permission: "hyperfactions.info.faction"
     },
     {
       command: "/f info <faction>",
       description: "View another faction's information",
-      permission: "hyperfactions.use"
+      permission: "hyperfactions.info.faction"
     }
   ]}
 />
@@ -111,7 +111,7 @@ Information displayed:
     {
       command: "/f list",
       description: "List all factions on the server",
-      permission: "hyperfactions.use"
+      permission: "hyperfactions.info.list"
     }
   ]}
 />
@@ -129,7 +129,7 @@ The list shows:
     {
       command: "/f help",
       description: "Open the help menu with command documentation",
-      permission: "hyperfactions.use"
+      permission: "hyperfactions.info.help"
     }
   ]}
 />
@@ -146,7 +146,7 @@ The help menu includes:
     {
       command: "/f logs",
       description: "View faction activity logs",
-      permission: "hyperfactions.logs"
+      permission: "hyperfactions.info.logs"
     }
   ]}
 />
@@ -189,6 +189,49 @@ Shows information about the faction named "Rivals".
 /f leave
 ```
 Removes you from your current faction (Members and Officers only).
+
+## Permission Summary
+
+<PermissionTable
+  title="Basic Command Permissions"
+  permissions={[
+    {
+      permission: "hyperfactions.use",
+      description: "Access faction menu and basic features",
+      default: "false"
+    },
+    {
+      permission: "hyperfactions.faction.create",
+      description: "Create new factions",
+      default: "false"
+    },
+    {
+      permission: "hyperfactions.member.leave",
+      description: "Leave factions",
+      default: "false"
+    },
+    {
+      permission: "hyperfactions.info.faction",
+      description: "View faction information",
+      default: "false"
+    },
+    {
+      permission: "hyperfactions.info.list",
+      description: "List all factions",
+      default: "false"
+    },
+    {
+      permission: "hyperfactions.info.help",
+      description: "Access help",
+      default: "false"
+    },
+    {
+      permission: "hyperfactions.info.logs",
+      description: "View activity logs",
+      default: "false"
+    }
+  ]}
+/>
 
 ## Related Commands
 
