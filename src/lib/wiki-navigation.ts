@@ -37,6 +37,16 @@ export const wikiNavigation: Record<string, WikiNavSection[]> = {
       ],
     },
     {
+      title: "Guides",
+      items: [
+        { title: "GUI Walkthrough", href: "/plugins/hyperfactions/wiki/guides/gui-walkthrough" },
+        { title: "Starting a Faction", href: "/plugins/hyperfactions/wiki/guides/starting-faction" },
+        { title: "Growing Your Faction", href: "/plugins/hyperfactions/wiki/guides/growing-your-faction" },
+        { title: "Diplomacy Strategy", href: "/plugins/hyperfactions/wiki/guides/diplomacy-strategy" },
+        { title: "Defending Territory", href: "/plugins/hyperfactions/wiki/guides/defending-territory" },
+      ],
+    },
+    {
       title: "Concepts",
       items: [
         { title: "Factions", href: "/plugins/hyperfactions/wiki/concepts/factions" },

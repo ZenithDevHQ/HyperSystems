@@ -1,200 +1,266 @@
 ---
 title: Power System
-description: Understanding the power system that governs territory and warfare.
+description: Understanding the power system that governs territory claims and warfare in HyperFactions.
 order: 2
 ---
 
 # Power System
 
-The power system is the backbone of HyperFactions' territory and warfare mechanics. Understanding power is essential for successful faction management.
+The power system is the backbone of HyperFactions' territory and warfare mechanics. Every player contributes power to their faction, which determines how much territory the faction can hold and whether enemies can raid you.
 
 ## How Power Works
 
 ### Personal Power
-Each player has their own personal power:
 
-| Property | Default | Config Key |
-|----------|---------|------------|
-| Maximum Power | 20 | `power.maxPlayerPower` |
-| Starting Power | 10 | `power.startingPower` |
+Each player has their own personal power that contributes to their faction:
+
+| Property | Default Value | Config Key |
+|----------|---------------|------------|
+| Starting Power | 10.0 | `power.startingPower` |
+| Maximum Power | 20.0 | `power.maxPlayerPower` |
+
+When you first join the server or create a faction, you start with **10 power** and can regenerate up to a maximum of **20 power**.
 
 ### Faction Power
-A faction's total power is calculated as:
+
+A faction's total power is the sum of all member power:
 
 ```
-Faction Power = Sum of all member power
+Total Faction Power = Sum of all online member power + Sum of all offline member power
 ```
 
-<InfoBox variant="info" title="Example">
-A faction with 5 members, each at 15 power = **75 total faction power**
+<InfoBox variant="info" title="Example Calculation">
+A faction with 5 members:
+- Player A: 20 power (max)
+- Player B: 15 power
+- Player C: 18 power
+- Player D: 12 power (just died)
+- Player E: 10 power (just joined)
+
+**Total Faction Power: 75**
 </InfoBox>
 
-## Power and Claims
+## Power and Territory Claims
 
-Each chunk claim requires power to maintain:
+Each chunk of territory your faction claims requires power to maintain:
 
-| Property | Default | Config Key |
-|----------|---------|------------|
-| Power per Claim | 2 | `power.powerPerClaim` |
+| Property | Default Value | Config Key |
+|----------|---------------|------------|
+| Power per Claim | 2.0 | `power.powerPerClaim` |
+| Hard Claim Limit | 100 | `claims.maxClaims` |
 
-**Maximum Claims Formula:**
+### Maximum Claims Formula
+
+Your faction's maximum allowed claims is calculated as:
+
 ```
-Max Claims = Faction Power / Power Per Claim
+Max Claims = min(floor(Total Faction Power / Power Per Claim), Hard Claim Limit)
 ```
 
-<InfoBox variant="tip" title="Example">
-- Faction power: 60
-- Power per claim: 2
-- Maximum claims: **30 chunks**
+<InfoBox variant="tip" title="Example: Calculating Max Claims">
+**Given:**
+- Total Faction Power: 75
+- Power Per Claim: 2.0
+- Hard Claim Limit: 100
+
+**Calculation:**
+- Power-based claims: floor(75 / 2) = **37 claims**
+- Limited by hard cap: min(37, 100) = **37 claims**
+
+Your faction can hold up to **37 chunks** of territory.
 </InfoBox>
 
-If your faction power drops below what's needed to maintain claims, you become vulnerable to **overclaiming**.
+### Claim Capacity vs. Actual Claims
+
+Understanding the relationship between your power and claims is critical:
+
+| Scenario | Result |
+|----------|--------|
+| Claims < Max Claims | Safe - you have a power buffer |
+| Claims = Max Claims | At capacity - no buffer for deaths |
+| Claims > Max Claims | **Vulnerable to overclaiming** |
 
 ## Power Regeneration
 
-Power regenerates automatically over time:
+Power regenerates automatically over time for online players:
 
-| Property | Default | Config Key |
-|----------|---------|------------|
-| Regeneration Rate | ~1 per hour | `power.regenPerMinute` |
+| Property | Default Value | Config Key |
+|----------|---------------|------------|
+| Regen Rate | 0.1 per minute | `power.regenPerMinute` |
+| Offline Regen | Disabled | `power.regenWhenOffline` |
 
-The default `regenPerMinute` of 0.0167 results in approximately 1 power per hour.
+### Regeneration Calculations
 
-<InfoBox variant="info">
-Power regeneration happens per player, not per faction. Each online player regenerates independently.
+With the default rate of **0.1 power per minute**:
+
+| Time Period | Power Regenerated |
+|-------------|-------------------|
+| 1 minute | 0.1 power |
+| 10 minutes | 1.0 power |
+| 1 hour | 6.0 power |
+| Full recovery (0→20) | ~3.3 hours |
+
+<InfoBox variant="info" title="Online-Only Regeneration">
+By default, power only regenerates while you're online. Server owners can enable offline regeneration with `power.regenWhenOffline: true`, but this is disabled by default to encourage active participation.
 </InfoBox>
 
 ## Power Loss
 
 ### Death Penalty
+
 When a player dies, they lose power:
 
-| Property | Default | Config Key |
-|----------|---------|------------|
-| Death Penalty | 1 | `power.deathPenalty` |
+| Property | Default Value | Config Key |
+|----------|---------------|------------|
+| Death Penalty | 1.0 | `power.deathPenalty` |
 
-### Neutral Kill Penalty
-Killing neutral players may also cost power:
+<InfoBox variant="warning" title="Combat Implications">
+If you die multiple times in quick succession, your power can drop significantly. At 0.1 regen per minute, recovering 1 power lost from death takes **10 minutes**.
+</InfoBox>
 
-| Property | Default | Config Key |
-|----------|---------|------------|
-| Neutral Kill Penalty | 1 | `power.neutralKillPenalty` |
+### Combat Tag Logout Penalty
 
-### WarZone Deaths
-By default, deaths in WarZones don't cause power loss:
+If you disconnect while combat tagged:
 
-| Property | Default | Config Key |
-|----------|---------|------------|
-| WarZone Power Loss | false | `power.warzonePowerLoss` |
+| Property | Default Value | Config Key |
+|----------|---------------|------------|
+| Logout Penalty Enabled | Yes | `combat.taggedLogoutPenalty` |
+| Logout Power Loss | 1.0 | `combat.logoutPowerLoss` |
+
+<InfoBox variant="danger" title="Don't Combat Log!">
+Disconnecting during combat results in additional power loss. Stay and fight or escape properly before logging out.
+</InfoBox>
+
+### Minimum Power
+
+Power cannot drop below **0**. Even after multiple deaths, your personal power will remain at 0 until you regenerate.
+
+## Overclaiming
+
+When a faction's total power drops below what's needed to maintain their claims, they become **raidable** - enemies can overclaim their territory.
+
+### Overclaim Conditions
+
+For an enemy to overclaim your territory:
+
+1. Your faction must have **negative power balance** (current claims × power per claim > total power)
+2. The enemy must use `/f overclaim` in your territory
+
+### Preventing Raids
+
+To avoid being overclaimed:
+
+1. **Maintain a power buffer** - Keep faction power well above your claim requirements
+2. **Minimize deaths** - Each death reduces total faction power
+3. **Don't overexpand** - Only claim what you can defend
+4. **Stay active** - Online members regenerate power
+
+<InfoBox variant="tip" title="Power Buffer Strategy">
+**Recommended buffer:** Maintain at least 20% more power than your claim requirements.
+
+Example: If you have 30 claims requiring 60 power, aim for **72+ total faction power** to have a safe buffer.
+</InfoBox>
 
 ## Power Limits via Permissions
 
-Server administrators can grant per-player or per-group power limits using permissions:
+Server owners can grant custom power limits using permissions:
 
 ```
-hyperfactions.limit.power.<n>
+hyperfactions.limit.power.<amount>
 ```
 
-Example: `hyperfactions.limit.power.50` allows a player to have up to 50 power.
+| Permission | Effect |
+|------------|--------|
+| `hyperfactions.limit.power.30` | Player max power is 30 |
+| `hyperfactions.limit.power.50` | Player max power is 50 |
+| `hyperfactions.limit.power.100` | Player max power is 100 |
 
-<InfoBox variant="tip" title="VIP Power">
-Grant VIP players higher power limits: `/hp group setperm vip hyperfactions.limit.power.50`
+<InfoBox variant="info" title="For Server Owners">
+Use permission-based power limits to create VIP tiers or reward active players:
+```
+/hp group setperm vip hyperfactions.limit.power.50
+```
+This allows VIP players to accumulate up to 50 power instead of the default 20.
 </InfoBox>
 
-## Power and Overclaiming
+## Viewing Power Information
 
-When a faction's power drops below their claim requirements, enemies can **overclaim** their territory.
+Power information is available through various faction commands:
 
-**Overclaim Requirements:**
-1. Target faction must have insufficient power
-2. You must be enemies (if `overclaim.requireEnemyRelation` is true)
-3. Target must be at or below `overclaim.powerThreshold`
+- **Faction info** displays total faction power, current claims, power required for claims, and raidable status
+- **Personal power** shows your individual power and maximum
+- **Other factions** can be inspected to assess their vulnerability
 
-```
-/f overclaim
-```
-
-This transfers the current chunk to your faction.
+See [Basic Commands](/plugins/hyperfactions/wiki/commands/basic) for the info and power command syntax.
 
 ## Strategic Considerations
 
-### Growing Your Faction
-More members = more power = more potential claims
+### For New Factions
 
-But remember:
-- Each member needs to maintain their power
-- Deaths during wars reduce total power
-- Inactive members may log out with low power
+1. **Start small** - Claim only essential territory initially
+2. **Build power first** - Wait for members to regenerate before expanding
+3. **Recruit carefully** - New members start at 10 power, but also add claim capacity
 
-### War Strategy
-To weaken an enemy faction:
-1. Kill their members to reduce power
-2. Wait for power to drop below claim requirements
-3. Overclaim their territory
+### For Established Factions
 
-To defend:
-1. Keep member power high
-2. Minimize deaths
-3. Maintain power buffer above claim requirements
+1. **Monitor power balance** - Check `/f info` regularly
+2. **Before wars** - Ensure high power buffer
+3. **After losses** - Don't claim more until power recovers
 
-### Power Buffer
-A smart faction maintains extra power beyond their claim needs:
+### During Warfare
 
-```
-Recommended: Faction Power > (Claims × Power Per Claim) + Buffer
-```
+**Offensive Strategy:**
+1. Kill enemy faction members repeatedly
+2. Wait for their power to drop
+3. Overclaim their territory when vulnerable
 
-This buffer protects against temporary power loss from deaths.
+**Defensive Strategy:**
+1. Minimize deaths at all costs
+2. Stay online to regenerate faster
+3. Temporarily unclaim non-essential territory if needed
 
-## Viewing Power
+## Configuration Examples
 
-### Your Power
-```
-/f info
-```
-Shows your faction's total power and claim count.
+### High-Intensity PvP Server
 
-### Checking Vulnerability
-If your faction info shows:
-- Power: 50
-- Claims: 30
-- Power per Claim: 2
-- Required Power: 60
-
-Your faction is **vulnerable** to overclaiming (50 < 60).
-
-## Configuration Tips
-
-### High Competition (PvP Focused)
 ```json
 {
   "power": {
     "maxPlayerPower": 10,
+    "startingPower": 5,
     "deathPenalty": 2,
-    "regenPerMinute": 0.033
+    "regenPerMinute": 0.2,
+    "powerPerClaim": 1
   }
 }
 ```
-- Lower max power means smaller empires
-- Higher death penalty makes wars impactful
-- Faster regeneration allows recovery
 
-### Low Competition (Casual)
+- Lower max power = smaller empires
+- Higher death penalty = wars matter more
+- Faster regen = quicker recovery
+- Lower power per claim = more territory per power
+
+### Casual/Building-Focused Server
+
 ```json
 {
   "power": {
     "maxPlayerPower": 50,
+    "startingPower": 25,
     "deathPenalty": 0,
-    "regenPerMinute": 0.0083
+    "regenPerMinute": 0.05,
+    "powerPerClaim": 5
   }
 }
 ```
-- Higher max power for larger empires
-- No death penalty for peaceful play
-- Slower regeneration since it's less critical
+
+- Higher max power = larger empires
+- No death penalty = peaceful play
+- Slower regen (doesn't matter without deaths)
+- Higher power per claim = more strategic claiming
 
 ## Related Topics
 
-- [Territories](/plugins/hyperfactions/wiki/concepts/territories) - How claims work
-- [Diplomacy](/plugins/hyperfactions/wiki/concepts/diplomacy) - Enemy relations enable overclaiming
-- [Configuration](/plugins/hyperfactions/wiki/getting-started/configuration) - Full power config options
+- [Territories](/plugins/hyperfactions/wiki/concepts/territories) - How claiming works
+- [Diplomacy](/plugins/hyperfactions/wiki/concepts/diplomacy) - Relations affect combat rules
+- [Configuration Reference](/plugins/hyperfactions/wiki/reference/configuration) - All power settings

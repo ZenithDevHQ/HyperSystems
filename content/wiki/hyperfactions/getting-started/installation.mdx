@@ -13,11 +13,11 @@ This guide will walk you through downloading and installing HyperFactions on you
 Before installing HyperFactions, ensure you have:
 
 - **Hytale Server** (Early Access)
-- **Java 21** or higher
+- **Java 25** or higher
 - **Recommended:** [HyperPerms](/plugins/hyperperms) for permission management
 
 <InfoBox variant="warning" title="Permission Setup Required">
-As of v0.3.0, HyperFactions requires explicit permission grants. Without a permission manager like HyperPerms, players will be unable to use faction commands. See [Permission Setup](#permission-setup) below.
+HyperFactions requires explicit permission grants. Without a permission manager like HyperPerms, players will be unable to use faction commands. See [Permission Setup](#permission-setup) below.
 </InfoBox>
 
 ## Download
@@ -25,18 +25,13 @@ As of v0.3.0, HyperFactions requires explicit permission grants. Without a permi
 Download the latest version of HyperFactions from one of these sources:
 
 - **GitHub Releases:** [github.com/HyperSystemsDev/HyperFactions/releases](https://github.com/HyperSystemsDev/HyperFactions/releases)
-- **CurseForge:** Coming soon
+- **CurseForge:** [curseforge.com/hytale/mods/hyperfactions](https://www.curseforge.com/hytale/mods/hyperfactions)
 
 ## Installation Steps
 
 ### 1. Stop Your Server
 
-Before installing any mods, make sure your Hytale server is stopped.
-
-```bash
-# If using a control panel, use the Stop button
-# If running manually, use Ctrl+C or the stop command
-```
+Before installing any mods, make sure your Hytale server is stopped. Type `stop` in the server console or use your hosting panel's stop button.
 
 ### 2. Install the Mod
 
@@ -45,24 +40,23 @@ Copy the `HyperFactions-x.x.x.jar` file to your server's `mods` folder:
 ```
 your-server/
 ├── mods/
-│   └── HyperFactions-0.3.2.jar  ← Place here
-├── config/
-├── world/
-└── server.jar
+│   └── HyperFactions-0.4.3.jar  ← Place here
+├── config.json
+├── universe/
+├── logs/
+└── HytaleServer.jar
 ```
 
 ### 3. Start Your Server
 
 Start your Hytale server. HyperFactions will automatically generate its configuration files on first run.
 
-```bash
-java -jar server.jar
-```
+For instructions on starting your Hytale server, see the official [Hytale Server Manual](https://support.hytale.com/hc/en-us/articles/45326769420827-Hytale-Server-Manual).
 
 ### 4. Permission Setup
 
 <InfoBox variant="danger" title="Critical Step">
-HyperFactions v0.3.x requires explicit permission grants. Without proper permissions, players cannot access any faction commands.
+HyperFactions requires explicit permission grants. Without proper permissions, players cannot access any faction commands.
 </InfoBox>
 
 **Using HyperPerms (Recommended):**
@@ -95,7 +89,7 @@ Once the server is running and permissions are configured, verify the installati
 If you see the HyperFactions help menu, the installation was successful!
 
 <InfoBox variant="info">
-On first run, HyperFactions creates its data directory at `plugins/HyperFactions/` with default configuration.
+On first run, HyperFactions creates its data directory at `mods/com.hyperfactions_HyperFactions/` with default configuration.
 </InfoBox>
 
 ## Data Directory Structure
@@ -103,16 +97,20 @@ On first run, HyperFactions creates its data directory at `plugins/HyperFactions
 After installation, HyperFactions creates the following structure:
 
 ```
-plugins/HyperFactions/
-├── config.json              ← Main configuration
+mods/com.hyperfactions_HyperFactions/
+├── config.json               ← Main configuration
+├── config/                   ← Module configurations
+│   ├── backup.json           ← Backup settings
+│   ├── chat.json             ← Chat formatting settings
+│   ├── debug.json            ← Debug options
+│   ├── economy.json          ← Economy integration settings
+│   └── faction-permissions.json  ← Default faction territory permissions
 ├── backups/                  ← Automatic and manual backups
-└── data/
-    ├── factions/            ← Per-faction data files
-    │   └── {uuid}.json
-    ├── claims.json          ← Global claims registry
-    ├── zones.json           ← SafeZone and WarZone definitions
-    └── players/             ← Player power & preferences
-        └── {uuid}.json
+├── factions/                 ← Per-faction data files
+│   └── {uuid}.json
+├── players/                  ← Player power & preferences
+│   └── {uuid}.json
+└── zones.json                ← SafeZone and WarZone definitions
 ```
 
 ## Troubleshooting
@@ -122,7 +120,7 @@ plugins/HyperFactions/
 If HyperFactions doesn't appear to load:
 
 1. Check server logs for errors
-2. Verify you're using Java 21 or higher
+2. Verify you're using Java 25 or higher
 3. Ensure the JAR file is in the correct `mods` folder
 4. Make sure the file isn't corrupted (re-download if needed)
 
@@ -148,14 +146,18 @@ If you see "Permission denied" messages:
 
 To update to a new version:
 
-1. Stop your server
-2. Backup your `plugins/HyperFactions/` directory
+1. Create a backup using `/f admin backup create pre-update`
+2. Stop your server
 3. Replace the old JAR with the new one
 4. Start your server
 5. Run `/f admin reload` if prompted
 
 <InfoBox variant="tip">
-HyperFactions includes an automatic update checker. Use `/f admin update` to download and install updates directly (requires `hyperfactions.admin.update` permission).
+HyperFactions includes a built-in backup system. Use `/f admin backup create` before updates to create a named backup you can restore with `/f admin backup restore` if needed.
+</InfoBox>
+
+<InfoBox variant="info">
+HyperFactions also checks for updates automatically and notifies you when new versions are available.
 </InfoBox>
 
 ## Next Steps

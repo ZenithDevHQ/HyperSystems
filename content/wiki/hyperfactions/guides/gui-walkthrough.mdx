@@ -1,0 +1,402 @@
+---
+title: GUI Walkthrough
+description: Complete guide to HyperFactions' graphical user interface.
+order: 1
+---
+
+# GUI Walkthrough
+
+HyperFactions provides an intuitive GUI for managing factions without memorizing commands. This guide walks through every screen and feature available in the GUI.
+
+## Opening the GUI
+
+Access the main faction GUI with:
+
+```
+/f
+```
+
+This opens the main dashboard if you're in a faction, or the faction browser if you're not.
+
+<InfoBox variant="info" title="Permission Required">
+You need the `hyperfactions.use` permission to open the GUI.
+</InfoBox>
+
+## Main Dashboard
+
+The main dashboard is your faction's control center. It shows an overview of your faction and provides quick access to all features.
+
+<InfoBox variant="info" title="Screenshot Needed">
+**Screenshot:** `faction-main-dashboard.png`
+
+**Description:** Main faction dashboard showing overview panel with faction name, power, claims, and member count
+
+**Key elements to capture:**
+- Faction name and tag at the top
+- Power bar showing current/max power
+- Claims counter showing used/available
+- Member list preview
+- Quick action buttons (Home, Map, Chat)
+- Navigation buttons to other sections
+</InfoBox>
+
+### Dashboard Sections
+
+| Section | Description |
+|---------|-------------|
+| **Header** | Faction name, tag, and color |
+| **Power Display** | Current power / max power with visual bar |
+| **Claims Display** | Current claims / max claims |
+| **Member Preview** | Online members with status indicators |
+| **Quick Actions** | Home teleport, map view, chat toggle |
+| **Navigation** | Buttons to Members, Relations, Settings, etc. |
+
+### Quick Actions
+
+| Button | Action | Permission |
+|--------|--------|------------|
+| **Home** | Teleport to faction home | `hyperfactions.teleport.home` |
+| **Map** | Open territory map | `hyperfactions.territory.map` |
+| **Chat** | Toggle faction chat mode | `hyperfactions.chat.faction` |
+| **Leave** | Leave the faction | `hyperfactions.member.leave` |
+
+## Faction Browser
+
+The faction browser lets you view all factions on the server.
+
+<InfoBox variant="info" title="Screenshot Needed">
+**Screenshot:** `faction-browser.png`
+
+**Description:** Faction browser showing list of all factions with sorting options
+
+**Key elements to capture:**
+- List of faction cards with name, power, member count
+- Sort buttons (by name, power, members, age)
+- Search/filter field
+- Join/request button on open factions
+- Faction info preview on hover
+</InfoBox>
+
+### Browser Features
+
+- **Search**: Filter factions by name
+- **Sort**: Order by name, power, members, or creation date
+- **Pagination**: Navigate through large faction lists
+- **Status indicators**: Open (green) vs Closed (red) factions
+
+### Viewing Faction Details
+
+Click any faction to see detailed information:
+
+| Field | Description |
+|-------|-------------|
+| **Description** | Faction's custom description |
+| **Power** | Total faction power |
+| **Claims** | Number of claimed chunks |
+| **Members** | Total member count |
+| **Leader** | Current faction leader |
+| **Created** | When the faction was founded |
+| **Relations** | Allied and enemy factions |
+
+### Joining a Faction
+
+**Open Factions:** Click "Join" to join immediately.
+
+**Closed Factions:** Click "Request" to send a join request. The faction's officers or leader must approve it.
+
+<InfoBox variant="tip" title="Join Requests">
+Join requests expire after 24 hours by default. Check back with the faction if you don't hear back.
+</InfoBox>
+
+## Territory Map
+
+The territory map provides a visual overview of claimed territory in your area.
+
+<InfoBox variant="info" title="Screenshot Needed">
+**Screenshot:** `chunk-map.png`
+
+**Description:** Visual territory map showing chunks with color-coded ownership
+
+**Key elements to capture:**
+- Grid of chunks centered on player position
+- Color coding: your faction, allies, enemies, neutral, wilderness
+- Player position marker
+- Legend showing what colors mean
+- Zoom controls if available
+- Claim/unclaim buttons for current chunk
+</InfoBox>
+
+### Map Colors
+
+| Color | Meaning |
+|-------|---------|
+| **Your Color** | Your faction's territory |
+| **Green** | Allied faction territory |
+| **Red** | Enemy faction territory |
+| **Yellow** | Neutral faction territory |
+| **Gray** | Unclaimed wilderness |
+| **Bright Green** | SafeZone |
+| **Bright Red** | WarZone |
+
+### Map Controls
+
+- **Pan**: Click and drag to move the map
+- **Center**: Button to re-center on your position
+- **Claim**: Claim the chunk you're standing in
+- **Unclaim**: Release the chunk you're standing in
+
+### Map Symbols
+
+| Symbol | Meaning |
+|--------|---------|
+| **You** | Your current position |
+| **H** | Faction home location |
+| **S** | SafeZone |
+| **W** | WarZone |
+
+## Member Management
+
+The members page shows all faction members and their status.
+
+<InfoBox variant="info" title="Screenshot Needed">
+**Screenshot:** `faction-members.png`
+
+**Description:** Member management interface showing all members with roles and actions
+
+**Key elements to capture:**
+- Member list with online/offline status
+- Role indicators (Leader, Officer, Member)
+- Power display per member
+- Last seen timestamp for offline members
+- Action buttons (promote, demote, kick)
+- Pending invites section
+- Pending join requests section
+</InfoBox>
+
+### Member List
+
+| Column | Description |
+|--------|-------------|
+| **Name** | Player name with online indicator |
+| **Role** | Leader, Officer, or Member |
+| **Power** | Current personal power |
+| **Last Seen** | When offline members were last active |
+
+### Member Actions
+
+Actions available depend on your role:
+
+**As Leader:**
+- Promote Members to Officer
+- Demote Officers to Member
+- Kick any member
+- Transfer leadership
+
+**As Officer:**
+- Kick Members (not other Officers)
+
+**As Member:**
+- View only (no management actions)
+
+### Invitations
+
+The invitations panel shows:
+- **Pending Invites**: Players you've invited who haven't responded
+- **Join Requests**: Players who want to join your faction
+
+<InfoBox variant="tip" title="For Leaders/Officers">
+Don't forget to check join requests regularly! Players are waiting for your approval.
+</InfoBox>
+
+## Relations Page
+
+The relations page manages your faction's diplomatic relationships.
+
+<InfoBox variant="info" title="Screenshot Needed">
+**Screenshot:** `faction-relations.png`
+
+**Description:** Relations management showing allies, enemies, and pending requests
+
+**Key elements to capture:**
+- Ally list with faction names
+- Enemy list with faction names
+- Neutral factions section
+- Pending ally requests (incoming and outgoing)
+- Relation management buttons
+- Max allies/enemies indicators
+</InfoBox>
+
+### Relation Types
+
+| Relation | Effect |
+|----------|--------|
+| **Ally** | Cannot damage, friendly chat, green on map |
+| **Enemy** | Can overclaim, always hostile, red on map |
+| **Neutral** | Default state, yellow on map |
+
+### Managing Relations
+
+**To Ally:**
+1. Click "Send Ally Request" on a faction
+2. Wait for them to accept
+3. Alliance is mutual when both accept
+
+**To Enemy:**
+1. Click "Declare Enemy" on a faction
+2. Immediate effect (no confirmation needed)
+
+**To Reset:**
+1. Click "Set Neutral" on any faction
+2. Removes ally or enemy status
+
+<InfoBox variant="warning" title="Alliance Limits">
+Your server may limit maximum allies (default: 10). Check the relations page header for your current/max count.
+</InfoBox>
+
+## Faction Settings
+
+The settings page lets leaders customize their faction.
+
+<InfoBox variant="info" title="Screenshot Needed">
+**Screenshot:** `faction-settings.png`
+
+**Description:** Faction settings page with customization options
+
+**Key elements to capture:**
+- Faction name field
+- Tag/abbreviation field
+- Description text area
+- Color picker or color codes
+- Open/Closed toggle
+- Territory permission settings
+- Save/Cancel buttons
+</InfoBox>
+
+### General Settings
+
+| Setting | Description | Permission |
+|---------|-------------|------------|
+| **Name** | Faction display name | `hyperfactions.faction.rename` |
+| **Tag** | Short tag shown in chat | `hyperfactions.faction.tag` |
+| **Description** | Faction description | `hyperfactions.faction.description` |
+| **Color** | Display color | `hyperfactions.faction.color` |
+| **Open/Closed** | Whether anyone can join | `hyperfactions.faction.open`/`close` |
+
+### Territory Permissions
+
+Control what different groups can do in your territory:
+
+| Group | Description |
+|-------|-------------|
+| **Members** | Your faction members |
+| **Allies** | Allied faction members |
+| **Neutrals** | Neutral faction members |
+| **Enemies** | Enemy faction members |
+
+| Permission | Description |
+|------------|-------------|
+| **Build** | Place and break blocks |
+| **Interact** | Use doors, buttons, levers |
+| **Container** | Access chests and storage |
+
+<InfoBox variant="tip" title="Default Territory Permissions">
+By default, only faction members can build and access containers in your territory. Allies can usually interact with doors.
+</InfoBox>
+
+## Admin Dashboard
+
+Server administrators have access to additional management features.
+
+<InfoBox variant="info" title="For Server Admins">
+The admin dashboard requires `hyperfactions.admin.use` permission.
+</InfoBox>
+
+<InfoBox variant="info" title="Screenshot Needed">
+**Screenshot:** `admin-dashboard.png`
+
+**Description:** Admin dashboard showing server-wide faction management
+
+**Key elements to capture:**
+- Faction list with management buttons
+- Zone management section
+- Server statistics (total factions, claims, etc.)
+- Config reload button
+- Debug toggle
+- Backup management
+</InfoBox>
+
+### Admin Features
+
+| Feature | Permission | Description |
+|---------|------------|-------------|
+| **Force Disband** | `hyperfactions.admin.disband` | Delete any faction |
+| **Modify Faction** | `hyperfactions.admin.modify` | Edit any faction's settings |
+| **Zone Management** | `hyperfactions.admin.zones` | Create/edit SafeZones and WarZones |
+| **Reload Config** | `hyperfactions.admin.reload` | Reload configuration files |
+| **Debug Mode** | `hyperfactions.admin.debug` | Toggle debug output |
+| **Backup Management** | `hyperfactions.admin.backup` | Create and restore backups |
+
+### Zone Management
+
+<InfoBox variant="info" title="Screenshot Needed">
+**Screenshot:** `admin-zones.png`
+
+**Description:** Zone management interface for creating and editing SafeZones and WarZones
+
+**Key elements to capture:**
+- List of existing zones with type indicators
+- Zone creation form
+- Flag toggles for each zone
+- Chunk selection/radius tools
+- Delete zone button
+</InfoBox>
+
+The zone management interface allows:
+- Creating named SafeZones and WarZones
+- Claiming chunks for zones
+- Configuring the 15 zone flags
+- Deleting zones
+
+See [Zones](/plugins/hyperfactions/wiki/concepts/zones) for detailed flag information.
+
+## GUI Keyboard Shortcuts
+
+| Key | Action |
+|-----|--------|
+| **Escape** | Close current GUI |
+| **Tab** | Navigate between sections |
+
+## Accessibility
+
+The GUI is designed with accessibility in mind:
+- High contrast colors for readability
+- Clear labels on all buttons
+- Tooltips for additional information
+- Keyboard navigation support
+
+## Troubleshooting
+
+### GUI Won't Open
+
+1. Check you have `hyperfactions.use` permission
+2. Ensure HyperFactions is loaded (`/f version`)
+3. Check server console for errors
+
+### Buttons Not Working
+
+1. Verify you have the required permission
+2. Check if you have the correct faction role
+3. Some actions require Leader or Officer role
+
+### Display Issues
+
+1. Try closing and reopening the GUI
+2. Check if your client has UI scaling issues
+3. Report persistent issues with screenshots
+
+## Related Topics
+
+- [Basic Commands](/plugins/hyperfactions/wiki/commands/basic) - Command alternatives to GUI
+- [Roles](/plugins/hyperfactions/wiki/concepts/roles) - Understanding faction roles
+- [Permissions](/plugins/hyperfactions/wiki/reference/permissions) - Permission requirements
+- [Zones](/plugins/hyperfactions/wiki/concepts/zones) - Zone flag details

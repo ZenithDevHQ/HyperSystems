@@ -6,7 +6,7 @@ order: 8
 
 # Admin Commands
 
-These commands are for server administrators to manage factions, zones, backups, and the plugin itself. Admin commands require permissions from the `hyperfactions.admin.*` category.
+These commands are for server administrators to manage factions, zones, backups, and the mod itself. Admin commands require permissions from the `hyperfactions.admin.*` category.
 
 ## Admin Menu
 
@@ -63,7 +63,7 @@ The zone system allows admins to create named zones that span multiple chunks wi
 <CommandBlock
   commands={[
     {
-      command: "/f admin zone create <name> <safe|war>",
+      command: "/f admin zone create <safe|war> <name>",
       description: "Create a new named zone (SafeZone or WarZone)",
       permission: "hyperfactions.admin.zones"
     }
@@ -107,7 +107,7 @@ The zone system allows admins to create named zones that span multiple chunks wi
       permission: "hyperfactions.admin.zones"
     },
     {
-      command: "/f admin zone remove <name>",
+      command: "/f admin zone delete <name>",
       description: "Delete a zone entirely (unclaims all chunks)",
       permission: "hyperfactions.admin.zones"
     },
@@ -121,21 +121,27 @@ The zone system allows admins to create named zones that span multiple chunks wi
 
 ### Zone Flags
 
-Each zone type has configurable flags. Use the admin GUI to modify zone flags:
+Each zone type has 15 configurable flags. Use the admin GUI to modify zone flags:
 
 | Flag | SafeZone Default | WarZone Default | Description |
 |------|------------------|-----------------|-------------|
 | `pvp_enabled` | false | true | Allow PvP |
-| `friendly_fire` | false | true | Allow damage between allies |
-| `build_allowed` | false | false | Allow building |
-| `container_access` | false | false | Allow container access |
-| `interact_allowed` | true | true | Allow interactions |
-| `item_drop` | true | true | Allow item dropping |
-| `item_pickup` | true | true | Allow item pickup |
-| `mob_spawning` | false | true | Allow mob spawning |
+| `friendly_fire` | false | false | Allow same-faction damage |
+| `projectile_damage` | false | true | Allow projectile damage |
 | `mob_damage` | false | true | Allow mob damage |
-| `hunger_loss` | false | true | Allow hunger drain |
+| `build_allowed` | false | false | Allow building |
+| `block_interact` | true | true | General block interaction |
+| `door_use` | true | true | Use doors and gates |
+| `container_use` | false | false | Access storage containers |
+| `bench_use` | false | false | Use crafting tables |
+| `processing_use` | false | false | Use furnaces/smelters |
+| `seat_use` | true | true | Sit on seats/mounts |
+| `item_drop` | false | true | Allow item dropping |
+| `item_pickup` | true | true | Allow item pickup |
 | `fall_damage` | false | true | Allow fall damage |
+| `environmental_damage` | false | true | Drowning, suffocation |
+
+For full flag details, see [Zones](/plugins/hyperfactions/wiki/concepts/zones).
 
 ## Bypass Mode
 
@@ -230,27 +236,6 @@ HyperFactions includes a built-in backup system with GFS (Grandfather-Father-Son
 Restoring a backup overwrites current data. Consider creating a backup before restoring.
 </InfoBox>
 
-## Update System
-
-<CommandBlock
-  commands={[
-    {
-      command: "/f admin update",
-      description: "Check for and download updates",
-      permission: "hyperfactions.admin.update"
-    }
-  ]}
-/>
-
-**Update process:**
-1. Checks GitHub releases for new versions
-2. Downloads the new JAR file
-3. Prompts for server restart to apply
-
-<InfoBox variant="info">
-Updates are downloaded but not applied until server restart. This prevents data loss during active sessions.
-</InfoBox>
-
 ## Quick Reference
 
 | Command | Description | Permission |
@@ -259,10 +244,10 @@ Updates are downloaded but not applied until server restart. This prevents data 
 | `/f admin reload` | Reload configuration | `hyperfactions.admin.reload` |
 | `/f admin debug` | Toggle debug mode | `hyperfactions.admin.debug` |
 | `/f admin bypass` | Toggle bypass mode | `hyperfactions.admin.use` |
-| `/f admin zone create <name> <type>` | Create a zone | `hyperfactions.admin.zones` |
+| `/f admin zone create <type> <name>` | Create a zone | `hyperfactions.admin.zones` |
 | `/f admin zone claim <name>` | Add chunk to zone | `hyperfactions.admin.zones` |
 | `/f admin zone unclaim` | Remove chunk from zone | `hyperfactions.admin.zones` |
-| `/f admin zone remove <name>` | Delete zone | `hyperfactions.admin.zones` |
+| `/f admin zone delete <name>` | Delete zone | `hyperfactions.admin.zones` |
 | `/f admin zone list` | List zones | `hyperfactions.admin.zones` |
 | `/f admin zone radius <name> <r>` | Claim radius | `hyperfactions.admin.zones` |
 | `/f admin disband <faction>` | Force disband | `hyperfactions.admin.disband` |
@@ -271,7 +256,6 @@ Updates are downloaded but not applied until server restart. This prevents data 
 | `/f admin backup list` | List backups | `hyperfactions.admin.backup` |
 | `/f admin backup restore <name>` | Restore backup | `hyperfactions.admin.backup` |
 | `/f admin backup delete <name>` | Delete backup | `hyperfactions.admin.backup` |
-| `/f admin update` | Check for updates | `hyperfactions.admin.update` |
 
 ## Admin Permissions
 
@@ -319,11 +303,6 @@ Updates are downloaded but not applied until server restart. This prevents data 
       default: "op"
     },
     {
-      permission: "hyperfactions.admin.update",
-      description: "Download and install updates",
-      default: "op"
-    },
-    {
       permission: "hyperfactions.admin.*",
       description: "All admin permissions",
       default: "op"
@@ -337,7 +316,7 @@ Updates are downloaded but not applied until server restart. This prevents data 
 
 1. **Create the SafeZone:**
    ```
-   /f admin zone create spawn safe
+   /f admin zone create safe spawn
    ```
 
 2. **Claim the spawn area:**
@@ -357,7 +336,7 @@ Updates are downloaded but not applied until server restart. This prevents data 
 
 2. **Create the WarZone:**
    ```
-   /f admin zone create arena war
+   /f admin zone create war arena
    ```
 
 3. **Stand in the arena and claim:**
@@ -369,14 +348,7 @@ Updates are downloaded but not applied until server restart. This prevents data 
    /f admin zone radius arena 2
    ```
 
-4. **Configure no power loss in `config.json`:**
-   ```json
-   "power": {
-     "warzonePowerLoss": false
-   }
-   ```
-
-5. **Reload:**
+4. **Reload configuration if needed:**
    ```
    /f admin reload
    ```

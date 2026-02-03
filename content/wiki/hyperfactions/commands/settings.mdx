@@ -52,24 +52,19 @@ Renaming is visible to everyone. Previous name references may become outdated.
 
 ## Setting Faction Tag
 
-<CommandBlock
-  commands={[
-    {
-      command: "/f tag <tag>",
-      description: "Set your faction's chat tag",
-      permission: "hyperfactions.faction.tag"
-    }
-  ]}
-/>
+Faction tags are short abbreviations shown in chat next to player names. Tags are configured through the faction settings GUI.
+
+**Access via:**
+- `/f settings` → Tag section
+- `/f gui` → Settings → Tag
 
 **Requirements:**
 - Must be the Leader
-- Tag is shown in chat next to player names
+- Tag must be 1-5 alphanumeric characters
 
-**Example:**
-```
-/f tag WoN
-```
+<InfoBox variant="info">
+Tags help identify faction members quickly in chat without displaying the full faction name.
+</InfoBox>
 
 ## Setting Faction Color
 
@@ -148,27 +143,24 @@ This is the default state for new factions.
 
 ## Territory Permissions
 
-<CommandBlock
-  commands={[
-    {
-      command: "/f permissions",
-      description: "Open the territory permissions GUI",
-      permission: "hyperfactions.faction.permissions"
-    }
-  ]}
-/>
+Territory permissions are managed through the faction settings GUI. Access the settings page to configure what actions are allowed in your faction's claimed territory.
 
-**Available flags:**
-- `pvp_enabled` - Allow PvP in territory
-- `friendly_fire` - Allow faction members to damage each other
-- `build_allowed` - Allow building
-- `container_access` - Allow container access
-- `interact_allowed` - Allow interactions
-- `item_drop` / `item_pickup` - Allow item drop/pickup
-- `mob_spawning` / `mob_damage` - Mob settings
-- `hunger_loss` / `fall_damage` - Environment effects
+**Access via:**
+- `/f settings` → Territory Permissions tab
+- `/f gui` → Settings → Territory Permissions
 
-See [Factions](/plugins/hyperfactions/wiki/concepts/factions) for details on territory permissions.
+**Available flag categories:**
+- **Combat:** `pvp_enabled`, `friendly_fire`, `projectile_damage`, `mob_damage`
+- **Building:** `build_allowed`, `block_interact`
+- **Interaction:** `door_use`, `container_use`, `bench_use`, `processing_use`, `seat_use`
+- **Items:** `item_drop`, `item_pickup`
+- **Damage:** `fall_damage`, `environmental_damage`
+
+<InfoBox variant="info" title="For Server Owners">
+Territory permission flags require the `hyperfactions.faction.permissions` permission node to modify. Server administrators can lock certain flags via configuration.
+</InfoBox>
+
+See [Zones](/plugins/hyperfactions/wiki/concepts/zones) for detailed flag descriptions and defaults.
 
 ## Disbanding
 
@@ -196,11 +188,10 @@ Disbanding cannot be undone. All claims are released and all members are removed
 |---------|-------------|---------------|
 | `/f rename <name>` | Change faction name | Leader |
 | `/f desc <text>` | Set description | Officer+ |
-| `/f tag <tag>` | Set chat tag | Leader |
 | `/f color <hex>` | Set faction color | Officer+ |
 | `/f open` | Allow free joining | Leader |
 | `/f close` | Require invitations | Leader |
-| `/f permissions` | Configure territory flags | Leader |
+| `/f settings` | Open settings GUI (includes tags and territory flags) | Officer+ |
 | `/f disband` | Dissolve faction | Leader |
 
 ## Examples
@@ -217,10 +208,11 @@ Disbanding cannot be undone. All claims are released and all members are removed
    /f color #FF0000
    ```
 
-3. **Set a tag:**
+3. **Set a tag via the settings GUI:**
    ```
-   /f tag ELITE
+   /f settings
    ```
+   Navigate to the Tag section and enter your desired tag (e.g., "ELITE").
 
 4. **Keep it invite-only:**
    ```
@@ -293,8 +285,8 @@ Now anyone can join. Close it after recruiting:
       default: "false"
     },
     {
-      permission: "hyperfactions.faction.permissions",
-      description: "Manage territory permissions",
+      permission: "hyperfactions.faction.settings",
+      description: "Open faction settings GUI",
       default: "false"
     },
     {

@@ -1,0 +1,286 @@
+---
+title: Starting a Faction
+description: A complete guide for new faction leaders on getting started.
+order: 2
+---
+
+# Starting a Faction
+
+Ready to lead your own faction? This guide covers everything you need to know to create, name, and establish your new faction on the server.
+
+<InfoBox variant="info" title="For Players">
+This guide is for players who want to create and lead their own faction. If you'd rather join an existing faction, check the faction browser with `/f` and request to join one.
+</InfoBox>
+
+## Prerequisites
+
+Before creating a faction, ensure you:
+
+1. **Have the permission**: You need `hyperfactions.faction.create`
+2. **Are not in a faction**: Leave your current faction first with `/f leave`
+3. **Have a name in mind**: 3-24 characters, alphanumeric
+
+## Creating Your Faction
+
+### Step 1: Choose a Name
+
+Your faction name is your identity. Choose wisely:
+
+**Good Names:**
+- Memorable and unique
+- Easy to spell and say
+- Reflects your faction's theme or goals
+- 3-24 characters
+
+**Avoid:**
+- Names too similar to existing factions
+- Offensive or inappropriate names
+- Extremely long names (hard to type)
+- Names that are just numbers
+
+### Step 2: Create Command
+
+```
+/f create <name>
+```
+
+Example: `/f create Phoenix`
+
+<InfoBox variant="tip" title="Success!">
+When created, you become the **Leader** of your new faction. You start with your personal power (default: 10) contributing to the faction.
+</InfoBox>
+
+### Step 3: Customize Your Faction
+
+After creation, customize your faction identity:
+
+**Set a Tag (short name for chat):**
+
+Open the settings GUI with `/f settings` and navigate to the Tag section. Tags are 1-5 alphanumeric characters that appear in chat (e.g., "PHX" for Phoenix).
+
+**Set a Description:**
+```
+/f desc <description>
+```
+Example: `/f desc A rising faction dedicated to exploration and adventure.`
+
+**Set Your Color:**
+```
+/f color <color>
+```
+Example: `/f color #FF6600`
+
+<InfoBox variant="info" title="Colors">
+Colors can be hex codes (#FF6600) or named colors (orange, blue, red, etc.). Your color appears on the map and in chat.
+</InfoBox>
+
+## Your First Territory
+
+With your faction created, it's time to claim your first territory.
+
+### Choosing a Location
+
+Consider these factors when choosing your base location:
+
+| Factor | Consideration |
+|--------|---------------|
+| **Resources** | Near valuable resources or biomes |
+| **Defense** | Natural barriers, chokepoints |
+| **Accessibility** | Not too far from spawn for recruiting |
+| **Neighbors** | Distance from other factions |
+| **Expansion** | Room to grow your claims |
+
+### Claiming Your First Chunk
+
+1. Stand in the chunk you want to claim
+2. Run: `/f claim`
+3. The chunk is now your faction's territory
+
+<InfoBox variant="tip" title="Power Check">
+With starting power of 10 and power-per-claim of 2, you can claim up to **5 chunks** as a solo player. Don't overclaim early!
+</InfoBox>
+
+### Setting Your Home
+
+Set your faction home for easy return:
+
+```
+/f sethome
+```
+
+Members can then teleport here with `/f home`.
+
+<InfoBox variant="warning" title="Claim Your Home First">
+You can only set home in territory you own. Claim the chunk first!
+</InfoBox>
+
+## Recruiting Members
+
+A one-person faction is vulnerable. Start recruiting!
+
+### Making Your Faction Discoverable
+
+**Option 1: Open Faction**
+```
+/f open
+```
+Anyone can join without invitation. Good for rapid growth, risky for security.
+
+**Option 2: Closed Faction (Invite Only)**
+```
+/f close
+```
+Players must be invited or request to join. More secure, slower growth.
+
+### Inviting Players
+
+Find trustworthy players and invite them:
+```
+/f invite <player>
+```
+
+They have 5 minutes to accept with `/f join <your-faction>`.
+
+### Handling Join Requests
+
+If closed, check incoming join requests in the GUI (`/f` → Members → Requests) or watch for chat notifications.
+
+Accept requests from players you trust.
+
+## Early Game Strategy
+
+### Power Management
+
+As a new faction, power is your most precious resource:
+
+| Action | Power Impact |
+|--------|--------------|
+| New member joins | +10 (their starting power) |
+| Member reaches max | +20 potential |
+| Member dies | -1 per death |
+| Member leaves | Lose their power |
+
+**Early Priorities:**
+1. Don't claim more than you can defend
+2. Minimize risky activities (PvP while weak)
+3. Let power regenerate before expanding
+
+### Claim Strategy
+
+Start conservative:
+
+1. **Core Claims First**: Claim your base and essential areas
+2. **Buffer Later**: Add defensive buffer once you have power
+3. **Don't Spread Thin**: Concentrated claims are easier to defend
+
+**Power Buffer Rule:**
+```
+Safe Claims = (Total Power / Power Per Claim) - 2
+```
+Keep 2 claims worth of power as a safety buffer.
+
+### Avoiding Early Conflicts
+
+New factions are vulnerable. Avoid:
+- Claiming near established factions
+- Aggressive behavior toward neighbors
+- Making enemies before you're ready
+- Overexpanding into contested areas
+
+## Building Your Team
+
+### Member Quality vs Quantity
+
+| Approach | Pros | Cons |
+|----------|------|------|
+| **Many Members** | More power, faster growth | Hard to manage, potential drama |
+| **Few Trusted** | Tight-knit, loyal | Slower growth, vulnerable |
+
+For new factions, **quality over quantity** is usually better. A few active, loyal members beats many inactive ones.
+
+### Promoting Officers
+
+As you grow, promote trusted members to Officer:
+```
+/f promote <player>
+```
+
+Officers can:
+- Invite new members
+- Kick members
+- Claim and unclaim territory
+
+### Setting Expectations
+
+Establish faction rules early:
+- Activity expectations
+- Combat rules (when to fight/flee)
+- Resource sharing policies
+- Chain of command
+
+## Common Mistakes
+
+### Mistake 1: Overexpanding
+
+**Problem:** Claiming too much territory with too little power.
+
+**Solution:** Follow the power buffer rule. Only claim what you can defend.
+
+### Mistake 2: Wrong Location
+
+**Problem:** Setting up too close to aggressive factions or in undesirable areas.
+
+**Solution:** Scout the area first. Use `/f map` to see who's nearby.
+
+### Mistake 3: Inviting Everyone
+
+**Problem:** Accepting every join request leads to trust issues and drama.
+
+**Solution:** Be selective. Talk to potential members first.
+
+### Mistake 4: Ignoring Defense
+
+**Problem:** Beautiful base with no thought to protection.
+
+**Solution:** Build with defense in mind. Walls, chokepoints, escape routes.
+
+### Mistake 5: Making Enemies Too Early
+
+**Problem:** Picking fights before you're ready.
+
+**Solution:** Stay neutral until you have the power to back up your words.
+
+## First Week Checklist
+
+Use this checklist for your faction's first week:
+
+- [ ] Create faction with good name
+- [ ] Set tag, description, and color
+- [ ] Find and claim base location
+- [ ] Set faction home
+- [ ] Recruit 2-3 trusted members
+- [ ] Build basic base/shelter
+- [ ] Establish faction rules
+- [ ] Identify friendly neighbors
+- [ ] Maintain power buffer of 2+ claims
+- [ ] Promote 1 trusted officer
+
+## Growing Beyond Startup
+
+Once established, focus on:
+
+1. **Steady Recruitment**: Quality members over quantity
+2. **Alliance Building**: Find compatible factions to ally
+3. **Territory Development**: Build infrastructure in your claims
+4. **Economic Growth**: Develop faction resources
+5. **Reputation**: Be known for something positive
+
+See [Growing Your Faction](/plugins/hyperfactions/wiki/guides/growing-your-faction) for advanced expansion strategies.
+
+## Related Topics
+
+- [Growing Your Faction](/plugins/hyperfactions/wiki/guides/growing-your-faction) - Expansion strategies
+- [Power System](/plugins/hyperfactions/wiki/concepts/power-system) - Understanding power
+- [Territories](/plugins/hyperfactions/wiki/concepts/territories) - Claiming mechanics
+- [Roles](/plugins/hyperfactions/wiki/concepts/roles) - Faction hierarchy
+- [Basic Commands](/plugins/hyperfactions/wiki/commands/basic) - Essential commands

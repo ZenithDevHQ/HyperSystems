@@ -6,380 +6,678 @@ order: 2
 
 # Configuration Reference
 
-This page provides a complete reference for all HyperFactions configuration options. For a guide-style walkthrough, see [Configuration](/plugins/hyperfactions/wiki/getting-started/configuration).
+This page provides a complete reference for all 47 HyperFactions configuration options. For a guide-style walkthrough, see [Configuration](/plugins/hyperfactions/wiki/getting-started/configuration).
+
+<InfoBox variant="info" title="For Server Owners">
+This reference documents all available configuration options. Most servers can use the defaults - only customize what you need.
+</InfoBox>
 
 ## Configuration File Location
 
 ```
-plugins/HyperFactions/config.json
+mods/com.hyperfactions_HyperFactions/config.json
 ```
 
-<InfoBox variant="info">
-Changes require `/f admin reload` or server restart to take effect.
+<InfoBox variant="warning" title="Reload Required">
+Changes require `/f admin reload` or a server restart to take effect.
 </InfoBox>
 
-## All Options
+## Configuration Sections
 
-### faction
+The config is organized into 14 sections with 47 total options:
 
-Settings for faction names and limits.
+| Section | Options | Purpose |
+|---------|:-------:|---------|
+| `faction` | 4 | Faction naming and member limits |
+| `power` | 6 | Power system mechanics |
+| `claims` | 6 | Territory claiming rules |
+| `combat` | 9 | Combat and spawn protection |
+| `relations` | 2 | Ally and enemy limits |
+| `invites` | 2 | Invitation expiration |
+| `stuck` | 2 | Stuck command timing |
+| `teleport` | 4 | Home teleport settings |
+| `updates` | 3 | Update checking |
+| `autoSave` | 2 | Auto-save settings |
+| `messages` | 2 | Message formatting |
+| `gui` | 1 | GUI settings |
+| `territoryNotifications` | 1 | Enter/exit notifications |
+| `worldMap` | 1 | Map marker settings |
+| `permissions` | 2 | Permission behavior |
 
-| Key | Type | Default | Description |
-|-----|------|---------|-------------|
-| `faction.maxMembers` | integer | 50 | Maximum members per faction |
-| `faction.maxNameLength` | integer | 24 | Maximum faction name length |
-| `faction.minNameLength` | integer | 3 | Minimum faction name length |
-| `faction.allowedNamePattern` | regex | `^[a-zA-Z0-9_]+$` | Regex pattern for valid names |
+---
 
-### power
+## faction
 
-Power system settings.
+Settings for faction names and member limits.
 
-| Key | Type | Default | Description |
-|-----|------|---------|-------------|
-| `power.maxPlayerPower` | integer | 20 | Maximum power per player |
-| `power.startingPower` | integer | 10 | Initial power for new players |
-| `power.powerPerClaim` | integer | 2 | Power required per claim |
-| `power.regenPerMinute` | float | 0.0167 | Power regenerated per minute |
-| `power.deathPenalty` | integer | 1 | Power lost on death |
-| `power.neutralKillPenalty` | integer | 1 | Power lost for killing neutrals |
-| `power.warzonePowerLoss` | boolean | false | Lose power on WarZone death |
+| Key | Type | Default | Range | Description |
+|-----|------|---------|-------|-------------|
+| `maxMembers` | int | 50 | ≥1 | Maximum members per faction |
+| `maxNameLength` | int | 24 | 1-64 | Maximum faction name length |
+| `minNameLength` | int | 3 | 1-max | Minimum faction name length |
+| `allowColors` | bool | true | - | Allow color codes in faction names |
 
-### claims
+<InfoBox variant="tip" title="Name Validation">
+Faction names must be between `minNameLength` and `maxNameLength` characters. If `allowColors` is true, color codes don't count toward the length.
+</InfoBox>
 
-Territory claiming settings.
+---
 
-| Key | Type | Default | Description |
-|-----|------|---------|-------------|
-| `claims.maxClaims` | integer | 100 | Maximum claims per faction |
-| `claims.onlyAdjacent` | boolean | false | Require adjacent claims |
-| `claims.decayEnabled` | boolean | true | Enable inactive claim decay |
-| `claims.decayDelayDays` | integer | 7 | Days before decay starts |
-| `claims.decayRatePerDay` | integer | 1 | Claims lost per day |
-| `claims.showOnMap` | boolean | true | Show claims on world map |
-| `claims.worldWhitelist` | array | `[]` | Only allow claims in these worlds |
-| `claims.worldBlacklist` | array | `[]` | Block claims in these worlds |
+## power
 
-### overclaim
+Power system settings that govern territory capacity and warfare.
 
-Overclaiming mechanics.
+| Key | Type | Default | Range | Description |
+|-----|------|---------|-------|-------------|
+| `maxPlayerPower` | double | 20.0 | ≥0 | Maximum power per player |
+| `startingPower` | double | 10.0 | 0-max | Initial power for new players |
+| `powerPerClaim` | double | 2.0 | ≥0 | Power required per claim |
+| `deathPenalty` | double | 1.0 | ≥0 | Power lost on death |
+| `regenPerMinute` | double | 0.1 | ≥0 | Power regenerated per minute |
+| `regenWhenOffline` | bool | false | - | Regenerate power while offline |
 
-| Key | Type | Default | Description |
-|-----|------|---------|-------------|
-| `overclaim.enabled` | boolean | true | Enable overclaiming |
-| `overclaim.requireEnemyRelation` | boolean | true | Require enemy status |
-| `overclaim.powerThreshold` | integer | 0 | Power threshold for overclaim |
+### Power Calculations
 
-### combat
+**Regeneration rate examples:**
+| `regenPerMinute` | Per Hour | Full Recovery (0→20) |
+|------------------|----------|---------------------|
+| 0.05 | 3 power | ~6.7 hours |
+| 0.1 (default) | 6 power | ~3.3 hours |
+| 0.2 | 12 power | ~1.7 hours |
 
-Combat and PvP settings.
+**Max claims formula:**
+```
+maxClaims = min(floor(totalFactionPower / powerPerClaim), claims.maxClaims)
+```
 
-| Key | Type | Default | Description |
-|-----|------|---------|-------------|
-| `combat.tagDurationSeconds` | integer | 15 | Combat tag duration |
-| `combat.allyDamage` | boolean | false | Allow ally damage |
-| `combat.factionDamage` | boolean | false | Allow faction damage |
+---
 
-### teleport
+## claims
 
-Faction home teleportation.
+Territory claiming rules and restrictions.
 
-| Key | Type | Default | Description |
-|-----|------|---------|-------------|
-| `teleport.warmupSeconds` | integer | 5 | Teleport warmup duration |
-| `teleport.cooldownSeconds` | integer | 300 | Cooldown between teleports |
-| `teleport.cancelOnMove` | boolean | true | Cancel on movement |
-| `teleport.cancelOnDamage` | boolean | true | Cancel on damage |
-| `teleport.crossWorld` | boolean | true | Allow cross-dimension teleport |
+| Key | Type | Default | Range | Description |
+|-----|------|---------|-------|-------------|
+| `maxClaims` | int | 100 | ≥0 | Hard cap on claims per faction |
+| `onlyAdjacent` | bool | false | - | Require claims to be adjacent |
+| `decayEnabled` | bool | true | - | Enable inactive claim decay |
+| `decayDaysInactive` | int | 30 | ≥1 | Days before decay starts |
+| `worldWhitelist` | array | `[]` | - | Only allow claims in these worlds |
+| `worldBlacklist` | array | `[]` | - | Block claims in these worlds |
 
-### stuck
+### World Filtering
 
-Stuck command settings.
+World filtering follows these rules:
+1. If `worldWhitelist` is not empty, only listed worlds allow claims
+2. If `worldWhitelist` is empty but `worldBlacklist` is not, all worlds except listed ones allow claims
+3. If both are empty, all worlds allow claims
 
-| Key | Type | Default | Description |
-|-----|------|---------|-------------|
-| `stuck.warmupSeconds` | integer | 30 | Stuck warmup duration |
-| `stuck.cooldownSeconds` | integer | 300 | Stuck cooldown |
+```json
+{
+  "claims": {
+    "worldWhitelist": ["default", "dungeon_realm"],
+    "worldBlacklist": []
+  }
+}
+```
 
-### invites
+---
 
-Invitation system settings.
+## combat
 
-| Key | Type | Default | Description |
-|-----|------|---------|-------------|
-| `invites.inviteExpirationMinutes` | integer | 5 | Minutes before invite expires |
-| `invites.joinRequestExpirationHours` | integer | 24 | Hours before request expires |
+Combat settings including PvP rules and spawn protection.
 
-### backup
+| Key | Type | Default | Range | Description |
+|-----|------|---------|-------|-------------|
+| `tagDurationSeconds` | int | 15 | ≥0 | Combat tag duration in seconds |
+| `allyDamage` | bool | false | - | Allow damage to allies |
+| `factionDamage` | bool | false | - | Allow damage to faction members |
+| `taggedLogoutPenalty` | bool | true | - | Penalize logout while combat tagged |
+| `logoutPowerLoss` | double | 1.0 | ≥0 | Power lost on combat logout |
 
-Automatic backup system.
+### Spawn Protection (nested)
 
-| Key | Type | Default | Description |
-|-----|------|---------|-------------|
-| `backup.enabled` | boolean | true | Enable automatic backups |
-| `backup.hourlyRetention` | integer | 24 | Hourly backups to keep |
-| `backup.dailyRetention` | integer | 7 | Daily backups to keep |
-| `backup.weeklyRetention` | integer | 4 | Weekly backups to keep |
-| `backup.onShutdown` | boolean | true | Backup on server shutdown |
+| Key | Type | Default | Range | Description |
+|-----|------|---------|-------|-------------|
+| `spawnProtection.enabled` | bool | true | - | Enable spawn protection |
+| `spawnProtection.durationSeconds` | int | 5 | ≥0 | Protection duration |
+| `spawnProtection.breakOnAttack` | bool | true | - | Remove protection on attack |
+| `spawnProtection.breakOnMove` | bool | true | - | Remove protection on movement |
 
-### autoSave
+<InfoBox variant="info" title="Combat Tagging">
+When a player is combat tagged, they cannot teleport or use `/f stuck`. If they log out while tagged and `taggedLogoutPenalty` is true, they lose `logoutPowerLoss` power.
+</InfoBox>
 
-Auto-save settings.
+---
 
-| Key | Type | Default | Description |
-|-----|------|---------|-------------|
-| `autoSave.enabled` | boolean | true | Enable auto-save |
-| `autoSave.intervalMinutes` | integer | 5 | Minutes between saves |
+## relations
 
-### economy
+Diplomatic relationship limits.
 
-Economy integration (optional).
+| Key | Type | Default | Range | Description |
+|-----|------|---------|-------|-------------|
+| `maxAllies` | int | 10 | ≥-1 | Maximum ally factions (-1 = unlimited) |
+| `maxEnemies` | int | -1 | ≥-1 | Maximum enemy factions (-1 = unlimited) |
 
-| Key | Type | Default | Description |
-|-----|------|---------|-------------|
-| `economy.enabled` | boolean | false | Enable economy features |
-| `economy.currencyName` | string | "Coin" | Currency name (singular) |
-| `economy.currencyNamePlural` | string | "Coins" | Currency name (plural) |
-| `economy.currencySymbol` | string | "$" | Currency symbol |
-| `economy.startingBalance` | integer | 0 | Starting balance for factions |
+<InfoBox variant="tip" title="Balancing Alliances">
+Limiting allies encourages faction conflict and prevents server-wide alliance networks. A value of 3-5 allies creates interesting diplomacy.
+</InfoBox>
 
-### chat
+---
 
-Chat formatting and integration.
+## invites
 
-| Key | Type | Default | Description |
-|-----|------|---------|-------------|
-| `chat.enabled` | boolean | true | Enable chat formatting |
-| `chat.format` | string | `[%faction%] %player%: %message%` | Chat format |
-| `chat.tagDisplay` | string | "prefix" | Tag position (prefix/suffix/none) |
-| `chat.tagFormat` | string | `[%tag%]` | Tag format string |
-| `chat.noFactionTag` | string | "" | Tag for non-faction players |
-| `chat.priority` | integer | 100 | Chat event priority |
-| `chat.relationColors.own` | hex | `#00FF00` | Own faction color |
-| `chat.relationColors.ally` | hex | `#00FFFF` | Ally color |
-| `chat.relationColors.enemy` | hex | `#FF0000` | Enemy color |
-| `chat.relationColors.neutral` | hex | `#FFFF00` | Neutral color |
+Invitation and join request expiration.
 
-### territoryNotifications
+| Key | Type | Default | Range | Description |
+|-----|------|---------|-------|-------------|
+| `inviteExpirationMinutes` | int | 5 | ≥1 | Minutes before invite expires |
+| `joinRequestExpirationHours` | int | 24 | ≥1 | Hours before join request expires |
 
-Territory enter/exit notifications.
+---
 
-| Key | Type | Default | Description |
-|-----|------|---------|-------------|
-| `territoryNotifications.enabled` | boolean | true | Enable notifications |
+## stuck
 
-### spawnProtection
+Stuck command settings for escaping enemy territory.
 
-New player spawn protection.
+| Key | Type | Default | Range | Description |
+|-----|------|---------|-------|-------------|
+| `warmupSeconds` | int | 30 | ≥0 | Warmup before teleport |
+| `cooldownSeconds` | int | 300 | ≥0 | Cooldown between uses |
 
-| Key | Type | Default | Description |
-|-----|------|---------|-------------|
-| `spawnProtection.enabled` | boolean | true | Enable spawn protection |
-| `spawnProtection.durationSeconds` | integer | 10 | Protection duration |
-| `spawnProtection.breakOnAttack` | boolean | true | Break on attacking |
-| `spawnProtection.breakOnMove` | boolean | false | Break on movement |
+<InfoBox variant="info" title="Stuck Command">
+The `/f stuck` command teleports players to the nearest safe (unclaimed) chunk. The long warmup prevents combat exploitation.
+</InfoBox>
 
-### factionPermissions
+---
 
-Territory permission defaults and locks.
+## teleport
 
-| Key | Type | Default | Description |
-|-----|------|---------|-------------|
-| `factionPermissions.defaults.pvp_enabled` | boolean | false | Default PvP flag |
-| `factionPermissions.defaults.friendly_fire` | boolean | false | Default friendly fire |
-| `factionPermissions.defaults.build_allowed` | boolean | true | Default build flag |
-| `factionPermissions.defaults.container_access` | boolean | true | Default container flag |
-| `factionPermissions.defaults.interact_allowed` | boolean | true | Default interact flag |
-| `factionPermissions.defaults.item_drop` | boolean | true | Default item drop |
-| `factionPermissions.defaults.item_pickup` | boolean | true | Default item pickup |
-| `factionPermissions.defaults.mob_spawning` | boolean | true | Default mob spawning |
-| `factionPermissions.defaults.mob_damage` | boolean | true | Default mob damage |
-| `factionPermissions.defaults.hunger_loss` | boolean | true | Default hunger loss |
-| `factionPermissions.defaults.fall_damage` | boolean | true | Default fall damage |
-| `factionPermissions.locks` | array | `[]` | Locked flags (cannot change) |
-| `factionPermissions.forced` | object | `{}` | Forced flag values |
+Faction home teleportation settings.
 
-### debug
+| Key | Type | Default | Range | Description |
+|-----|------|---------|-------|-------------|
+| `warmupSeconds` | int | 5 | ≥0 | Warmup before teleport |
+| `cooldownSeconds` | int | 300 | ≥0 | Cooldown between uses (5 minutes) |
+| `cancelOnMove` | bool | true | - | Cancel warmup on movement |
+| `cancelOnDamage` | bool | true | - | Cancel warmup on taking damage |
 
-Debug and logging settings.
+---
 
-| Key | Type | Default | Description |
-|-----|------|---------|-------------|
-| `debug.enabledByDefault` | boolean | false | Start with debug on |
-| `debug.logToConsole` | boolean | true | Log to server console |
-| `debug.categories` | array | `["claims", "power", "combat"]` | Active debug categories |
+## updates
 
-### updates
-
-Update checking system.
+Automatic update checking.
 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
-| `updates.enabled` | boolean | true | Enable update checks |
-| `updates.url` | string | GitHub API URL | Update check URL |
-| `updates.releaseChannel` | string | "stable" | Release channel |
+| `enabled` | bool | true | Enable update checks |
+| `url` | string | GitHub API | Update check URL |
+| `releaseChannel` | string | "stable" | Release channel ("stable" or "prerelease") |
 
-### integration
+---
 
-Third-party integration.
+## autoSave
 
-| Key | Type | Default | Description |
-|-----|------|---------|-------------|
-| `integration.hyperpermsEnabled` | boolean | true | Enable HyperPerms |
-| `integration.showFactionInChat` | boolean | true | Show faction in chat |
-| `integration.showFactionOnMap` | boolean | true | Show on map |
+Automatic data saving.
 
-### messages
+| Key | Type | Default | Range | Description |
+|-----|------|---------|-------|-------------|
+| `enabled` | bool | true | - | Enable auto-save |
+| `intervalMinutes` | int | 5 | ≥1 | Minutes between saves |
+
+---
+
+## messages
 
 Message formatting.
 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
-| `messages.prefix` | string | `[HyperFactions] ` | Message prefix |
-| `messages.primaryColor` | hex | `#00FFFF` | Primary color |
-| `messages.secondaryColor` | hex | `#AAAAAA` | Secondary color |
-| `messages.errorColor` | hex | `#FF5555` | Error color |
-| `messages.successColor` | hex | `#55FF55` | Success color |
+| `prefix` | string | `\u00A7b[HyperFactions]\u00A7r ` | Message prefix (color codes) |
+| `primaryColor` | hex | `#00FFFF` | Primary accent color |
+
+---
+
+## gui
+
+GUI settings.
+
+| Key | Type | Default | Description |
+|-----|------|---------|-------------|
+| `title` | string | "HyperFactions" | Main GUI title |
+
+---
+
+## territoryNotifications
+
+Territory enter/exit notifications.
+
+| Key | Type | Default | Description |
+|-----|------|---------|-------------|
+| `enabled` | bool | true | Show notifications when entering/leaving territory |
+
+---
+
+## worldMap
+
+World map integration.
+
+| Key | Type | Default | Description |
+|-----|------|---------|-------------|
+| `enabled` | bool | true | Show faction claims on world map |
+
+---
+
+## permissions
+
+Permission system behavior.
+
+| Key | Type | Default | Description |
+|-----|------|---------|-------------|
+| `adminRequiresOp` | bool | true | Admin commands require OP if no permission system |
+| `fallbackBehavior` | string | "deny" | Behavior when no permission system ("deny" or "allow") |
+
+<InfoBox variant="info" title="Permission Fallback">
+When HyperPerms is not installed:
+- `deny` (default): Players need OP for admin commands
+- `allow`: All players can use basic commands (not recommended)
+</InfoBox>
+
+---
 
 ## Default Configuration
 
-<CodeBlock language="json" filename="config.json">
-{`{
+This is the complete default configuration file:
+
+```json
+{
+  "configVersion": 2,
   "faction": {
     "maxMembers": 50,
     "maxNameLength": 24,
     "minNameLength": 3,
-    "allowedNamePattern": "^[a-zA-Z0-9_]+$"
+    "allowColors": true
   },
   "power": {
-    "maxPlayerPower": 20,
-    "startingPower": 10,
-    "powerPerClaim": 2,
-    "regenPerMinute": 0.0167,
-    "deathPenalty": 1,
-    "neutralKillPenalty": 1,
-    "warzonePowerLoss": false
+    "maxPlayerPower": 20.0,
+    "startingPower": 10.0,
+    "powerPerClaim": 2.0,
+    "deathPenalty": 1.0,
+    "regenPerMinute": 0.1,
+    "regenWhenOffline": false
   },
   "claims": {
     "maxClaims": 100,
     "onlyAdjacent": false,
     "decayEnabled": true,
-    "decayDelayDays": 7,
-    "decayRatePerDay": 1,
-    "showOnMap": true,
+    "decayDaysInactive": 30,
     "worldWhitelist": [],
     "worldBlacklist": []
-  },
-  "overclaim": {
-    "enabled": true,
-    "requireEnemyRelation": true,
-    "powerThreshold": 0
   },
   "combat": {
     "tagDurationSeconds": 15,
     "allyDamage": false,
-    "factionDamage": false
+    "factionDamage": false,
+    "taggedLogoutPenalty": true,
+    "logoutPowerLoss": 1.0,
+    "spawnProtection": {
+      "enabled": true,
+      "durationSeconds": 5,
+      "breakOnAttack": true,
+      "breakOnMove": true
+    }
   },
-  "teleport": {
-    "warmupSeconds": 5,
-    "cooldownSeconds": 300,
-    "cancelOnMove": true,
-    "cancelOnDamage": true,
-    "crossWorld": true
-  },
-  "stuck": {
-    "warmupSeconds": 30,
-    "cooldownSeconds": 300
+  "relations": {
+    "maxAllies": 10,
+    "maxEnemies": -1
   },
   "invites": {
     "inviteExpirationMinutes": 5,
     "joinRequestExpirationHours": 24
   },
-  "backup": {
+  "stuck": {
+    "warmupSeconds": 30,
+    "cooldownSeconds": 300
+  },
+  "teleport": {
+    "warmupSeconds": 5,
+    "cooldownSeconds": 300,
+    "cancelOnMove": true,
+    "cancelOnDamage": true
+  },
+  "updates": {
     "enabled": true,
-    "hourlyRetention": 24,
-    "dailyRetention": 7,
-    "weeklyRetention": 4,
-    "onShutdown": true
+    "url": "https://api.github.com/repos/ZenithDevHQ/HyperFactions/releases/latest",
+    "releaseChannel": "stable"
   },
   "autoSave": {
     "enabled": true,
     "intervalMinutes": 5
   },
-  "economy": {
-    "enabled": false,
-    "currencyName": "Coin",
-    "currencyNamePlural": "Coins",
-    "currencySymbol": "$",
-    "startingBalance": 0
+  "messages": {
+    "prefix": "\u00A7b[HyperFactions]\u00A7r ",
+    "primaryColor": "#00FFFF"
   },
-  "chat": {
-    "enabled": true,
-    "format": "[%faction%] %player%: %message%",
-    "tagDisplay": "prefix",
-    "tagFormat": "[%tag%]",
-    "noFactionTag": "",
-    "priority": 100,
-    "relationColors": {
-      "own": "#00FF00",
-      "ally": "#00FFFF",
-      "enemy": "#FF0000",
-      "neutral": "#FFFF00"
-    }
+  "gui": {
+    "title": "HyperFactions"
   },
   "territoryNotifications": {
     "enabled": true
   },
-  "spawnProtection": {
-    "enabled": true,
-    "durationSeconds": 10,
-    "breakOnAttack": true,
-    "breakOnMove": false
+  "worldMap": {
+    "enabled": true
   },
-  "factionPermissions": {
-    "defaults": {
-      "pvp_enabled": false,
-      "friendly_fire": false,
-      "build_allowed": true,
-      "container_access": true,
-      "interact_allowed": true,
-      "item_drop": true,
-      "item_pickup": true,
-      "mob_spawning": true,
-      "mob_damage": true,
-      "hunger_loss": true,
-      "fall_damage": true
-    },
-    "locks": [],
-    "forced": {}
-  },
-  "debug": {
-    "enabledByDefault": false,
-    "logToConsole": true,
-    "categories": ["claims", "power", "combat"]
-  },
-  "updates": {
-    "enabled": true,
-    "url": "https://api.github.com/repos/HyperSystemsDev/HyperFactions/releases/latest",
-    "releaseChannel": "stable"
-  },
-  "integration": {
-    "hyperpermsEnabled": true,
-    "showFactionInChat": true,
-    "showFactionOnMap": true
-  },
-  "messages": {
-    "prefix": "[HyperFactions] ",
-    "primaryColor": "#00FFFF",
-    "secondaryColor": "#AAAAAA",
-    "errorColor": "#FF5555",
-    "successColor": "#55FF55"
+  "permissions": {
+    "adminRequiresOp": true,
+    "fallbackBehavior": "deny"
   }
-}`}
-</CodeBlock>
+}
+```
+
+## Configuration Profiles
+
+### PvP-Focused Server
+
+High-stakes combat with meaningful consequences:
+
+```json
+{
+  "power": {
+    "maxPlayerPower": 15,
+    "startingPower": 10,
+    "deathPenalty": 2.0,
+    "regenPerMinute": 0.15,
+    "powerPerClaim": 1.5
+  },
+  "combat": {
+    "tagDurationSeconds": 20,
+    "taggedLogoutPenalty": true,
+    "logoutPowerLoss": 2.0
+  },
+  "relations": {
+    "maxAllies": 3,
+    "maxEnemies": -1
+  }
+}
+```
+
+### Casual/Building Server
+
+Relaxed settings for creative communities:
+
+```json
+{
+  "power": {
+    "maxPlayerPower": 50,
+    "startingPower": 25,
+    "deathPenalty": 0,
+    "regenPerMinute": 0.05,
+    "powerPerClaim": 5
+  },
+  "combat": {
+    "tagDurationSeconds": 0,
+    "factionDamage": false,
+    "allyDamage": false
+  },
+  "relations": {
+    "maxAllies": -1,
+    "maxEnemies": 0
+  }
+}
+```
+
+### Roleplay Server
+
+Balanced settings encouraging diplomacy:
+
+```json
+{
+  "power": {
+    "maxPlayerPower": 30,
+    "startingPower": 15,
+    "deathPenalty": 0.5,
+    "regenPerMinute": 0.1,
+    "powerPerClaim": 3
+  },
+  "relations": {
+    "maxAllies": 5,
+    "maxEnemies": 5
+  },
+  "claims": {
+    "onlyAdjacent": true,
+    "decayDaysInactive": 14
+  }
+}
+```
+
+---
+
+## Module Configuration Files
+
+In addition to the main `config.json`, HyperFactions uses module configuration files stored in the `config/` subdirectory. Each module can be enabled/disabled independently.
+
+### Configuration File Structure
+
+```
+mods/com.hyperfactions_HyperFactions/
+├── config.json                       ← Main configuration (documented above)
+└── config/
+    ├── backup.json                   ← Backup system settings
+    ├── chat.json                     ← Chat formatting and relation colors
+    ├── debug.json                    ← Debug logging options
+    ├── economy.json                  ← Economy integration
+    └── faction-permissions.json      ← Default territory permissions
+```
+
+---
+
+### config/backup.json
+
+Controls the automatic backup system using GFS (Grandfather-Father-Son) rotation.
+
+| Key | Type | Default | Description |
+|-----|------|---------|-------------|
+| `enabled` | bool | true | Enable automatic backups |
+| `hourlyRetention` | int | 24 | Hourly backups to keep |
+| `dailyRetention` | int | 7 | Daily backups to keep |
+| `weeklyRetention` | int | 4 | Weekly backups to keep |
+| `manualRetention` | int | 10 | Manual backups to keep (0 = unlimited) |
+| `onShutdown` | bool | true | Create backup on server shutdown |
+
+```json
+{
+  "enabled": true,
+  "hourlyRetention": 24,
+  "dailyRetention": 7,
+  "weeklyRetention": 4,
+  "manualRetention": 10,
+  "onShutdown": true
+}
+```
+
+---
+
+### config/chat.json
+
+Controls how faction tags appear in chat and relation-based color coding.
+
+| Key | Type | Default | Description |
+|-----|------|---------|-------------|
+| `enabled` | bool | true | Enable chat formatting |
+| `format` | string | See below | Chat format template |
+| `tagDisplay` | string | "tag" | Display mode: "tag", "name", or "none" |
+| `tagFormat` | string | See below | Format for the faction tag |
+| `noFactionTag` | string | "" | Tag for players without a faction |
+| `priority` | string | "LATE" | Event priority: EARLIEST, EARLY, NORMAL, LATE, LATEST |
+| `relationColors.own` | string | "#00FF00" | Color for same-faction members (green) |
+| `relationColors.ally` | string | "#FF69B4" | Color for allies (pink) |
+| `relationColors.neutral` | string | "#AAAAAA" | Color for neutral factions (gray) |
+| `relationColors.enemy` | string | "#FF0000" | Color for enemies (red) |
+
+**Format templates:**
+- `format` uses placeholders for chat message formatting
+- `tagFormat` uses the `tag` placeholder for the faction tag display
+
+Available placeholders: `faction_tag`, `prefix`, `player`, `suffix`, `message`, `tag` (wrap in curly braces)
+
+```json
+{
+  "enabled": true,
+  "format": "{faction_tag}{prefix}{player}{suffix}: {message}",
+  "tagDisplay": "tag",
+  "tagFormat": "[{tag}] ",
+  "noFactionTag": "",
+  "priority": "LATE",
+  "relationColors": {
+    "own": "#00FF00",
+    "ally": "#FF69B4",
+    "neutral": "#AAAAAA",
+    "enemy": "#FF0000"
+  }
+}
+```
+
+---
+
+### config/debug.json
+
+Controls debug logging output by category.
+
+| Key | Type | Default | Description |
+|-----|------|---------|-------------|
+| `enabled` | bool | false | Enable debug module |
+| `enabledByDefault` | bool | false | Enable all categories by default |
+| `logToConsole` | bool | true | Log debug messages to console |
+| `categories.power` | bool | false | Debug power calculations |
+| `categories.claim` | bool | false | Debug claim operations |
+| `categories.combat` | bool | false | Debug combat tagging |
+| `categories.protection` | bool | false | Debug protection checks |
+| `categories.relation` | bool | false | Debug relation changes |
+| `categories.territory` | bool | false | Debug territory notifications |
+
+```json
+{
+  "enabled": false,
+  "enabledByDefault": false,
+  "logToConsole": true,
+  "categories": {
+    "power": false,
+    "claim": false,
+    "combat": false,
+    "protection": false,
+    "relation": false,
+    "territory": false
+  }
+}
+```
+
+<InfoBox variant="tip" title="Runtime Debug Toggle">
+Use `/f admin debug <category>` to toggle debug categories at runtime without restarting the server.
+</InfoBox>
+
+---
+
+### config/economy.json
+
+Controls faction economy integration (for future economy features).
+
+| Key | Type | Default | Description |
+|-----|------|---------|-------------|
+| `enabled` | bool | true | Enable economy features |
+| `currencyName` | string | "dollar" | Singular currency name |
+| `currencyNamePlural` | string | "dollars" | Plural currency name |
+| `currencySymbol` | string | "$" | Currency symbol |
+| `startingBalance` | double | 0.0 | Starting balance for new factions |
+
+```json
+{
+  "enabled": true,
+  "currencyName": "dollar",
+  "currencyNamePlural": "dollars",
+  "currencySymbol": "$",
+  "startingBalance": 0.0
+}
+```
+
+---
+
+### config/faction-permissions.json
+
+Controls default territory permissions for new factions and server-enforced permission locks.
+
+**Structure:**
+- `defaults` - Default permissions for new factions
+- `locks` - Which permissions factions cannot change
+- `forced` - Values to use when a permission is locked
+
+| Permission | Default | Description |
+|------------|---------|-------------|
+| `outsiderBreak` | false | Non-members can break blocks |
+| `outsiderPlace` | false | Non-members can place blocks |
+| `outsiderInteract` | false | Non-members can interact |
+| `allyBreak` | false | Allies can break blocks |
+| `allyPlace` | false | Allies can place blocks |
+| `allyInteract` | true | Allies can interact |
+| `memberBreak` | true | Members can break blocks |
+| `memberPlace` | true | Members can place blocks |
+| `memberInteract` | true | Members can interact |
+| `pvpEnabled` | true | PvP allowed in territory |
+| `officersCanEdit` | false | Officers can edit permissions |
+
+```json
+{
+  "enabled": true,
+  "defaults": {
+    "outsiderBreak": false,
+    "outsiderPlace": false,
+    "outsiderInteract": false,
+    "allyBreak": false,
+    "allyPlace": false,
+    "allyInteract": true,
+    "memberBreak": true,
+    "memberPlace": true,
+    "memberInteract": true,
+    "pvpEnabled": true,
+    "officersCanEdit": false
+  },
+  "locks": {
+    "outsiderBreak": false,
+    "outsiderPlace": false,
+    "outsiderInteract": false,
+    "allyBreak": false,
+    "allyPlace": false,
+    "allyInteract": false,
+    "memberBreak": false,
+    "memberPlace": false,
+    "memberInteract": false,
+    "pvpEnabled": false,
+    "officersCanEdit": false
+  },
+  "forced": {
+    "outsiderBreak": false,
+    "outsiderPlace": false,
+    "outsiderInteract": false,
+    "allyBreak": false,
+    "allyPlace": false,
+    "allyInteract": true,
+    "memberBreak": true,
+    "memberPlace": true,
+    "memberInteract": true,
+    "pvpEnabled": true,
+    "officersCanEdit": false
+  }
+}
+```
+
+<InfoBox variant="warning" title="Lock Behavior">
+When a permission is locked (`locks.permName = true`), factions cannot change it and the value from `forced.permName` is always used instead.
+</InfoBox>
+
+---
 
 ## Related Topics
 
 - [Configuration Guide](/plugins/hyperfactions/wiki/getting-started/configuration) - Walkthrough and examples
+- [Power System](/plugins/hyperfactions/wiki/concepts/power-system) - Power mechanics explained
 - [Permissions](/plugins/hyperfactions/wiki/reference/permissions) - Permission nodes
 - [Admin Commands](/plugins/hyperfactions/wiki/commands/admin) - Reload command

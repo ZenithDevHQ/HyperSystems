@@ -1,0 +1,319 @@
+---
+title: Defending Territory
+description: Strategies for protecting your faction's territory from raids and overclaiming.
+order: 5
+---
+
+# Defending Territory
+
+Territory is the foundation of faction power. Losing claims means losing your base, your resources, and your faction's home. This guide covers how to defend what you've built.
+
+<InfoBox variant="info" title="For All Faction Members">
+Defense is everyone's responsibility. Leaders strategize, but every member's actions affect faction security.
+</InfoBox>
+
+## Understanding the Threat
+
+Your territory can be lost through:
+
+| Threat | How It Works | Prevention |
+|--------|--------------|------------|
+| **Overclaiming** | Enemy takes your claims when power is low | Maintain power buffer |
+| **Claim Decay** | Inactive factions lose claims automatically | Stay active |
+| **Admin Action** | Server staff intervenes | Follow server rules |
+
+### The Overclaim Mechanic
+
+Enemies can overclaim your territory when:
+
+```
+Your Current Claims × Power Per Claim > Your Total Faction Power
+```
+
+**Example:**
+- You have 50 claims × 2 power/claim = need 100 power
+- Your faction has 80 power (after deaths)
+- You're **20 power short** = vulnerable to overclaim
+
+<InfoBox variant="danger" title="Raidable State">
+When vulnerable, ANY enemy can claim your chunks by standing in them and using `/f overclaim`. You'll lose the chunk instantly.
+</InfoBox>
+
+## Power Buffer Strategy
+
+The key to defense is maintaining a **power buffer** - excess power beyond your minimum claim requirements.
+
+### Calculating Your Buffer
+
+```
+Buffer = Total Faction Power - (Claims × Power Per Claim)
+```
+
+### Recommended Buffer Levels
+
+| Risk Level | Buffer | When to Use |
+|------------|--------|-------------|
+| **Minimum** | 10% | Peaceful server, no enemies |
+| **Standard** | 20% | Normal play, occasional conflict |
+| **War Footing** | 30%+ | Active enemies, frequent PvP |
+
+### Example Calculation
+
+**Your Faction:**
+- 10 members × 20 max power = 200 potential power
+- Currently at 180 power
+- 70 claims × 2 = 140 power required
+- Buffer: 180 - 140 = **40 power (28% buffer)**
+
+This is a healthy buffer for normal operations.
+
+## Preventing Power Loss
+
+### Death Prevention
+
+Each death costs 1 power (default). Minimize deaths by:
+
+1. **Avoid unnecessary fights**: Pick your battles
+2. **Travel safely**: Use home teleport, stay in friendly territory
+3. **Group activities**: Don't venture alone into danger
+4. **Know when to run**: Fleeing isn't cowardice, it's tactics
+
+### Combat Logging Prevention
+
+Logging out while combat tagged costs additional power:
+- Don't panic-quit when attacked
+- Fight, flee, or wait out the tag
+- Combat tag is only 15 seconds (default)
+
+### Member Management
+
+| Member Type | Power Impact | Action |
+|-------------|--------------|--------|
+| Active, skilled | High power | Retain |
+| Active, learning | Good power | Train |
+| Inactive | Low/zero power | Warn, then remove |
+| Reckless | Loses power constantly | Counsel, then remove |
+
+<InfoBox variant="warning" title="Inactive Members">
+Inactive members who leave suddenly take their power with them, potentially making you vulnerable. Monitor activity and remove truly inactive players.
+</InfoBox>
+
+## Early Warning Systems
+
+### Watch for These Signs
+
+| Warning Sign | Meaning |
+|--------------|---------|
+| Enemy faction recruiting | Building power for attack |
+| Claims appearing near you | Positioning for raid |
+| Your members being killed | Power reduction attack |
+| Unusual player activity | Scouting your territory |
+| Alliance forming against you | Coordinated threat |
+
+### Intelligence Gathering
+
+- Check `/f info` on potential enemies regularly
+- Monitor their power relative to yours
+- Track their ally network
+- Note their online activity patterns
+
+## During an Attack
+
+### When Enemies Strike
+
+1. **Assess the situation**: How many attackers? Who?
+2. **Alert your faction**: Call for help
+3. **Protect core claims**: Prioritize important chunks
+4. **Minimize deaths**: Don't feed them power
+5. **Call allies**: If you have them, use them
+
+### Tactical Retreat
+
+Sometimes you can't win. Retreat wisely:
+- Unclaim non-essential territory yourself (denies them easy wins)
+- Consolidate around your core
+- Rebuild power before re-engaging
+
+### Recovery After Attack
+
+If you lost territory:
+1. Stop the bleeding - minimize further losses
+2. Assess what was lost
+3. Rebuild power through safety and patience
+4. Reclaim when ready
+5. Learn from what happened
+
+## Defensive Base Design
+
+### Location Matters
+
+Good defensive locations:
+- Natural barriers (cliffs, water)
+- Limited approach routes
+- Not adjacent to enemy territory
+- Room to expand defensively
+
+### Claim Layout
+
+**Core Claims**: Your most important territory
+- Faction home
+- Storage areas
+- Main buildings
+
+**Buffer Claims**: Expendable outer territory
+- First line of defense
+- Absorbs initial overclaims
+- Less critical structures
+
+### Building for Defense
+
+While HyperFactions doesn't protect building contents directly, smart building helps:
+- Hide valuables in less obvious locations
+- Spread resources across multiple areas
+- Build escape routes
+- Create defensive chokepoints
+
+## Alliance Defense
+
+### Mutual Defense Pacts
+
+Discuss with allies:
+- When will you help each other?
+- How quickly can you respond?
+- What resources will you share?
+- How will you coordinate?
+
+### Coordinated Defense
+
+When allies are attacked:
+- Respond quickly if agreed
+- Attack the attacker's territory
+- Provide reinforcements
+- Share intelligence
+
+## War Preparation
+
+### Before Conflict
+
+Prepare your faction:
+- Maximize everyone's power
+- Verify ally commitments
+- Stock emergency resources
+- Establish communication plans
+- Identify your critical claims
+
+### War Resources
+
+Keep reserves of:
+- Combat equipment
+- Healing items
+- Teleportation aids
+- Emergency supplies
+
+### Communication Plan
+
+During conflict:
+- Who makes tactical decisions?
+- How do you coordinate?
+- What's the rally point?
+- How do you call for help?
+
+## Recovery Strategies
+
+### After Losing Territory
+
+1. **Don't panic**: Rebuilding is possible
+2. **Stabilize**: Stop active losses
+3. **Regenerate**: Wait for power to recover
+4. **Reassess**: What can you realistically hold?
+5. **Rebuild**: Start reclaiming when ready
+
+### Rebuilding Power
+
+Speed up recovery by:
+- Ensuring all members are online and safe
+- Avoiding risky activities
+- Waiting for natural regeneration
+- Recruiting new members (carefully)
+
+### Reclaiming Lost Territory
+
+When ready to reclaim:
+- Start from your strongest position
+- Don't overextend again
+- Verify your buffer is healthy
+- Consider if the lost territory is worth the risk
+
+## Defensive Checklist
+
+### Daily Checks
+
+- [ ] Faction power status (`/f info`)
+- [ ] All members accounted for
+- [ ] No new enemy claims nearby
+- [ ] Buffer at acceptable level
+
+### Weekly Checks
+
+- [ ] Member activity review
+- [ ] Inactive member warnings/removals
+- [ ] Ally relationship status
+- [ ] Enemy faction power levels
+- [ ] Claim efficiency review
+
+### Before Going Offline
+
+- [ ] Power buffer is healthy
+- [ ] Officers or active members online
+- [ ] No immediate threats
+- [ ] Home claim is secure
+
+## Common Defense Mistakes
+
+### Mistake 1: Ignoring Power
+
+**Problem:** Not monitoring power until it's too late.
+
+**Solution:** Check `/f info` regularly. Set a mental threshold.
+
+### Mistake 2: Solo Adventures
+
+**Problem:** Members dying alone in dangerous territory.
+
+**Solution:** Coordinate activities, use buddy system.
+
+### Mistake 3: No Buffer
+
+**Problem:** Operating at maximum claims with no safety margin.
+
+**Solution:** Always maintain at least 20% buffer.
+
+### Mistake 4: Slow Response
+
+**Problem:** Not reacting to attacks quickly enough.
+
+**Solution:** Establish alert systems and response protocols.
+
+### Mistake 5: Hoarding Claims
+
+**Problem:** Claiming more than you need or can defend.
+
+**Solution:** Only claim what serves a purpose.
+
+## Summary
+
+Defense comes down to three principles:
+
+1. **Maintain Power Buffer**: Never operate at the edge
+2. **Minimize Deaths**: Every death weakens you
+3. **Stay Vigilant**: Watch for threats before they strike
+
+With consistent attention to these principles, your faction can weather any storm.
+
+## Related Topics
+
+- [Power System](/plugins/hyperfactions/wiki/concepts/power-system) - Understanding power mechanics
+- [Territories](/plugins/hyperfactions/wiki/concepts/territories) - How claiming works
+- [Diplomacy Strategy](/plugins/hyperfactions/wiki/guides/diplomacy-strategy) - Alliance building
+- [Growing Your Faction](/plugins/hyperfactions/wiki/guides/growing-your-faction) - Building strength
+- [Territory Commands](/plugins/hyperfactions/wiki/commands/territory) - Claim management

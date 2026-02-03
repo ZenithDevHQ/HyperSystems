@@ -1,12 +1,12 @@
 ---
 title: Permissions
-description: Complete permission reference for HyperFactions v0.3.x.
+description: Complete permission reference for HyperFactions v0.4.x.
 order: 1
 ---
 
 # Permissions Reference
 
-This page documents all permission nodes available in HyperFactions v0.3.x.
+This page documents all permission nodes available in HyperFactions v0.4.x.
 
 <InfoBox variant="danger" title="Breaking Change in v0.3.0">
 As of v0.3.0, HyperFactions requires **explicit permission grants**. The fallback behavior changed from "allow" to "deny". Players without the `hyperfactions.use` permission cannot access any faction commands.
@@ -31,7 +31,7 @@ Grant default players access to all standard faction features:
 
 ## Permission Categories
 
-HyperFactions v0.3.x uses a **category-based permission structure**. Permissions are organized into logical groups for easier management.
+HyperFactions v0.4.x uses a **category-based permission structure**. Permissions are organized into logical groups for easier management.
 
 ### Base Permission (Required)
 
@@ -381,11 +381,6 @@ Bypass permissions should only be granted to trusted staff. They allow circumven
       permission: "hyperfactions.admin.backup",
       description: "Create, list, restore, and delete backups",
       default: "op"
-    },
-    {
-      permission: "hyperfactions.admin.update",
-      description: "Download and install updates",
-      default: "op"
     }
   ]}
 />
@@ -480,7 +475,7 @@ Replace `<n>` with a number. For example, `hyperfactions.limit.claims.100` allow
 | `op` | Only server operators have this by default |
 
 <InfoBox variant="info" title="No True Defaults">
-Unlike previous versions, **no permissions default to true** in v0.3.x. All permissions must be explicitly granted through your permission system.
+Unlike previous versions, **no permissions default to true** in v0.4.x. All permissions must be explicitly granted through your permission system.
 </InfoBox>
 
 ## HyperPerms Integration
@@ -534,7 +529,7 @@ While permissions control *who can attempt* an action, faction roles control *wh
 
 If upgrading from v0.2.x, update your permission nodes:
 
-| Old (v0.2.x) | New (v0.3.x) |
+| Old (v0.2.x) | New (v0.4.x) |
 |--------------|--------------|
 | `hyperfactions.create` | `hyperfactions.faction.create` |
 | `hyperfactions.invite` | `hyperfactions.member.invite` |

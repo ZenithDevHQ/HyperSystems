@@ -8,34 +8,9 @@ order: 3
 
 This guide walks you through creating your first faction, claiming land, and inviting members.
 
-<InfoBox variant="danger" title="Important: Permissions Required">
-Before players can use factions, you **must configure permissions**. As of v0.3.0, HyperFactions denies all access by default. See [Step 0](#step-0-configure-permissions) below.
+<InfoBox variant="info" title="For Server Owners">
+Before players can use factions, permissions must be configured. HyperFactions denies all access by default. See the [Permissions Reference](/plugins/hyperfactions/wiki/reference/permissions) for setup instructions.
 </InfoBox>
-
-## Step 0: Configure Permissions
-
-Before anyone can create or join factions, server administrators must grant the required permissions.
-
-### Using HyperPerms
-
-Run these commands to grant default players access to all standard faction features:
-
-```
-/hp group setperm default hyperfactions.use
-/hp group setperm default hyperfactions.faction.*
-/hp group setperm default hyperfactions.member.*
-/hp group setperm default hyperfactions.territory.*
-/hp group setperm default hyperfactions.teleport.*
-/hp group setperm default hyperfactions.relation.*
-/hp group setperm default hyperfactions.chat.*
-/hp group setperm default hyperfactions.info.*
-```
-
-<InfoBox variant="warning" title="Required Permission">
-The `hyperfactions.use` permission is **required** for any faction access. Without it, players cannot use any `/f` commands.
-</InfoBox>
-
-For detailed permission information, see the [Permissions Reference](/plugins/hyperfactions/wiki/reference/permissions).
 
 ---
 
@@ -86,7 +61,7 @@ Stand in the chunk you want to claim and run:
 ```
 
 <InfoBox variant="tip" title="Chunk Size">
-Each claim covers one chunk (16x16 blocks). You can see chunk boundaries by pressing F3+G in most clients.
+Each claim covers one chunk (32x32 blocks).
 </InfoBox>
 
 ### Step 4: View the Map
@@ -234,24 +209,13 @@ The color appears on maps and in chat.
 
 ### Configure Territory Permissions
 
-Factions can configure what actions are allowed in their territory:
+Faction leaders (and Officers if allowed) can configure what actions are allowed in their territory using the settings command:
 
 ```
-/f permissions
+/f settings
 ```
 
-This opens a GUI where Leaders (and Officers if allowed) can toggle 11 different flags:
-- `pvp_enabled` - Allow PvP in territory
-- `friendly_fire` - Allow faction members to damage each other
-- `build_allowed` - Allow building in territory
-- `container_access` - Allow container access
-- `interact_allowed` - Allow interactions (doors, buttons, etc.)
-- `item_drop` - Allow item dropping
-- `item_pickup` - Allow item pickup
-- `mob_spawning` - Allow mob spawning
-- `mob_damage` - Allow mob damage
-- `hunger_loss` - Allow hunger drain
-- `fall_damage` - Allow fall damage
+This opens a GUI where you can toggle various flags for building, interaction, combat, and more. See [Factions](/plugins/hyperfactions/wiki/concepts/factions) for details on territory permissions.
 
 ## Quick Reference
 
@@ -277,3 +241,12 @@ Now that you have a faction:
 3. Set up [Diplomacy](/plugins/hyperfactions/wiki/concepts/diplomacy) with other factions
 4. Review all [Commands](/plugins/hyperfactions/wiki/commands/basic) for complete control
 5. Check the [Permissions Reference](/plugins/hyperfactions/wiki/reference/permissions) to understand access control
+
+### Player Guides
+
+For in-depth strategies:
+
+- [Starting a Faction](/plugins/hyperfactions/wiki/guides/starting-faction) - Tips for new faction leaders
+- [Growing Your Faction](/plugins/hyperfactions/wiki/guides/growing-your-faction) - Recruitment and expansion
+- [Diplomacy Strategy](/plugins/hyperfactions/wiki/guides/diplomacy-strategy) - Managing alliances
+- [Defending Territory](/plugins/hyperfactions/wiki/guides/defending-territory) - Protecting your claims

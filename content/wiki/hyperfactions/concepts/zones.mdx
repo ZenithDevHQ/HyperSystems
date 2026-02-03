@@ -10,90 +10,158 @@ HyperFactions provides two special zone types for server administration: **SafeZ
 
 ## Zone System Overview
 
-As of v0.2.0, zones are named entities that can contain multiple chunks. This allows for more flexible zone management compared to single-chunk zones.
+Zones are named entities that can contain multiple chunks, providing flexible area management for server administrators.
 
 **Key features:**
 - Named zones (e.g., "spawn", "arena", "market")
-- Multi-chunk support
-- 11 configurable flags per zone
+- Multi-chunk support with radius claiming
+- 15 configurable flags per zone
 - GUI-based management
-- Radius claiming
+- Priority over faction claims
+
+<InfoBox variant="info" title="For Server Admins">
+Zone management requires the `hyperfactions.admin.zones` permission. Regular players cannot create or modify zones.
+</InfoBox>
 
 ## SafeZones
 
-SafeZones are protected areas where PvP is disabled and players are generally safe.
+SafeZones are protected areas where PvP is disabled and players are generally safe. Ideal for spawn points, trading areas, and community spaces.
 
-### SafeZone Default Properties
+### SafeZone Default Flags
 
 | Flag | Default | Description |
-|------|---------|-------------|
-| `pvp_enabled` | false | No PvP |
-| `friendly_fire` | false | No friendly damage |
-| `build_allowed` | false | No building |
-| `container_access` | false | No container access |
-| `interact_allowed` | true | Can use doors, buttons |
-| `item_drop` | true | Can drop items |
-| `item_pickup` | true | Can pick up items |
-| `mob_spawning` | false | No mob spawning |
-| `mob_damage` | false | No mob damage |
-| `hunger_loss` | false | No hunger drain |
+|------|:-------:|-------------|
+| **Combat Flags** |||
+| `pvp_enabled` | false | Players cannot damage other players |
+| `friendly_fire` | false | Faction members cannot hurt each other |
+| `projectile_damage` | false | Projectiles deal no damage |
+| `mob_damage` | false | Mobs cannot damage players |
+| **Building Flags** |||
+| `build_allowed` | false | Players cannot place or break blocks |
+| `block_interact` | true | General block interaction allowed |
+| **Interaction Flags** |||
+| `door_use` | true | Players can use doors and gates |
+| `container_use` | false | Players cannot access chests or storage |
+| `bench_use` | false | Players cannot use crafting tables |
+| `processing_use` | false | Players cannot use furnaces or smelters |
+| `seat_use` | true | Players can sit on seats and mounts |
+| **Item Flags** |||
+| `item_drop` | false | Players cannot drop items (prevents littering) |
+| `item_pickup` | true | Players can pick up items |
+| **Damage Flags** |||
 | `fall_damage` | false | No fall damage |
+| `environmental_damage` | false | No drowning or suffocation |
 
 ### Common SafeZone Uses
+
 - Server spawn areas
-- Server hubs
-- Trading centers / markets
+- Server hubs and lobbies
+- Trading centers and markets
 - Event venues
 - Tutorial areas
 - NPC villages
 
-<InfoBox variant="info">
-SafeZones are typically used for server spawn points and communal areas where players should feel safe.
+<InfoBox variant="tip" title="SafeZone Design Tip">
+SafeZones disable item dropping by default to prevent players from littering spawn areas with unwanted items.
 </InfoBox>
 
 ## WarZones
 
-WarZones are designated combat areas where PvP is always enabled.
+WarZones are designated combat areas where PvP is always enabled but building is blocked to prevent griefing.
 
-### WarZone Default Properties
+### WarZone Default Flags
 
 | Flag | Default | Description |
-|------|---------|-------------|
-| `pvp_enabled` | true | PvP enabled |
-| `friendly_fire` | true | Friendly fire enabled |
-| `build_allowed` | false | No building |
-| `container_access` | false | No container access |
-| `interact_allowed` | true | Can use doors, buttons |
-| `item_drop` | true | Can drop items |
-| `item_pickup` | true | Can pick up items |
-| `mob_spawning` | true | Mobs can spawn |
-| `mob_damage` | true | Mobs can deal damage |
-| `hunger_loss` | true | Hunger drains |
+|------|:-------:|-------------|
+| **Combat Flags** |||
+| `pvp_enabled` | true | PvP combat is enabled |
+| `friendly_fire` | false | Faction members still protected |
+| `projectile_damage` | true | Projectiles deal damage |
+| `mob_damage` | true | Mobs can damage players |
+| **Building Flags** |||
+| `build_allowed` | false | No block placement/breaking (anti-grief) |
+| `block_interact` | true | General block interaction allowed |
+| **Interaction Flags** |||
+| `door_use` | true | Players can use doors and gates |
+| `container_use` | false | No container access |
+| `bench_use` | false | No crafting table access |
+| `processing_use` | false | No furnace/smelter access |
+| `seat_use` | true | Players can sit on seats and mounts |
+| **Item Flags** |||
+| `item_drop` | true | Players can drop items |
+| `item_pickup` | true | Players can pick up items |
+| **Damage Flags** |||
 | `fall_damage` | true | Fall damage applies |
+| `environmental_damage` | true | Environmental hazards active |
 
 ### Common WarZone Uses
+
 - PvP arenas
 - Event battlegrounds
 - Resource competition areas
 - King of the Hill zones
+- Boss fight arenas
 
-<InfoBox variant="tip">
-WarZones are great for designated PvP areas where players can fight without affecting their faction's territorial power (when `warzonePowerLoss` is false).
+<InfoBox variant="tip" title="Arena Design">
+WarZones are perfect for designated PvP arenas. Deaths in WarZones still cause power loss by default, but this creates consequences for reckless fighting.
 </InfoBox>
 
-## Zone Management
+## Zone Flags Reference
 
-Only admins with `hyperfactions.admin.zones` permission can manage zones.
+All 15 zone flags organized by category:
+
+### Combat Flags (4)
+
+| Flag | Description | Server Event |
+|------|-------------|--------------|
+| `pvp_enabled` | Player vs player damage | Damage event with player source |
+| `friendly_fire` | Same-faction damage | Damage event with faction check |
+| `projectile_damage` | Arrow/projectile damage | Damage event with projectile source |
+| `mob_damage` | Mob to player damage | Damage event with entity source |
+
+### Building Flags (2)
+
+| Flag | Description | Server Event |
+|------|-------------|--------------|
+| `build_allowed` | Block place/break | BreakBlockEvent, PlaceBlockEvent |
+| `block_interact` | General block interaction | UseBlockEvent |
+
+### Interaction Flags (5)
+
+| Flag | Description | Server Event |
+|------|-------------|--------------|
+| `door_use` | Doors and gates | DoorInteraction |
+| `container_use` | Chests, backpacks | OpenContainerInteraction |
+| `bench_use` | Crafting tables | OpenBenchPageInteraction |
+| `processing_use` | Furnaces, smelters | OpenProcessingBenchInteraction |
+| `seat_use` | Seats, chairs, mounts | MountInteraction |
+
+### Item Flags (2)
+
+| Flag | Description | Server Event |
+|------|-------------|--------------|
+| `item_drop` | Dropping items | DropItemEvent |
+| `item_pickup` | Picking up items | InteractivelyPickupItemEvent |
+
+### Damage Flags (2)
+
+| Flag | Description | Server Event |
+|------|-------------|--------------|
+| `fall_damage` | Fall damage | Damage with DamageCause.FALL |
+| `environmental_damage` | Drowning, suffocation | Damage with EnvironmentSource |
+
+## Zone Management
 
 ### Creating a Zone
 
 1. **Create the named zone:**
    ```
-   /f admin zone create <name> <safe|war>
+   /f admin zone create <safe|war> <name>
    ```
-   Example: `/f admin zone create spawn safe`
+   Example: `/f admin zone create safe spawn`
 
 2. **Claim chunks for the zone:**
+
    Stand in each chunk and run:
    ```
    /f admin zone claim <name>
@@ -106,177 +174,164 @@ Only admins with `hyperfactions.admin.zones` permission can manage zones.
 
 ### Radius Claiming
 
-Claim multiple chunks at once:
+Claim multiple chunks efficiently:
 
+**Square radius:**
 ```
 /f admin zone radius spawn 5
 ```
-Claims a 5-chunk square (11x11 chunks total) centered on your position.
+Claims an 11×11 chunk area (5 chunks in each direction from center).
 
+**Circular radius:**
 ```
 /f admin zone radius spawn 5 circle
 ```
 Claims a circular area with 5-chunk radius.
 
+<InfoBox variant="info" title="Radius Calculation">
+A radius of N creates a square of (2N + 1) × (2N + 1) chunks, or a circle inscribed within that area.
+</InfoBox>
+
 ### Managing Zones
 
-**Remove a single chunk:**
+**Remove a single chunk from current position:**
 ```
 /f admin zone unclaim
 ```
 
 **Delete an entire zone:**
 ```
-/f admin zone remove <name>
+/f admin zone delete <name>
 ```
-This removes the zone and unclaims all its chunks.
+This removes the zone definition and unclaims all its chunks.
 
-**List zones:**
+**List all zones:**
 ```
-/f admin zone list [safe|war]
+/f admin zone list
 ```
 
-<InfoBox variant="warning">
+**List zones by type:**
+```
+/f admin zone list safe
+/f admin zone list war
+```
+
+<InfoBox variant="warning" title="Immediate Effect">
 Zone changes take effect immediately. Players in the area will be subject to new rules instantly.
 </InfoBox>
 
-## Zone Flags
-
-Each zone has 11 configurable flags that control behavior:
-
-### Combat Flags
-| Flag | Description |
-|------|-------------|
-| `pvp_enabled` | Allow player vs player damage |
-| `friendly_fire` | Allow damage between faction/allied players |
-
-### Building Flags
-| Flag | Description |
-|------|-------------|
-| `build_allowed` | Allow block placement and breaking |
-| `container_access` | Allow opening chests, furnaces, etc. |
-| `interact_allowed` | Allow using doors, buttons, levers |
-
-### Item Flags
-| Flag | Description |
-|------|-------------|
-| `item_drop` | Allow dropping items |
-| `item_pickup` | Allow picking up items |
-
-### Environment Flags
-| Flag | Description |
-|------|-------------|
-| `mob_spawning` | Allow mob spawning |
-| `mob_damage` | Allow mobs to deal damage |
-| `hunger_loss` | Allow hunger to drain |
-| `fall_damage` | Allow fall damage |
-
 ### Modifying Zone Flags
 
-Use the admin GUI to modify zone flags:
-
+**Via Admin GUI:**
 ```
 /f admin
 ```
-
 Navigate to **Zones** → Select zone → **Configure Flags**
 
-## Zone Configuration
+<InfoBox variant="info" title="Screenshot Needed">
+**Screenshot:** `admin-zones.png`
 
-### WarZone Power Loss
-Control whether deaths in WarZones cause power loss:
+**Description:** Admin zone management interface showing zone list and flag configuration
 
-```json
-{
-  "power": {
-    "warzonePowerLoss": false
-  }
-}
-```
-
-| Value | Effect |
-|-------|--------|
-| `false` | No power loss in WarZones (default) |
-| `true` | Normal power loss applies |
+**Key elements to capture:**
+- Zone list with safe/war indicators
+- Flag toggle interface
+- Radius claim controls
+</InfoBox>
 
 ## Zone Priority
 
-Zone rules take precedence over faction claims:
+Zone rules override faction claims:
 
 ```
 SafeZone > WarZone > Faction Claim > Wilderness
 ```
 
-If a chunk is marked as a SafeZone:
-- Previous faction claims are overridden
-- SafeZone rules apply regardless of prior ownership
+<InfoBox variant="warning" title="Priority Override">
+If a chunk is marked as a SafeZone, previous faction claims are effectively suspended. SafeZone rules apply regardless of prior ownership. The faction still "owns" the claim, but zone rules take precedence.
+</InfoBox>
 
 ## Visual Indicators
 
-Zones are visible on the faction map:
+Zones appear on the faction map with distinct markers:
 
-| Zone Type | Map Color | Indicator |
-|-----------|-----------|-----------|
-| SafeZone | Bright Green | S |
-| WarZone | Bright Red | W |
-| Your Faction | Your Color | F |
-| Enemy | Red | E |
-| Ally | Green | A |
-| Neutral | Yellow | N |
-| Wilderness | Gray | . |
+| Zone Type | Color | Map Symbol |
+|-----------|-------|:----------:|
+| SafeZone | Bright Green | **S** |
+| WarZone | Bright Red | **W** |
+| Your Faction | Your Color | **F** |
+| Enemy | Red | **E** |
+| Ally | Green | **A** |
+| Neutral | Yellow | **N** |
+| Wilderness | Gray | **.** |
+
+Use `/f map` to see zone boundaries visually.
 
 ## Zone Storage
 
-Zone data is stored in a single file:
+Zone data is stored in:
 
 ```
-plugins/HyperFactions/data/zones.json
+mods/com.hyperfactions_HyperFactions/zones.json
 ```
 
-This file contains all named zones with their chunks and flag configurations.
+This file contains all named zones with their chunk lists and flag configurations.
 
 ## Strategic Zone Placement
 
 ### Server Spawn
+
 Create a SafeZone around spawn:
-1. Create the zone: `/f admin zone create spawn safe`
+
+1. Create the zone: `/f admin zone create safe spawn`
 2. Use radius: `/f admin zone radius spawn 3 circle`
-3. Consider a buffer zone around the core
+3. Consider a buffer zone around the core area
+
+<InfoBox variant="tip" title="Spawn Buffer">
+Consider creating a small SafeZone buffer around spawn exits to prevent spawn camping. A 2-3 chunk radius usually works well.
+</InfoBox>
 
 ### PvP Arena
-Create a WarZone for arenas:
-1. Build your arena
-2. Create zone: `/f admin zone create arena war`
+
+Create a WarZone for dedicated PvP:
+
+1. Build your arena structure
+2. Create zone: `/f admin zone create war arena`
 3. Mark arena chunks: `/f admin zone radius arena 2`
-4. Set `warzonePowerLoss: false` for penalty-free combat
 
 ### Resource Areas
+
 Consider WarZones for contested resources:
-- Encourages conflict over valuable areas
-- No power penalties keep it fair
+
+- Encourages PvP conflict over valuable areas
 - Creates natural PvP hotspots
+- Building disabled prevents griefing
 
 ### Market/Trading Areas
-Create a SafeZone for trading:
-1. Create zone: `/f admin zone create market safe`
-2. Claim the area
+
+Create SafeZones for trading:
+
+1. Create zone: `/f admin zone create safe market`
+2. Claim the trading area
 3. Players can trade safely without PvP risk
+4. Consider enabling `container_use` if you have shop NPCs
 
 ## Comparison Table
 
 | Feature | SafeZone | WarZone | Faction Claim |
 |---------|:--------:|:-------:|:-------------:|
-| PvP | No (default) | Yes (default) | Configurable |
-| Building | No (default) | No (default) | Owner only |
-| Power loss on death | N/A | Optional | Yes |
-| Can be claimed | No | No | N/A |
+| PvP | No | Yes | Configurable |
+| Building | No | No | Owner only |
+| Power loss on death | Yes | Yes | Yes |
+| Can be claimed by factions | No | No | N/A |
 | Admin only | Yes | Yes | No |
 | Multi-chunk | Yes | Yes | Yes |
-| Named | Yes | Yes | No |
-| Custom flags | Yes | Yes | Yes |
+| Named entity | Yes | Yes | No |
+| Custom flags | Yes (15) | Yes (15) | Limited |
 
 ## Related Topics
 
 - [Territories](/plugins/hyperfactions/wiki/concepts/territories) - Regular faction claims
 - [Admin Commands](/plugins/hyperfactions/wiki/commands/admin) - Zone management commands
 - [Power System](/plugins/hyperfactions/wiki/concepts/power-system) - Power and death penalties
+- [Configuration Reference](/plugins/hyperfactions/wiki/reference/configuration) - Zone-related settings

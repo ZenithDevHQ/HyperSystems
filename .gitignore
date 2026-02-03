@@ -57,3 +57,5 @@ next-env.d.ts
 .DS_Store
 .AppleDouble
 .LSOverride
+
+yarn.lock
