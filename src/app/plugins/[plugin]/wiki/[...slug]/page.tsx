@@ -60,8 +60,8 @@ export default async function WikiPage({ params }: WikiPageProps) {
   const editUrl = `https://github.com/${repo}/edit/main/${filePath}`;
 
   return (
-    <div className="flex gap-8">
-      <article className="min-w-0 flex-1">
+    <div className="lg:grid lg:grid-cols-[1fr_220px] lg:gap-8">
+      <article className="min-w-0 max-w-4xl">
         <WikiBreadcrumb
           plugin={plugin}
           pluginName={pluginData.name}
@@ -80,7 +80,7 @@ export default async function WikiPage({ params }: WikiPageProps) {
           )}
 
           {/* Mobile TOC */}
-          <div className="xl:hidden">
+          <div className="lg:hidden">
             <TableOfContents content={wikiPage.content} />
           </div>
 

@@ -1,0 +1,256 @@
+---
+title: Economy Commands
+description: Commands for managing your faction's treasury and finances.
+order: 9
+---
+
+# Economy Commands
+
+These commands allow you to manage your faction's treasury, including deposits, withdrawals, transfers, and transaction history. All economy commands use the `/f money` subcommand.
+
+<InfoBox variant="warning" title="VaultUnlocked Required">
+Economy features require the VaultUnlocked economy plugin to be installed and configured on the server. Without it, all `/f money` commands will be disabled. Contact your server administrator if economy commands are unavailable.
+</InfoBox>
+
+## Viewing Balance
+
+<CommandBlock
+  commands={[
+    {
+      command: "/f money balance",
+      description: "View your faction's treasury balance",
+      permission: "hyperfactions.economy.balance"
+    },
+    {
+      command: "/f money balance <faction>",
+      description: "View another faction's treasury balance",
+      permission: "hyperfactions.economy.balance"
+    }
+  ]}
+/>
+
+The balance display shows:
+- Current treasury amount
+- Currency name and symbol (configured by server)
+
+<InfoBox variant="tip">
+If no faction is specified, the command defaults to your own faction's balance.
+</InfoBox>
+
+## Depositing Funds
+
+<CommandBlock
+  commands={[
+    {
+      command: "/f money deposit <amount>",
+      description: "Deposit personal funds into your faction's treasury",
+      permission: "hyperfactions.economy.deposit"
+    }
+  ]}
+/>
+
+**Requirements:**
+- You must be a member of a faction
+- You must have sufficient personal funds
+- The amount must be a positive number
+
+**How Deposits Work:**
+1. The specified amount is deducted from your personal balance
+2. The amount is added to your faction's treasury
+3. The transaction is logged with your name, amount, and timestamp
+
+<InfoBox variant="info" title="Faction Permission">
+By default, all faction members (Member rank and above) can deposit funds. This is controlled by the `treasuryDeposit` faction permission.
+</InfoBox>
+
+## Withdrawing Funds
+
+<CommandBlock
+  commands={[
+    {
+      command: "/f money withdraw <amount>",
+      description: "Withdraw funds from the faction treasury to your personal balance",
+      permission: "hyperfactions.economy.withdraw"
+    }
+  ]}
+/>
+
+**Requirements:**
+- You must be an Officer or Leader in your faction
+- The treasury must have sufficient funds
+- The amount must be a positive number
+
+**How Withdrawals Work:**
+1. The specified amount is deducted from the faction treasury
+2. The amount is added to your personal balance
+3. The transaction is logged for accountability
+
+<InfoBox variant="warning" title="Officer+ Only">
+By default, only Officers and Leaders can withdraw funds from the treasury. This is controlled by the `treasuryWithdraw` faction permission. Leaders should monitor withdrawal logs regularly.
+</InfoBox>
+
+## Transferring Funds
+
+<CommandBlock
+  commands={[
+    {
+      command: "/f money transfer <faction> <amount>",
+      description: "Transfer funds from your treasury to another faction's treasury",
+      permission: "hyperfactions.economy.transfer"
+    }
+  ]}
+/>
+
+**Requirements:**
+- You must be an Officer or Leader in your faction
+- Your treasury must have sufficient funds
+- The target faction must exist
+- The amount must be a positive number
+
+**How Transfers Work:**
+1. The specified amount is deducted from your faction's treasury
+2. The amount is added to the target faction's treasury
+3. Both factions receive a notification
+4. The transaction is logged in both factions' history
+
+<InfoBox variant="tip" title="Diplomacy Tool">
+Fund transfers are a powerful diplomacy tool. Use them to pay allies for support, settle disputes, or establish trade relationships between factions.
+</InfoBox>
+
+## Transaction History
+
+<CommandBlock
+  commands={[
+    {
+      command: "/f money log",
+      description: "View recent transaction history",
+      permission: "hyperfactions.economy.log"
+    },
+    {
+      command: "/f money log <page>",
+      description: "View a specific page of transaction history",
+      permission: "hyperfactions.economy.log"
+    },
+    {
+      command: "/f money log <page> <type>",
+      description: "Filter transaction history by type (deposit, withdraw, transfer)",
+      permission: "hyperfactions.economy.log"
+    }
+  ]}
+/>
+
+Each log entry shows:
+- Timestamp of the transaction
+- Player who performed it
+- Transaction type (deposit, withdraw, or transfer)
+- Amount involved
+- Target faction (for transfers)
+
+**Filter Types:**
+| Type | Shows |
+|------|-------|
+| `deposit` | All deposits into the treasury |
+| `withdraw` | All withdrawals from the treasury |
+| `transfer` | All transfers to or from other factions |
+
+<InfoBox variant="info">
+Transaction logs are paginated. Use `/f money log 2` to view page 2, `/f money log 3` for page 3, and so on.
+</InfoBox>
+
+## Quick Reference
+
+| Command | Description | Role Required |
+|---------|-------------|---------------|
+| `/f money balance` | View your treasury balance | Member+ |
+| `/f money balance <faction>` | View another faction's balance | Member+ |
+| `/f money deposit <amount>` | Deposit into treasury | Member+ |
+| `/f money withdraw <amount>` | Withdraw from treasury | Officer+ |
+| `/f money transfer <faction> <amount>` | Transfer to another faction | Officer+ |
+| `/f money log [page] [type]` | View transaction history | Member+ |
+
+## Examples
+
+### Checking Your Balance
+
+```
+/f money balance
+```
+
+Shows your faction's current treasury balance.
+
+### Making a Deposit
+
+```
+/f money deposit 500
+```
+
+Deposits 500 from your personal balance into the faction treasury.
+
+### Withdrawing Funds
+
+```
+/f money withdraw 200
+```
+
+Withdraws 200 from the faction treasury to your personal balance (Officer+ only).
+
+### Paying an Ally
+
+```
+/f money transfer AlliedFaction 1000
+```
+
+Transfers 1000 from your faction's treasury to AlliedFaction's treasury.
+
+### Viewing Deposit History
+
+```
+/f money log 1 deposit
+```
+
+Shows page 1 of all deposit transactions.
+
+## Permission Summary
+
+<PermissionTable
+  title="Economy Command Permissions"
+  permissions={[
+    {
+      permission: "hyperfactions.economy.*",
+      description: "All economy permissions (wildcard)",
+      default: "false"
+    },
+    {
+      permission: "hyperfactions.economy.balance",
+      description: "View faction treasury balance",
+      default: "false"
+    },
+    {
+      permission: "hyperfactions.economy.deposit",
+      description: "Deposit funds into faction treasury",
+      default: "false"
+    },
+    {
+      permission: "hyperfactions.economy.withdraw",
+      description: "Withdraw funds from faction treasury",
+      default: "false"
+    },
+    {
+      permission: "hyperfactions.economy.transfer",
+      description: "Transfer funds between faction treasuries",
+      default: "false"
+    },
+    {
+      permission: "hyperfactions.economy.log",
+      description: "View faction transaction history",
+      default: "false"
+    }
+  ]}
+/>
+
+## Related Topics
+
+- [Economy](/plugins/hyperfactions/wiki/concepts/economy) - How the economy system works
+- [Economy Management](/plugins/hyperfactions/wiki/guides/economy-management) - Guide to managing finances
+- [Roles](/plugins/hyperfactions/wiki/concepts/roles) - Role-based access to treasury
+- [Diplomacy Commands](/plugins/hyperfactions/wiki/commands/diplomacy) - Building relationships through trade

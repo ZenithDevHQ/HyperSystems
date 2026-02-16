@@ -32,7 +32,7 @@ export default async function WikiLayout({ children, params }: WikiLayoutProps) 
           navigation={navigation}
         />
         <main id="main-content" className="flex-1 px-4 py-8 lg:px-8 lg:py-12">
-          <div className="mx-auto max-w-4xl">{children}</div>
+          <div className="mx-auto max-w-7xl">{children}</div>
         </main>
       </div>
       <Footer />

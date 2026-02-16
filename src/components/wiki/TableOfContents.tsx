@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import GithubSlugger from "github-slugger";
 import { cn } from "@/lib/utils";
 
 interface TocItem {
@@ -15,6 +16,7 @@ interface TableOfContentsProps {
 
 function extractHeadings(content: string): TocItem[] {
   const headings: TocItem[] = [];
+  const slugger = new GithubSlugger();
   // Match h2 and h3 headings in MDX/markdown
   const headingRegex = /^(#{2,3})\s+(.+)$/gm;
   let match;
@@ -22,11 +24,7 @@ function extractHeadings(content: string): TocItem[] {
   while ((match = headingRegex.exec(content)) !== null) {
     const level = match[1].length;
     const title = match[2].trim();
-    // Generate slug from title
-    const id = title
-      .toLowerCase()
-      .replace(/[^a-z0-9]+/g, "-")
-      .replace(/(^-|-$)/g, "");
+    const id = slugger.slug(title);
     headings.push({ id, title, level });
   }
 
@@ -65,12 +63,12 @@ export function TableOfContents({ content }: TableOfContentsProps) {
   return (
     <>
       {/* Desktop TOC - Sticky Sidebar */}
-      <nav className="hidden xl:block">
-        <div className="sticky top-24 w-64">
-          <h4 className="mb-4 text-sm font-semibold text-hs-text">
+      <nav className="hidden lg:block">
+        <div className="sticky top-24 max-h-[calc(100vh-8rem)] overflow-y-auto">
+          <h4 className="mb-3 text-sm font-semibold text-hs-text">
             On this page
           </h4>
-          <ul className="space-y-2 border-l border-hs-border">
+          <ul className="space-y-1 border-l border-hs-border">
             {headings.map((heading) => (
               <li key={heading.id}>
                 <a
@@ -92,7 +90,7 @@ export function TableOfContents({ content }: TableOfContentsProps) {
       </nav>
 
       {/* Mobile TOC - Collapsible */}
-      <div className="mb-6 xl:hidden">
+      <div className="mb-6 lg:hidden">
         <button
           onClick={() => setIsOpen(!isOpen)}
           className="flex w-full items-center justify-between rounded-lg border border-hs-border bg-hs-surface px-4 py-3 text-sm font-medium text-hs-text"

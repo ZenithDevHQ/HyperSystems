@@ -1,0 +1,92 @@
+---
+title: "Config: Economy"
+description: Configuration reference for economy.json — treasury, fees, and upkeep settings.
+order: 7
+---
+
+# Economy Configuration
+
+<InfoBox variant="info" title="File Location">
+`mods/com.hyperfactions_HyperFactions/config/economy.json`
+</InfoBox>
+
+Controls faction economy integration, treasury settings, fees, and upkeep.
+
+<InfoBox variant="info" title="Requires VaultUnlocked">
+Economy features require the VaultUnlocked mod to be installed. Without it, this module is automatically disabled.
+</InfoBox>
+
+<InfoBox variant="warning" title="Reload Required">
+Changes require `/f admin reload` or a server restart to take effect.
+</InfoBox>
+
+## Currency Settings
+
+| Key | Type | Default | Description |
+|-----|------|---------|-------------|
+| `currencyName` | string | "dollar" | Singular currency name |
+| `currencyNamePlural` | string | "dollars" | Plural currency name |
+| `currencySymbol` | string | "$" | Currency symbol for display |
+| `startingBalance` | double | 0.0 | Starting treasury balance for new factions |
+| `disbandRefundToLeader` | bool | true | Refund treasury to leader on disband |
+
+## Treasury Limits
+
+| Key | Type | Default | Description |
+|-----|------|---------|-------------|
+| `defaultMaxWithdrawAmount` | double | 0.0 | Max single withdrawal (0 = unlimited) |
+| `defaultMaxWithdrawPerPeriod` | double | 0.0 | Max withdrawals per period (0 = unlimited) |
+| `defaultMaxTransferAmount` | double | 0.0 | Max single transfer (0 = unlimited) |
+| `defaultMaxTransferPerPeriod` | double | 0.0 | Max transfers per period (0 = unlimited) |
+| `defaultLimitPeriodHours` | int | 24 | Period duration for withdrawal/transfer limits |
+
+## Fees
+
+| Key | Type | Default | Description |
+|-----|------|---------|-------------|
+| `depositFeePercent` | double | 0.0 | Percentage fee on deposits (0-100) |
+| `withdrawFeePercent` | double | 0.0 | Percentage fee on withdrawals (0-100) |
+| `transferFeePercent` | double | 0.0 | Percentage fee on inter-faction transfers (0-100) |
+
+## Upkeep
+
+| Key | Type | Default | Description |
+|-----|------|---------|-------------|
+| `upkeepEnabled` | bool | false | Enable territory upkeep costs |
+| `upkeepCostPerChunk` | double | 10.0 | Cost per claimed chunk per interval |
+| `upkeepIntervalHours` | int | 24 | Hours between upkeep charges |
+| `upkeepGracePeriodHours` | int | 48 | Grace period before claims decay from missed upkeep |
+| `upkeepAutoPayDefault` | bool | true | Auto-pay upkeep from treasury by default |
+
+## Default Configuration
+
+```json
+{
+  "enabled": true,
+  "currencyName": "dollar",
+  "currencyNamePlural": "dollars",
+  "currencySymbol": "$",
+  "startingBalance": 0.0,
+  "disbandRefundToLeader": true,
+  "defaultMaxWithdrawAmount": 0.0,
+  "defaultMaxWithdrawPerPeriod": 0.0,
+  "defaultMaxTransferAmount": 0.0,
+  "defaultMaxTransferPerPeriod": 0.0,
+  "defaultLimitPeriodHours": 24,
+  "depositFeePercent": 0.0,
+  "withdrawFeePercent": 0.0,
+  "transferFeePercent": 0.0,
+  "upkeepEnabled": false,
+  "upkeepCostPerChunk": 10.0,
+  "upkeepIntervalHours": 24,
+  "upkeepGracePeriodHours": 48,
+  "upkeepAutoPayDefault": true
+}
+```
+
+## Related Topics
+
+- [Configuration Reference](/plugins/hyperfactions/wiki/reference/configuration) - Main config.json
+- [Economy Concept](/plugins/hyperfactions/wiki/concepts/economy) - How the treasury system works
+- [Economy Commands](/plugins/hyperfactions/wiki/commands/economy) - Economy commands
+- [Economy Management](/plugins/hyperfactions/wiki/guides/economy-management) - Treasury management guide

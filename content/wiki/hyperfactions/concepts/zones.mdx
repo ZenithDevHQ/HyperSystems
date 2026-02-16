@@ -15,7 +15,7 @@ Zones are named entities that can contain multiple chunks, providing flexible ar
 **Key features:**
 - Named zones (e.g., "spawn", "arena", "market")
 - Multi-chunk support with radius claiming
-- 15 configurable flags per zone
+- 25 configurable flags per zone
 - GUI-based management
 - Priority over faction claims
 
@@ -38,8 +38,8 @@ SafeZones are protected areas where PvP is disabled and players are generally sa
 | `mob_damage` | false | Mobs cannot damage players |
 | **Building Flags** |||
 | `build_allowed` | false | Players cannot place or break blocks |
-| `block_interact` | true | General block interaction allowed |
 | **Interaction Flags** |||
+| `block_interact` | true | General block interaction allowed |
 | `door_use` | true | Players can use doors and gates |
 | `container_use` | false | Players cannot access chests or storage |
 | `bench_use` | false | Players cannot use crafting tables |
@@ -48,9 +48,26 @@ SafeZones are protected areas where PvP is disabled and players are generally sa
 | **Item Flags** |||
 | `item_drop` | false | Players cannot drop items (prevents littering) |
 | `item_pickup` | true | Players can pick up items |
+| `item_pickup_manual` | false | Manual item pickup disabled |
+| `invincible_items` | true | Dropped items cannot be destroyed |
 | **Damage Flags** |||
 | `fall_damage` | false | No fall damage |
 | `environmental_damage` | false | No drowning or suffocation |
+| **Death Flags** |||
+| `keep_inventory` | true | Players keep inventory on death |
+| `power_loss` | false | No power loss on death |
+| **Mob Spawning Flags** |||
+| `mob_spawning` | false | Master toggle - no mob spawning |
+| `hostile_mob_spawning` | false | No hostile mob spawning |
+| `passive_mob_spawning` | false | No passive mob spawning |
+| `neutral_mob_spawning` | false | No neutral mob spawning |
+| `npc_spawning` | false | No NPC spawning |
+| **Integration Flags** |||
+| `gravestone_access` | false | Gravestone access disabled |
+
+<InfoBox variant="info" title="Mixin-Dependent Flags">
+Four flags require **OrbisGuard-Mixins** to function: `item_pickup_manual`, `invincible_items`, `keep_inventory`, and `npc_spawning`. Without the mixin mod installed, these flags will have no effect.
+</InfoBox>
 
 ### Common SafeZone Uses
 
@@ -80,8 +97,8 @@ WarZones are designated combat areas where PvP is always enabled but building is
 | `mob_damage` | true | Mobs can damage players |
 | **Building Flags** |||
 | `build_allowed` | false | No block placement/breaking (anti-grief) |
-| `block_interact` | true | General block interaction allowed |
 | **Interaction Flags** |||
+| `block_interact` | true | General block interaction allowed |
 | `door_use` | true | Players can use doors and gates |
 | `container_use` | false | No container access |
 | `bench_use` | false | No crafting table access |
@@ -90,9 +107,22 @@ WarZones are designated combat areas where PvP is always enabled but building is
 | **Item Flags** |||
 | `item_drop` | true | Players can drop items |
 | `item_pickup` | true | Players can pick up items |
+| `item_pickup_manual` | true | Manual item pickup enabled |
+| `invincible_items` | false | Dropped items can be destroyed |
 | **Damage Flags** |||
 | `fall_damage` | true | Fall damage applies |
 | `environmental_damage` | true | Environmental hazards active |
+| **Death Flags** |||
+| `keep_inventory` | false | Players drop inventory on death |
+| `power_loss` | false | No power loss on death |
+| **Mob Spawning Flags** |||
+| `mob_spawning` | true | Master toggle - mob spawning enabled |
+| `hostile_mob_spawning` | true | Hostile mobs can spawn |
+| `passive_mob_spawning` | true | Passive mobs can spawn |
+| `neutral_mob_spawning` | true | Neutral mobs can spawn |
+| `npc_spawning` | true | NPCs can spawn |
+| **Integration Flags** |||
+| `gravestone_access` | true | Gravestone access enabled |
 
 ### Common WarZone Uses
 
@@ -108,7 +138,7 @@ WarZones are perfect for designated PvP arenas. Deaths in WarZones still cause p
 
 ## Zone Flags Reference
 
-All 15 zone flags organized by category:
+All 25 zone flags organized into 8 categories:
 
 ### Combat Flags (4)
 
@@ -119,29 +149,31 @@ All 15 zone flags organized by category:
 | `projectile_damage` | Arrow/projectile damage | Damage event with projectile source |
 | `mob_damage` | Mob to player damage | Damage event with entity source |
 
-### Building Flags (2)
+### Building Flags (1)
 
 | Flag | Description | Server Event |
 |------|-------------|--------------|
 | `build_allowed` | Block place/break | BreakBlockEvent, PlaceBlockEvent |
-| `block_interact` | General block interaction | UseBlockEvent |
 
-### Interaction Flags (5)
+### Interaction Flags (6)
 
 | Flag | Description | Server Event |
 |------|-------------|--------------|
+| `block_interact` | General block interaction (parent) | UseBlockEvent |
 | `door_use` | Doors and gates | DoorInteraction |
 | `container_use` | Chests, backpacks | OpenContainerInteraction |
 | `bench_use` | Crafting tables | OpenBenchPageInteraction |
 | `processing_use` | Furnaces, smelters | OpenProcessingBenchInteraction |
 | `seat_use` | Seats, chairs, mounts | MountInteraction |
 
-### Item Flags (2)
+### Item Flags (4)
 
 | Flag | Description | Server Event |
 |------|-------------|--------------|
 | `item_drop` | Dropping items | DropItemEvent |
 | `item_pickup` | Picking up items | InteractivelyPickupItemEvent |
+| `item_pickup_manual` | Manual item pickup* | Manual pickup interaction |
+| `invincible_items` | Prevent item destruction* | Item damage event |
 
 ### Damage Flags (2)
 
@@ -149,6 +181,38 @@ All 15 zone flags organized by category:
 |------|-------------|--------------|
 | `fall_damage` | Fall damage | Damage with DamageCause.FALL |
 | `environmental_damage` | Drowning, suffocation | Damage with EnvironmentSource |
+
+### Death Flags (2)
+
+| Flag | Description | Server Event |
+|------|-------------|--------------|
+| `keep_inventory` | Keep items on death* | PlayerDeathEvent |
+| `power_loss` | Faction power loss on death | PlayerDeathEvent |
+
+### Mob Spawning Flags (5)
+
+| Flag | Description | Server Event |
+|------|-------------|--------------|
+| `mob_spawning` | Master toggle (parent) | SpawnEvent |
+| `hostile_mob_spawning` | Hostile mob spawning | SpawnEvent with hostile type |
+| `passive_mob_spawning` | Passive mob spawning | SpawnEvent with passive type |
+| `neutral_mob_spawning` | Neutral mob spawning | SpawnEvent with neutral type |
+| `npc_spawning` | NPC spawning* | SpawnEvent with NPC type |
+
+### Integration Flags (1)
+
+| Flag | Description | Server Event |
+|------|-------------|--------------|
+| `gravestone_access` | Access gravestones | GravestoneInteraction |
+
+\* Requires **OrbisGuard-Mixins** mod to be installed.
+
+### Parent-Child Flag Relationships
+
+Some flags have parent-child relationships where the parent flag acts as a master toggle:
+
+- **`block_interact`** is the parent of `door_use`, `container_use`, `bench_use`, `processing_use`, and `seat_use`. If `block_interact` is set to `false`, all child interaction flags are effectively disabled regardless of their individual settings.
+- **`mob_spawning`** is the parent of `hostile_mob_spawning`, `passive_mob_spawning`, `neutral_mob_spawning`, and `npc_spawning`. If `mob_spawning` is set to `false`, no mobs of any type will spawn regardless of child flag settings.
 
 ## Zone Management
 
@@ -327,7 +391,7 @@ Create SafeZones for trading:
 | Admin only | Yes | Yes | No |
 | Multi-chunk | Yes | Yes | Yes |
 | Named entity | Yes | Yes | No |
-| Custom flags | Yes (15) | Yes (15) | Limited |
+| Custom flags | Yes (25) | Yes (25) | Limited |
 
 ## Related Topics
 

@@ -121,7 +121,7 @@ The zone system allows admins to create named zones that span multiple chunks wi
 
 ### Zone Flags
 
-Each zone type has 15 configurable flags. Use the admin GUI to modify zone flags:
+Each zone type has 25 configurable flags. Use the admin GUI to modify zone flags:
 
 | Flag | SafeZone Default | WarZone Default | Description |
 |------|------------------|-----------------|-------------|
@@ -138,8 +138,20 @@ Each zone type has 15 configurable flags. Use the admin GUI to modify zone flags
 | `seat_use` | true | true | Sit on seats/mounts |
 | `item_drop` | false | true | Allow item dropping |
 | `item_pickup` | true | true | Allow item pickup |
+| `item_pickup_manual` | false | true | Manual item pickup* |
+| `invincible_items` | true | false | Prevent item destruction* |
 | `fall_damage` | false | true | Allow fall damage |
 | `environmental_damage` | false | true | Drowning, suffocation |
+| `keep_inventory` | true | false | Keep inventory on death* |
+| `power_loss` | false | false | Power loss on death |
+| `mob_spawning` | false | true | Master mob spawn toggle |
+| `hostile_mob_spawning` | false | true | Hostile mob spawning |
+| `passive_mob_spawning` | false | true | Passive mob spawning |
+| `neutral_mob_spawning` | false | true | Neutral mob spawning |
+| `npc_spawning` | false | true | NPC spawning* |
+| `gravestone_access` | false | true | Access gravestones |
+
+\* Requires OrbisGuard-Mixins mod.
 
 For full flag details, see [Zones](/plugins/hyperfactions/wiki/concepts/zones).
 
@@ -198,6 +210,101 @@ Remember to disable bypass mode when done to avoid accidentally breaking player 
 Admin faction modifications bypass role checks. Use with caution as they directly affect player factions.
 </InfoBox>
 
+## Power Management
+
+<CommandBlock
+  commands={[
+    {
+      command: "/f admin power set <player> <amount>",
+      description: "Set a player's power to a specific value",
+      permission: "hyperfactions.admin.power"
+    },
+    {
+      command: "/f admin power add <player> <amount>",
+      description: "Add power to a player",
+      permission: "hyperfactions.admin.power"
+    },
+    {
+      command: "/f admin power remove <player> <amount>",
+      description: "Remove power from a player",
+      permission: "hyperfactions.admin.power"
+    }
+  ]}
+/>
+
+## Economy Management
+
+<CommandBlock
+  commands={[
+    {
+      command: "/f admin economy set <faction> <amount>",
+      description: "Set a faction's treasury balance",
+      permission: "hyperfactions.admin.economy"
+    },
+    {
+      command: "/f admin economy add <faction> <amount>",
+      description: "Add funds to a faction's treasury",
+      permission: "hyperfactions.admin.economy"
+    },
+    {
+      command: "/f admin economy remove <faction> <amount>",
+      description: "Remove funds from a faction's treasury",
+      permission: "hyperfactions.admin.economy"
+    }
+  ]}
+/>
+
+## Data Management
+
+<CommandBlock
+  commands={[
+    {
+      command: "/f admin rollback <faction>",
+      description: "Rollback a faction's data to a previous state",
+      permission: "hyperfactions.admin.rollback"
+    },
+    {
+      command: "/f admin clearhistory <faction>",
+      description: "Clear a faction's activity history/logs",
+      permission: "hyperfactions.admin.clearhistory"
+    }
+  ]}
+/>
+
+## Decay Management
+
+<CommandBlock
+  commands={[
+    {
+      command: "/f admin decay status",
+      description: "View current claim decay status for all factions",
+      permission: "hyperfactions.admin.decay"
+    },
+    {
+      command: "/f admin decay run",
+      description: "Manually trigger a claim decay cycle",
+      permission: "hyperfactions.admin.decay"
+    },
+    {
+      command: "/f admin decay exempt <faction>",
+      description: "Exempt a faction from claim decay",
+      permission: "hyperfactions.admin.decay"
+    }
+  ]}
+/>
+
+## Integration Management
+
+<CommandBlock
+  commands={[
+    {
+      command: "/f admin integrations",
+      description: "View status of mod integrations (HyperPerms, OrbisGuard-Mixins, etc.)",
+      permission: "hyperfactions.admin.integrations"
+    }
+  ]}
+/>
+
 ## Backup System
 
 HyperFactions includes a built-in backup system with GFS (Grandfather-Father-Son) rotation.
@@ -252,6 +359,12 @@ Restoring a backup overwrites current data. Consider creating a backup before re
 | `/f admin zone radius <name> <r>` | Claim radius | `hyperfactions.admin.zones` |
 | `/f admin disband <faction>` | Force disband | `hyperfactions.admin.disband` |
 | `/f admin modify <faction> ...` | Modify faction | `hyperfactions.admin.modify` |
+| `/f admin power <set\|add\|remove> ...` | Manage player power | `hyperfactions.admin.power` |
+| `/f admin economy <set\|add\|remove> ...` | Manage faction treasury | `hyperfactions.admin.economy` |
+| `/f admin rollback <faction>` | Rollback faction data | `hyperfactions.admin.rollback` |
+| `/f admin clearhistory <faction>` | Clear faction history | `hyperfactions.admin.clearhistory` |
+| `/f admin decay <status\|run\|exempt>` | Manage claim decay | `hyperfactions.admin.decay` |
+| `/f admin integrations` | View integration status | `hyperfactions.admin.integrations` |
 | `/f admin backup create` | Create backup | `hyperfactions.admin.backup` |
 | `/f admin backup list` | List backups | `hyperfactions.admin.backup` |
 | `/f admin backup restore <name>` | Restore backup | `hyperfactions.admin.backup` |
@@ -290,6 +403,36 @@ Restoring a backup overwrites current data. Consider creating a backup before re
     {
       permission: "hyperfactions.admin.modify",
       description: "Modify any faction's settings",
+      default: "op"
+    },
+    {
+      permission: "hyperfactions.admin.power",
+      description: "Manage player power levels",
+      default: "op"
+    },
+    {
+      permission: "hyperfactions.admin.economy",
+      description: "Manage faction treasuries",
+      default: "op"
+    },
+    {
+      permission: "hyperfactions.admin.rollback",
+      description: "Rollback faction data",
+      default: "op"
+    },
+    {
+      permission: "hyperfactions.admin.clearhistory",
+      description: "Clear faction activity history",
+      default: "op"
+    },
+    {
+      permission: "hyperfactions.admin.decay",
+      description: "Manage claim decay",
+      default: "op"
+    },
+    {
+      permission: "hyperfactions.admin.integrations",
+      description: "View integration status",
       default: "op"
     },
     {

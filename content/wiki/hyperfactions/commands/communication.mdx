@@ -8,54 +8,57 @@ order: 6
 
 HyperFactions provides private chat channels for faction and alliance communication.
 
-## Faction Chat
+## Chat Mode Toggle
+
+HyperFactions uses a **toggle mode** for chat channels. Instead of prefixing each message, you switch into a chat mode and all subsequent messages go to that channel until you switch back.
 
 <CommandBlock
   commands={[
     {
-      command: "/f c <message>",
-      description: "Send a message to faction members only",
+      command: "/f c",
+      description: "Cycle chat mode: normal -> faction -> ally -> normal",
+      permission: "hyperfactions.chat.faction"
+    },
+    {
+      command: "/f c f",
+      description: "Switch to faction chat mode (alias: /f c faction)",
+      permission: "hyperfactions.chat.faction"
+    },
+    {
+      command: "/f c a",
+      description: "Switch to ally chat mode (alias: /f c ally)",
+      permission: "hyperfactions.chat.ally"
+    },
+    {
+      command: "/f c off",
+      description: "Switch back to normal/public chat (aliases: /f c normal, /f c public)",
       permission: "hyperfactions.chat.faction"
     }
   ]}
 />
 
-**Features:**
-- Only faction members can see the message
-- Distinct formatting with faction color
-- Works across the entire server
+**How it works:**
+- Run `/f c` with no arguments to cycle through modes: normal, faction, ally, then back to normal
+- Or specify a mode directly: `/f c f` for faction, `/f c a` for ally, `/f c off` for normal
+- Once in a chat mode, all regular messages you type go to that channel
+- Your current mode persists until you change it or log out
 
 <InfoBox variant="info">
-Faction chat is perfect for coordinating without enemies seeing your plans.
+Your current chat mode is displayed in your chat prompt. Look for the [F] or [A] prefix to know which channel you're in.
 </InfoBox>
 
-## Alliance Chat
+### Chat History GUI
 
-<CommandBlock
-  commands={[
-    {
-      command: "/f a <message>",
-      description: "Send a message to all allied factions",
-      permission: "hyperfactions.chat.ally"
-    }
-  ]}
-/>
-
-**Features:**
-- All members of allied factions can see the message
-- Useful for coordinating multi-faction operations
-- Includes your faction tag in the message
-
-<InfoBox variant="tip">
-Use alliance chat to coordinate with allies during wars or events.
-</InfoBox>
+Faction and alliance chat messages are logged and can be reviewed through the chat history GUI, accessible from the faction menu. This allows you to catch up on messages you may have missed while offline.
 
 ## Quick Reference
 
-| Command | Audience | Permission |
-|---------|----------|------------|
-| `/f c <message>` | Your faction only | `hyperfactions.chat.faction` |
-| `/f a <message>` | All allied factions | `hyperfactions.chat.ally` |
+| Command | Effect | Permission |
+|---------|--------|------------|
+| `/f c` | Cycle chat mode | `hyperfactions.chat.faction` |
+| `/f c f` or `/f c faction` | Switch to faction chat | `hyperfactions.chat.faction` |
+| `/f c a` or `/f c ally` | Switch to ally chat | `hyperfactions.chat.ally` |
+| `/f c off` or `/f c normal` or `/f c public` | Switch to normal chat | `hyperfactions.chat.faction` |
 
 ## Chat Formatting
 
@@ -98,31 +101,42 @@ Chat formatting can be customized in `config.json`:
 
 ## Examples
 
-### Coordinating Defense
+### Switching to Faction Chat for a Battle
 
 ```
-/f c Everyone get online! We're being attacked!
+/f c f
 ```
+Now all your messages go to faction chat. Type normally:
+```
+Everyone get online! We're being attacked!
+Defend the north wall!
+```
+Only your faction sees these messages.
 
-Only your faction sees this message.
-
-### Planning with Allies
+### Coordinating with Allies
 
 ```
-/f a We'll attack from the north. You take the south.
+/f c a
 ```
-
+Now all your messages go to alliance chat:
+```
+We'll attack from the north. You take the south.
+```
 All players in allied factions see this.
 
-### Quick Messages
+### Returning to Normal Chat
 
 ```
-/f c base
-/f c help
-/f c gg
+/f c off
 ```
+Your messages now go to public chat again.
 
-Short messages for quick communication.
+### Quick Cycling
+
+```
+/f c
+```
+Cycles to the next mode. Run repeatedly to move through normal, faction, ally, and back to normal.
 
 ## Permission Summary
 

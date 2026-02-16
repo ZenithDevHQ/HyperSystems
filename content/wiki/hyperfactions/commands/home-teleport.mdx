@@ -51,6 +51,26 @@ Default warmup is 5 seconds. Default cooldown is 5 minutes. Both are configurabl
 Set your faction home inside a protected building within your claimed territory for safety.
 </InfoBox>
 
+## Deleting Faction Home
+
+<CommandBlock
+  commands={[
+    {
+      command: "/f delhome",
+      description: "Delete the faction home location",
+      permission: "hyperfactions.teleport.delhome"
+    }
+  ]}
+/>
+
+**Requirements:**
+- Must be the Leader
+- Faction must have a home set
+
+<InfoBox variant="warning">
+Deleting the faction home means members can no longer use `/f home` until a new home is set.
+</InfoBox>
+
 ## Stuck Command
 
 <CommandBlock
@@ -87,6 +107,7 @@ Use `/f stuck` when you're trapped in enemy territory with no way to escape. The
 |---------|-------------|---------------|
 | `/f home` | Teleport to faction home | Member+ |
 | `/f sethome` | Set faction home location | Leader |
+| `/f delhome` | Delete faction home location | Leader |
 | `/f stuck` | Escape hostile territory | Member+ |
 
 ## Teleport Configuration
@@ -114,6 +135,11 @@ The teleport system is highly configurable:
     {
       permission: "hyperfactions.teleport.sethome",
       description: "Set faction home location",
+      default: "false"
+    },
+    {
+      permission: "hyperfactions.teleport.delhome",
+      description: "Delete faction home location",
       default: "false"
     },
     {

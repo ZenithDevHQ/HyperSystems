@@ -9,7 +9,7 @@ order: 2
 HyperFactions is highly configurable. This guide explains the key configuration options for getting started.
 
 <InfoBox variant="info" title="For Server Owners">
-This guide covers common configuration scenarios. For a complete reference of all 47 configuration options, see [Configuration Reference](/plugins/hyperfactions/wiki/reference/configuration).
+This guide covers common configuration scenarios. For a complete reference of all configuration options, see [Configuration Reference](/plugins/hyperfactions/wiki/reference/configuration).
 </InfoBox>
 
 ## Configuration Files
@@ -20,14 +20,17 @@ HyperFactions uses multiple configuration files:
 mods/com.hyperfactions_HyperFactions/
 ├── config.json               ← Main configuration (covered in this guide)
 └── config/                   ← Module configurations
+    ├── announcements.json    ← Announcement settings
     ├── backup.json           ← Backup system settings
     ├── chat.json             ← Chat formatting
     ├── debug.json            ← Debug logging
-    ├── economy.json          ← Economy integration
-    └── faction-permissions.json  ← Default territory permissions
+    ├── economy.json          ← Economy/treasury settings
+    ├── faction-permissions.json  ← Default territory permissions
+    ├── gravestones.json      ← Gravestone integration settings
+    └── worldmap.json         ← World map display settings
 ```
 
-The main `config.json` contains 47 options covering faction limits, power, claims, combat, relations, and more. Module configs in the `config/` subdirectory handle specialized features.
+The main `config.json` covers faction limits, power, claims, combat, relations, and more. Module configs in the `config/` subdirectory handle specialized features like economy, chat, map display, and backups.
 
 <InfoBox variant="warning" title="Applying Changes">
 After making changes to configuration files, run `/f admin reload` to apply them without restarting the server.
@@ -60,6 +63,7 @@ The power system is the core of HyperFactions. These settings affect how faction
 | `power.startingPower` | 10.0 | Power new players start with |
 | `power.powerPerClaim` | 2.0 | Power required per claim |
 | `power.deathPenalty` | 1.0 | Power lost on death |
+| `power.killReward` | 0.0 | Power gained on kill |
 | `power.regenPerMinute` | 0.1 | Power regenerated per minute |
 | `power.regenWhenOffline` | false | Regenerate while offline |
 
@@ -232,15 +236,15 @@ For the `/f stuck` command:
 
 ## Permission Behavior
 
-When HyperPerms is not installed:
+When no permission manager (HyperPerms/LuckPerms) is installed:
 
 | Option | Default | Description |
 |--------|---------|-------------|
 | `permissions.adminRequiresOp` | true | Admins need OP |
-| `permissions.fallbackBehavior` | "deny" | Default permission state |
+| `permissions.allowWithoutPermissionMod` | false | Allow commands without a permission mod |
 
-<InfoBox variant="warning" title="Without HyperPerms">
-If you don't use HyperPerms, set `fallbackBehavior` to "allow" for basic commands to work, or grant OP to admins.
+<InfoBox variant="warning" title="Without a Permission Manager">
+If you don't use HyperPerms or LuckPerms, set `allowWithoutPermissionMod` to `true` for basic commands to work, or grant OP to admins. This is not recommended for production servers.
 </InfoBox>
 
 ## World Filtering
@@ -265,17 +269,47 @@ Control which worlds allow faction claims:
 
 | Option | Default | Description |
 |--------|---------|-------------|
-| `messages.prefix` | `§b[HyperFactions]§r ` | Message prefix |
+| `messages.prefixText` | `HyperFactions` | Text shown in message prefix |
+| `messages.prefixColor` | `#55FFFF` | Color of the prefix text |
+| `messages.prefixBracketColor` | `#AAAAAA` | Color of the brackets around prefix |
 | `messages.primaryColor` | `#00FFFF` | Primary accent color |
+
+## Economy Settings
+
+If VaultUnlocked is installed, configure the faction treasury:
+
+| Option | Default | Description |
+|--------|---------|-------------|
+| `economy.enabled` | true | Enable treasury features |
+| `economy.startingBalance` | 0.0 | Starting treasury balance |
+| `economy.currencySymbol` | `$` | Currency symbol for display |
+
+See [Economy](/plugins/hyperfactions/wiki/concepts/economy) for how the treasury system works.
+
+## World Map Settings
+
+Configure the interactive territory map:
+
+| Option | Default | Description |
+|--------|---------|-------------|
+| `gui.terrainMapEnabled` | true | Enable terrain imagery on the map |
+
+Map display options are configured in `config/worldmap.json`:
+
+| Option | Default | Description |
+|--------|---------|-------------|
+| `playerVisibility.enabled` | false | Enable relation-based player filtering on the map |
+| `showFactionTags` | true | Show faction tags on claimed chunks |
+| `refreshMode` | "incremental" | Map refresh strategy (incremental, proximity, debounced, immediate, manual) |
 
 ## Next Steps
 
 Now that you've configured HyperFactions:
 
-1. [Set up permissions](/plugins/hyperfactions/wiki/reference/permissions) if using HyperPerms
+1. [Set up permissions](/plugins/hyperfactions/wiki/reference/permissions) if using HyperPerms or LuckPerms
 2. [Create zones](/plugins/hyperfactions/wiki/concepts/zones) for spawn and arenas
 3. [Test your config](/plugins/hyperfactions/wiki/getting-started/first-setup) by creating a faction
-4. See the [Configuration Reference](/plugins/hyperfactions/wiki/reference/configuration) for all 47 options
+4. See the [Configuration Reference](/plugins/hyperfactions/wiki/reference/configuration) for all options
 
 ## Related Topics
 

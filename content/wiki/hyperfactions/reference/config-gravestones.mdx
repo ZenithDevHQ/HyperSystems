@@ -1,0 +1,74 @@
+---
+title: "Config: Gravestones"
+description: Configuration reference for gravestones.json — gravestone protection by territory and faction relation.
+order: 9
+---
+
+# Gravestones Configuration
+
+<InfoBox variant="info" title="File Location">
+`mods/com.hyperfactions_HyperFactions/config/gravestones.json`
+</InfoBox>
+
+Controls gravestone protection rules based on territory type and faction relations. Integrates with the OrbisGuard gravestone system.
+
+<InfoBox variant="warning" title="Reload Required">
+Changes require `/f admin reload` or a server restart to take effect.
+</InfoBox>
+
+## Territory Protection
+
+| Key | Type | Default | Description |
+|-----|------|---------|-------------|
+| `protectInOwnTerritory` | bool | true | Protect gravestones in faction's own territory |
+| `protectInSafeZone` | bool | true | Protect gravestones in SafeZones |
+| `protectInWarZone` | bool | false | Protect gravestones in WarZones |
+| `protectInWilderness` | bool | false | Protect gravestones in unclaimed territory |
+| `protectInEnemyTerritory` | bool | false | Protect gravestones in enemy territory |
+| `protectInNeutralTerritory` | bool | true | Protect gravestones in neutral faction territory |
+
+## Access Rules
+
+| Key | Type | Default | Description |
+|-----|------|---------|-------------|
+| `factionMembersCanAccess` | bool | true | Faction members can access each other's gravestones |
+| `alliesCanAccess` | bool | false | Allied faction members can access gravestones |
+| `enemiesCanLootInOwnTerritory` | bool | false | Enemies can loot gravestones in their own territory |
+
+## Combat Rules
+
+| Key | Type | Default | Description |
+|-----|------|---------|-------------|
+| `allowLootDuringRaid` | bool | true | Allow gravestone looting during raids |
+| `allowLootDuringWar` | bool | true | Allow gravestone looting during wars |
+
+## Notifications
+
+| Key | Type | Default | Description |
+|-----|------|---------|-------------|
+| `announceDeathLocation` | bool | true | Announce death location to faction members |
+
+## Default Configuration
+
+```json
+{
+  "enabled": true,
+  "protectInOwnTerritory": true,
+  "factionMembersCanAccess": true,
+  "alliesCanAccess": false,
+  "protectInSafeZone": true,
+  "protectInWarZone": false,
+  "protectInWilderness": false,
+  "announceDeathLocation": true,
+  "protectInEnemyTerritory": false,
+  "protectInNeutralTerritory": true,
+  "enemiesCanLootInOwnTerritory": false,
+  "allowLootDuringRaid": true,
+  "allowLootDuringWar": true
+}
+```
+
+## Related Topics
+
+- [Configuration Reference](/plugins/hyperfactions/wiki/reference/configuration) - Main config.json
+- [Zones](/plugins/hyperfactions/wiki/concepts/zones) - Zone types

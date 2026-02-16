@@ -1,0 +1,169 @@
+---
+title: "Config: Faction Permissions"
+description: Configuration reference for faction-permissions.json — default territory permissions and server locks.
+order: 8
+---
+
+# Faction Permissions Configuration
+
+<InfoBox variant="info" title="File Location">
+`mods/com.hyperfactions_HyperFactions/config/faction-permissions.json`
+</InfoBox>
+
+Controls default territory permissions for new factions and server-enforced permission locks.
+
+<InfoBox variant="warning" title="Reload Required">
+Changes require `/f admin reload` or a server restart to take effect.
+</InfoBox>
+
+## Structure
+
+This config has two sections:
+
+- **`defaults`** — Default permissions for new factions. Also used as the forced value when a flag is locked.
+- **`locks`** — Which permissions factions cannot change. When locked, the `defaults` value is always used.
+
+## Block & Interaction Permissions
+
+| Permission | Default | Description |
+|------------|---------|-------------|
+| `outsiderBreak` | false | Non-members can break blocks |
+| `outsiderPlace` | false | Non-members can place blocks |
+| `outsiderInteract` | false | Non-members can interact |
+| `allyBreak` | false | Allies can break blocks |
+| `allyPlace` | false | Allies can place blocks |
+| `allyInteract` | true | Allies can interact |
+| `memberBreak` | true | Members can break blocks |
+| `memberPlace` | true | Members can place blocks |
+| `memberInteract` | true | Members can interact |
+
+## Use Permissions
+
+Per level: outsider, ally, member, officer.
+
+| Permission | Default | Description |
+|------------|---------|-------------|
+| `outsiderDoorUse` | false | Non-members can use doors |
+| `outsiderContainerUse` | false | Non-members can use containers |
+| `outsiderBenchUse` | false | Non-members can use crafting benches |
+| `outsiderProcessingUse` | false | Non-members can use processing stations |
+| `outsiderSeatUse` | false | Non-members can use seats |
+| `allyDoorUse` | true | Allies can use doors |
+| `allyContainerUse` | false | Allies can use containers |
+| `allyBenchUse` | true | Allies can use crafting benches |
+| `allyProcessingUse` | false | Allies can use processing stations |
+| `allySeatUse` | true | Allies can use seats |
+| `memberDoorUse` | true | Members can use doors |
+| `memberContainerUse` | true | Members can use containers |
+| `memberBenchUse` | true | Members can use crafting benches |
+| `memberProcessingUse` | true | Members can use processing stations |
+| `memberSeatUse` | true | Members can use seats |
+| `officerDoorUse` | true | Officers can use doors |
+| `officerContainerUse` | true | Officers can use containers |
+| `officerBenchUse` | true | Officers can use crafting benches |
+| `officerProcessingUse` | true | Officers can use processing stations |
+| `officerSeatUse` | true | Officers can use seats |
+
+## Mob Spawning Controls
+
+| Permission | Default | Description |
+|------------|---------|-------------|
+| `mobSpawning` | true | Allow mob spawning in territory |
+| `hostileMobSpawning` | true | Allow hostile mob spawning |
+| `passiveMobSpawning` | true | Allow passive mob spawning |
+| `neutralMobSpawning` | true | Allow neutral mob spawning |
+
+## Treasury Permissions
+
+| Permission | Default | Description |
+|------------|---------|-------------|
+| `treasuryDeposit` | true | Members can deposit into treasury |
+| `treasuryWithdraw` | false | Members can withdraw from treasury |
+| `treasuryTransfer` | false | Members can transfer treasury funds |
+
+## General
+
+| Permission | Default | Description |
+|------------|---------|-------------|
+| `pvpEnabled` | true | PvP allowed in territory |
+| `officersCanEdit` | false | Officers can edit permissions |
+
+## Default Configuration
+
+The JSON format uses nested sections grouped by role level:
+
+```json
+{
+  "enabled": true,
+  "defaults": {
+    "outsider": {
+      "break": false, "place": false, "interact": false,
+      "doorUse": false, "containerUse": false, "benchUse": false,
+      "processingUse": false, "seatUse": false
+    },
+    "ally": {
+      "break": false, "place": false, "interact": true,
+      "doorUse": true, "containerUse": false, "benchUse": true,
+      "processingUse": false, "seatUse": true
+    },
+    "member": {
+      "break": true, "place": true, "interact": true,
+      "doorUse": true, "containerUse": true, "benchUse": true,
+      "processingUse": true, "seatUse": true
+    },
+    "officer": {
+      "break": true, "place": true, "interact": true,
+      "doorUse": true, "containerUse": true, "benchUse": true,
+      "processingUse": true, "seatUse": true
+    },
+    "mobSpawning": {
+      "enabled": true, "hostile": true,
+      "passive": true, "neutral": true
+    },
+    "pvpEnabled": true,
+    "officersCanEdit": false
+  },
+  "locks": {
+    "outsider": {
+      "break": false, "place": false, "interact": false,
+      "doorUse": false, "containerUse": false, "benchUse": false,
+      "processingUse": false, "seatUse": false
+    },
+    "ally": {
+      "break": false, "place": false, "interact": false,
+      "doorUse": false, "containerUse": false, "benchUse": false,
+      "processingUse": false, "seatUse": false
+    },
+    "member": {
+      "break": false, "place": false, "interact": false,
+      "doorUse": false, "containerUse": false, "benchUse": false,
+      "processingUse": false, "seatUse": false
+    },
+    "officer": {
+      "break": false, "place": false, "interact": false,
+      "doorUse": false, "containerUse": false, "benchUse": false,
+      "processingUse": false, "seatUse": false
+    },
+    "mobSpawning": {
+      "enabled": false, "hostile": false,
+      "passive": false, "neutral": false
+    },
+    "pvpEnabled": false,
+    "officersCanEdit": false
+  }
+}
+```
+
+<InfoBox variant="warning" title="Lock Behavior">
+When a permission is locked (`locks` value = true), factions cannot change it. The value from `defaults` is always used instead. All flags are unlocked by default.
+</InfoBox>
+
+<InfoBox variant="tip" title="Flat Format Supported">
+The old flat format (`outsiderBreak`, `allyPlace`, etc.) is also accepted for backward compatibility, but new configs are saved in the nested format shown above.
+</InfoBox>
+
+## Related Topics
+
+- [Configuration Reference](/plugins/hyperfactions/wiki/reference/configuration) - Main config.json
+- [Zones](/plugins/hyperfactions/wiki/concepts/zones) - Zone types and flags
+- [Territories](/plugins/hyperfactions/wiki/concepts/territories) - Territory protection

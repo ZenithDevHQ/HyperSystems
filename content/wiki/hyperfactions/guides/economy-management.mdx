@@ -1,0 +1,264 @@
+---
+title: Economy Management
+description: Guide to managing your faction's treasury and finances.
+order: 6
+---
+
+# Economy Management
+
+A well-managed treasury is a strategic asset. This guide covers how faction Leaders and Officers can effectively manage their faction's finances, from collecting deposits to making strategic transfers.
+
+<InfoBox variant="info" title="For Leaders and Officers">
+This guide focuses on treasury management for faction leadership. All members can deposit, but withdrawal, transfer, and strategic decisions are typically handled by Officers and Leaders.
+</InfoBox>
+
+## Prerequisites
+
+Before using economy features, ensure:
+
+1. **VaultUnlocked is installed** on the server with an economy provider
+2. **Economy is enabled** in HyperFactions configuration
+3. **You have the right permissions**: `hyperfactions.economy.*` (server permission)
+4. **Your role allows it**: Officer+ for withdrawals and transfers (faction permission)
+
+<InfoBox variant="warning" title="VaultUnlocked Required">
+If `/f money balance` returns an error or is unrecognized, VaultUnlocked is likely not installed. Contact your server administrator to set up economy support.
+</InfoBox>
+
+## Getting Started
+
+### Checking Your Balance
+
+Start by viewing your faction's current treasury:
+
+```
+/f money balance
+```
+
+New factions start with a balance configured by the server (default: 0). Your first goal is to build this up through member deposits.
+
+### Understanding the Currency
+
+Your server's currency name and symbol are configured by the administrator. Common setups include:
+
+| Setting | Example Values |
+|---------|---------------|
+| Currency Name | Coins, Gold, Dollars, Credits |
+| Currency Symbol | $, G, C |
+
+All economy commands display amounts using the configured currency.
+
+## Managing Deposits
+
+Deposits are the primary way to grow your faction's treasury. Any faction member with the `treasuryDeposit` permission (all members by default) can contribute.
+
+### Encouraging Contributions
+
+Build a culture of contribution in your faction:
+
+1. **Set expectations early** -- Let new members know that deposits help the faction
+2. **Lead by example** -- Officers and Leaders should deposit regularly
+3. **Set contribution goals** -- Give members a target to work toward
+4. **Recognize contributors** -- Acknowledge members who deposit consistently
+
+### Suggested Contribution Models
+
+| Model | Description | Best For |
+|-------|-------------|----------|
+| **Voluntary** | Members deposit when they want | Casual factions |
+| **Percentage** | Members deposit a % of earnings | Organized factions |
+| **Fixed amount** | Regular fixed deposits expected | Structured factions |
+| **Event-based** | Deposits before major operations | PvP factions |
+
+### Monitoring Deposits
+
+Track who is contributing with the transaction log:
+
+```
+/f money log 1 deposit
+```
+
+This shows all deposit transactions, helping you identify active contributors and members who may need encouragement.
+
+## Managing Withdrawals
+
+Withdrawals move funds from the treasury to an Officer's or Leader's personal balance. This requires both the server permission (`hyperfactions.economy.withdraw`) and the faction role permission (`treasuryWithdraw`).
+
+### Responsible Spending
+
+Establish clear guidelines for when withdrawals are appropriate:
+
+**Acceptable Uses:**
+- Funding faction-wide projects or operations
+- Purchasing supplies for faction defense
+- Compensating members for faction-related expenses
+- Strategic investments that benefit all members
+
+**Discouraged Uses:**
+- Personal enrichment without faction benefit
+- Excessive withdrawals without justification
+- Withdrawals during financial instability
+
+### Withdrawal Accountability
+
+Every withdrawal is logged. Leaders should review withdrawal history regularly:
+
+```
+/f money log 1 withdraw
+```
+
+<InfoBox variant="warning" title="Trust but Verify">
+Grant withdrawal access only to Officers you trust. Review the transaction log periodically to ensure funds are being used responsibly. If you notice suspicious activity, you can adjust faction permissions to restrict access.
+</InfoBox>
+
+## Transferring Funds
+
+Transfers move funds directly from your treasury to another faction's treasury. This is a powerful tool for diplomacy and trade.
+
+### Common Transfer Scenarios
+
+| Scenario | Description | Example |
+|----------|-------------|---------|
+| **Alliance support** | Helping an ally in need | Funding a weaker ally's defense |
+| **Trade deals** | Payment for goods or services | Buying resources from a neighbor |
+| **War reparations** | Ending a conflict through payment | Paying to end an enemy declaration |
+| **Tribute** | Regular payments to a stronger faction | Maintaining a protection agreement |
+
+### Making a Transfer
+
+```
+/f money transfer AlliedFaction 500
+```
+
+Both factions are notified of the transfer, and it appears in both transaction logs.
+
+<InfoBox variant="tip" title="Verify Before Sending">
+Double-check the faction name before transferring. Transfers are immediate and cannot be reversed. Use `/f info FactionName` to confirm you have the right target.
+</InfoBox>
+
+### Transfer Diplomacy
+
+Use transfers strategically in diplomatic negotiations:
+
+1. **Build trust** -- Small initial transfers demonstrate good faith
+2. **Formalize agreements** -- Agree on amounts and schedules before transferring
+3. **Document terms** -- Use faction chat to record the purpose of each transfer
+4. **Monitor reciprocity** -- Ensure trade partners hold up their end
+
+## Viewing Transaction History
+
+The transaction log is your primary tool for financial oversight.
+
+### Full History
+
+```
+/f money log
+```
+
+Shows all recent transactions regardless of type.
+
+### Filtered Views
+
+```
+/f money log 1 deposit     # View deposits only
+/f money log 1 withdraw    # View withdrawals only
+/f money log 1 transfer    # View transfers only
+```
+
+### What to Look For
+
+| Pattern | What It Means | Action |
+|---------|---------------|--------|
+| Regular deposits from many members | Healthy contribution culture | Continue encouraging |
+| Deposits from few members | Uneven burden | Encourage broader participation |
+| Frequent large withdrawals | Potential misuse or major spending | Review with the officer |
+| Transfers to unknown factions | Possible unauthorized dealing | Investigate immediately |
+| No activity | Dormant treasury | Re-engage members |
+
+## Best Practices
+
+### For Leaders
+
+1. **Set a budget** -- Decide how much should remain in the treasury as a reserve
+2. **Review logs weekly** -- Check transaction history for irregularities
+3. **Communicate spending** -- Tell members what treasury funds are used for
+4. **Plan for emergencies** -- Keep a reserve for unexpected needs (war, rebuilding)
+5. **Adjust permissions** -- If trust issues arise, restrict withdrawal access
+
+### For Officers
+
+1. **Document withdrawals** -- Note the purpose when withdrawing funds
+2. **Coordinate with leadership** -- Discuss major spending before acting
+3. **Report irregularities** -- If you notice unusual transactions, alert the Leader
+4. **Encourage deposits** -- Remind members to contribute when funds are low
+
+### For Members
+
+1. **Contribute regularly** -- Even small deposits add up over time
+2. **Deposit before going inactive** -- Help the faction even when you are away
+3. **Ask about the treasury** -- Engaged members strengthen the faction
+
+## Common Scenarios
+
+### Building Fund
+
+Your faction wants to save up for a major building project.
+
+1. Set a goal amount and communicate it to all members
+2. Track progress with `/f money balance`
+3. Encourage deposits with a target date
+4. When the goal is reached, withdraw funds as needed for the project
+
+### War Chest
+
+Preparing for conflict requires financial reserves.
+
+1. Increase deposit frequency before hostilities
+2. Build a buffer beyond your normal operating reserve
+3. Use funds during conflict for supplies and equipment
+4. After the war, rebuild the treasury through increased deposits
+
+### Trade Deal
+
+Establishing an ongoing trade relationship with another faction.
+
+1. Negotiate terms with the other faction's leadership
+2. Agree on amounts, frequency, and what is being exchanged
+3. Execute transfers on the agreed schedule
+4. Review transfer logs to confirm both parties are meeting commitments
+
+### Alliance Support
+
+An ally needs financial help during a crisis.
+
+1. Assess your own treasury -- can you afford to help?
+2. Discuss with your faction leadership
+3. Transfer an agreed amount: `/f money transfer AllyFaction 1000`
+4. Coordinate with the ally on how funds will be used
+
+### New Member Onboarding
+
+Introduce new members to the economy system.
+
+1. Explain the treasury purpose and contribution expectations
+2. Show them how to deposit: `/f money deposit <amount>`
+3. Share the faction's financial goals
+4. Recognize their first contribution
+
+## Troubleshooting
+
+| Problem | Cause | Solution |
+|---------|-------|----------|
+| Economy commands not available | VaultUnlocked not installed | Ask server admin to install VaultUnlocked |
+| Cannot withdraw | Insufficient role or permission | Check faction permission settings and server permissions |
+| Transfer failed | Target faction does not exist | Verify faction name with `/f info <faction>` |
+| Insufficient funds | Treasury balance too low | Build up the treasury through deposits first |
+| Cannot deposit | Insufficient personal funds | Earn more through the server's economy system |
+
+## Related Topics
+
+- [Economy](/plugins/hyperfactions/wiki/concepts/economy) - How the economy system works
+- [Economy Commands](/plugins/hyperfactions/wiki/commands/economy) - Full command reference
+- [Roles](/plugins/hyperfactions/wiki/concepts/roles) - Role-based treasury access
+- [Diplomacy Strategy](/plugins/hyperfactions/wiki/guides/diplomacy-strategy) - Using trade in diplomatic relations
+- [Growing Your Faction](/plugins/hyperfactions/wiki/guides/growing-your-faction) - Building faction strength

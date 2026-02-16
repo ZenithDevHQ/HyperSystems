@@ -53,6 +53,33 @@ Invitations expire after a configurable time (default: 5 minutes). The player mu
 - Must not already be in a faction
 - Joins as Member role
 
+## Requesting to Join (Closed Factions)
+
+<CommandBlock
+  commands={[
+    {
+      command: "/f request <faction>",
+      description: "Send a join request to a closed faction",
+      permission: "hyperfactions.member.request"
+    }
+  ]}
+/>
+
+**Requirements:**
+- Must not already be in a faction
+- Target faction must be closed (open factions use `/f join` instead)
+- Only one pending request at a time
+
+**How it works:**
+1. Player sends a join request to a closed faction
+2. Officers and Leaders of the target faction are notified
+3. An Officer or Leader can accept or deny the request
+4. If accepted, the player joins as a Member
+
+<InfoBox variant="info">
+Join requests expire after a configurable time. If no Officer or Leader responds, the request is automatically removed.
+</InfoBox>
+
 ## Kicking Members
 
 <CommandBlock
@@ -142,6 +169,7 @@ Leadership transfer cannot be undone by you. The new Leader must transfer back i
 | `/f invite <player>` | Invite player | Officer+ |
 | `/f accept` | Accept invitation | Non-member |
 | `/f join <faction>` | Join open faction | Non-member |
+| `/f request <faction>` | Request to join closed faction | Non-member |
 | `/f kick <player>` | Remove player | Officer+ |
 | `/f promote <player>` | Promote to Officer | Leader |
 | `/f demote <player>` | Demote to Member | Leader |
@@ -201,6 +229,11 @@ NewLeader is now the Leader. You're now an Officer.
     {
       permission: "hyperfactions.member.join",
       description: "Join factions / accept invites",
+      default: "false"
+    },
+    {
+      permission: "hyperfactions.member.request",
+      description: "Send join requests to closed factions",
       default: "false"
     },
     {

@@ -1,12 +1,12 @@
 ---
 title: Permissions
-description: Complete permission reference for HyperFactions v0.4.x.
+description: Complete permission reference for HyperFactions v0.8.0.
 order: 1
 ---
 
 # Permissions Reference
 
-This page documents all permission nodes available in HyperFactions v0.4.x.
+This page documents all permission nodes available in HyperFactions v0.8.0.
 
 <InfoBox variant="danger" title="Breaking Change in v0.3.0">
 As of v0.3.0, HyperFactions requires **explicit permission grants**. The fallback behavior changed from "allow" to "deny". Players without the `hyperfactions.use` permission cannot access any faction commands.
@@ -27,11 +27,12 @@ Grant default players access to all standard faction features:
 /hp group setperm default hyperfactions.relation.*
 /hp group setperm default hyperfactions.chat.*
 /hp group setperm default hyperfactions.info.*
+/hp group setperm default hyperfactions.economy.*
 ```
 
 ## Permission Categories
 
-HyperFactions v0.4.x uses a **category-based permission structure**. Permissions are organized into logical groups for easier management.
+HyperFactions v0.8.0 uses a **category-based permission structure**. Permissions are organized into logical groups for easier management.
 
 ### Base Permission (Required)
 
@@ -192,6 +193,11 @@ These permissions control core faction operations.
       default: "false"
     },
     {
+      permission: "hyperfactions.teleport.delhome",
+      description: "Delete faction home location",
+      default: "false"
+    },
+    {
       permission: "hyperfactions.teleport.stuck",
       description: "Use /f stuck to escape hostile territory",
       default: "false"
@@ -242,6 +248,19 @@ These permissions control core faction operations.
       description: "Use alliance chat (/f a)",
       default: "false"
     }
+  ]}
+/>
+
+## Economy Permissions
+
+<PermissionTable
+  title="Economy Permissions (hyperfactions.economy.*)"
+  permissions={[
+    { permission: "hyperfactions.economy.balance", description: "View faction treasury balance", default: "false" },
+    { permission: "hyperfactions.economy.deposit", description: "Deposit money into faction treasury", default: "false" },
+    { permission: "hyperfactions.economy.withdraw", description: "Withdraw money from faction treasury", default: "false" },
+    { permission: "hyperfactions.economy.transfer", description: "Transfer money between factions", default: "false" },
+    { permission: "hyperfactions.economy.log", description: "View faction transaction log", default: "false" }
   ]}
 />
 
@@ -329,6 +348,16 @@ These permissions allow bypassing certain restrictions. Grant with caution.
       permission: "hyperfactions.bypass.cooldown",
       description: "Skip home teleport cooldown",
       default: "false"
+    },
+    {
+      permission: "hyperfactions.bypass.mapvisibility",
+      description: "Always visible on world map",
+      default: "op"
+    },
+    {
+      permission: "hyperfactions.bypass.mapfilter",
+      description: "See all players on world map regardless of filter",
+      default: "op"
     }
   ]}
 />
@@ -380,6 +409,16 @@ Bypass permissions should only be granted to trusted staff. They allow circumven
     {
       permission: "hyperfactions.admin.backup",
       description: "Create, list, restore, and delete backups",
+      default: "op"
+    },
+    {
+      permission: "hyperfactions.admin.power",
+      description: "Admin power management",
+      default: "op"
+    },
+    {
+      permission: "hyperfactions.admin.economy",
+      description: "Admin economy management",
       default: "op"
     }
   ]}
@@ -455,6 +494,11 @@ Replace `<n>` with a number. For example, `hyperfactions.limit.claims.100` allow
       default: "false"
     },
     {
+      permission: "hyperfactions.economy.*",
+      description: "All economy permissions",
+      default: "false"
+    },
+    {
       permission: "hyperfactions.bypass.*",
       description: "All bypass permissions",
       default: "op"
@@ -475,7 +519,7 @@ Replace `<n>` with a number. For example, `hyperfactions.limit.claims.100` allow
 | `op` | Only server operators have this by default |
 
 <InfoBox variant="info" title="No True Defaults">
-Unlike previous versions, **no permissions default to true** in v0.4.x. All permissions must be explicitly granted through your permission system.
+Unlike previous versions, **no permissions default to true** in v0.8.0. All permissions must be explicitly granted through your permission system.
 </InfoBox>
 
 ## HyperPerms Integration
@@ -492,6 +536,7 @@ Unlike previous versions, **no permissions default to true** in v0.4.x. All perm
 /hp group setperm default hyperfactions.relation.*
 /hp group setperm default hyperfactions.chat.*
 /hp group setperm default hyperfactions.info.*
+/hp group setperm default hyperfactions.economy.*
 ```
 
 **VIP Players (bypass teleport delays):**
@@ -529,7 +574,7 @@ While permissions control *who can attempt* an action, faction roles control *wh
 
 If upgrading from v0.2.x, update your permission nodes:
 
-| Old (v0.2.x) | New (v0.4.x) |
+| Old (v0.2.x) | New (v0.8.0) |
 |--------------|--------------|
 | `hyperfactions.create` | `hyperfactions.faction.create` |
 | `hyperfactions.invite` | `hyperfactions.member.invite` |
@@ -568,6 +613,7 @@ If upgrading from v0.2.x, update your permission nodes:
 | `hyperfactions.relation.*` | All diplomacy features |
 | `hyperfactions.chat.*` | All chat features |
 | `hyperfactions.info.*` | All info commands |
+| `hyperfactions.economy.*` | All economy features |
 | `hyperfactions.bypass.*` | All bypass permissions |
 | `hyperfactions.admin.*` | All admin permissions |
 

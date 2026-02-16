@@ -2,7 +2,7 @@ import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { getWikiHomePage, hasWikiContent } from "@/lib/wiki";
 import { getPlugin } from "@/lib/plugins";
-import { MDXContent, WikiBreadcrumb } from "@/components/wiki";
+import { MDXContent, WikiBreadcrumb, TableOfContents } from "@/components/wiki";
 
 interface WikiHomePageProps {
   params: Promise<{ plugin: string }>;
@@ -42,12 +42,22 @@ export default async function WikiHomePage({ params }: WikiHomePageProps) {
   }
 
   return (
-    <article>
-      <WikiBreadcrumb plugin={plugin} pluginName={pluginData.name} />
-      <div className="mt-8">
-        <MDXContent source={wikiPage.content} />
-      </div>
-    </article>
+    <div className="lg:grid lg:grid-cols-[1fr_220px] lg:gap-8">
+      <article className="min-w-0 max-w-4xl">
+        <WikiBreadcrumb plugin={plugin} pluginName={pluginData.name} />
+        <div className="mt-8">
+          {/* Mobile TOC */}
+          <div className="lg:hidden">
+            <TableOfContents content={wikiPage.content} />
+          </div>
+
+          <MDXContent source={wikiPage.content} />
+        </div>
+      </article>
+
+      {/* Desktop TOC */}
+      <TableOfContents content={wikiPage.content} />
+    </div>
   );
 }
 

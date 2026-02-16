@@ -6,7 +6,7 @@ order: 2
 
 # Configuration Reference
 
-This page provides a complete reference for all 47 HyperFactions configuration options. For a guide-style walkthrough, see [Configuration](/plugins/hyperfactions/wiki/getting-started/configuration).
+This page provides a complete reference for all HyperFactions configuration options. For a guide-style walkthrough, see [Configuration](/plugins/hyperfactions/wiki/getting-started/configuration).
 
 <InfoBox variant="info" title="For Server Owners">
 This reference documents all available configuration options. Most servers can use the defaults - only customize what you need.
@@ -24,24 +24,23 @@ Changes require `/f admin reload` or a server restart to take effect.
 
 ## Configuration Sections
 
-The config is organized into 14 sections with 47 total options:
+The config is organized into 13 sections:
 
 | Section | Options | Purpose |
 |---------|:-------:|---------|
-| `faction` | 4 | Faction naming and member limits |
-| `power` | 6 | Power system mechanics |
-| `claims` | 6 | Territory claiming rules |
-| `combat` | 9 | Combat and spawn protection |
+| `faction` | 5 | Faction naming and member limits |
+| `power` | 7 | Power system mechanics |
+| `claims` | 7 | Territory claiming rules |
+| `combat` | 10 | Combat and spawn protection |
 | `relations` | 2 | Ally and enemy limits |
 | `invites` | 2 | Invitation expiration |
 | `stuck` | 2 | Stuck command timing |
 | `teleport` | 4 | Home teleport settings |
 | `updates` | 3 | Update checking |
 | `autoSave` | 2 | Auto-save settings |
-| `messages` | 2 | Message formatting |
-| `gui` | 1 | GUI settings |
+| `messages` | 4 | Message formatting |
+| `gui` | 2 | GUI settings |
 | `territoryNotifications` | 1 | Enter/exit notifications |
-| `worldMap` | 1 | Map marker settings |
 | `permissions` | 2 | Permission behavior |
 
 ---
@@ -53,6 +52,7 @@ Settings for faction names and member limits.
 | Key | Type | Default | Range | Description |
 |-----|------|---------|-------|-------------|
 | `maxMembers` | int | 50 | ≥1 | Maximum members per faction |
+| `maxMembershipHistory` | int | 10 | 1-100 | Number of past faction memberships to track per player |
 | `maxNameLength` | int | 24 | 1-64 | Maximum faction name length |
 | `minNameLength` | int | 3 | 1-max | Minimum faction name length |
 | `allowColors` | bool | true | - | Allow color codes in faction names |
@@ -74,6 +74,7 @@ Power system settings that govern territory capacity and warfare.
 | `powerPerClaim` | double | 2.0 | ≥0 | Power required per claim |
 | `deathPenalty` | double | 1.0 | ≥0 | Power lost on death |
 | `regenPerMinute` | double | 0.1 | ≥0 | Power regenerated per minute |
+| `killReward` | double | 0.0 | ≥0 | Power gained on player kill |
 | `regenWhenOffline` | bool | false | - | Regenerate power while offline |
 
 ### Power Calculations
@@ -103,6 +104,7 @@ Territory claiming rules and restrictions.
 | `decayEnabled` | bool | true | - | Enable inactive claim decay |
 | `decayDaysInactive` | int | 30 | ≥1 | Days before decay starts |
 | `worldWhitelist` | array | `[]` | - | Only allow claims in these worlds |
+| `preventDisconnect` | bool | false | - | Prevent disconnect while in enemy territory |
 | `worldBlacklist` | array | `[]` | - | Block claims in these worlds |
 
 ### World Filtering
@@ -134,6 +136,7 @@ Combat settings including PvP rules and spawn protection.
 | `factionDamage` | bool | false | - | Allow damage to faction members |
 | `taggedLogoutPenalty` | bool | true | - | Penalize logout while combat tagged |
 | `logoutPowerLoss` | double | 1.0 | ≥0 | Power lost on combat logout |
+| `neutralAttackPenalty` | double | 0.0 | ≥0 | Power penalty for attacking neutral players |
 
 ### Spawn Protection (nested)
 
@@ -233,7 +236,9 @@ Message formatting.
 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
-| `prefix` | string | `\u00A7b[HyperFactions]\u00A7r ` | Message prefix (color codes) |
+| `prefixText` | string | "HyperFactions" | Text displayed in message prefix |
+| `prefixColor` | hex | `#55FFFF` | Color of the prefix text |
+| `prefixBracketColor` | hex | `#AAAAAA` | Color of the prefix brackets |
 | `primaryColor` | hex | `#00FFFF` | Primary accent color |
 
 ---
@@ -245,6 +250,7 @@ GUI settings.
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
 | `title` | string | "HyperFactions" | Main GUI title |
+| `terrainMapEnabled` | bool | true | Enable terrain imagery on chunk map |
 
 ---
 
@@ -258,16 +264,6 @@ Territory enter/exit notifications.
 
 ---
 
-## worldMap
-
-World map integration.
-
-| Key | Type | Default | Description |
-|-----|------|---------|-------------|
-| `enabled` | bool | true | Show faction claims on world map |
-
----
-
 ## permissions
 
 Permission system behavior.
@@ -275,12 +271,13 @@ Permission system behavior.
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
 | `adminRequiresOp` | bool | true | Admin commands require OP if no permission system |
-| `fallbackBehavior` | string | "deny" | Behavior when no permission system ("deny" or "allow") |
+| `allowWithoutPermissionMod` | bool | false | Allow commands without a permission plugin installed |
 
-<InfoBox variant="info" title="Permission Fallback">
+<InfoBox variant="info" title="Permission Behavior">
 When HyperPerms is not installed:
-- `deny` (default): Players need OP for admin commands
-- `allow`: All players can use basic commands (not recommended)
+- `allowWithoutPermissionMod = false` (default): Players cannot use commands without a permission plugin
+- `allowWithoutPermissionMod = true`: All players can use basic commands (not recommended)
+- `adminRequiresOp = true`: Admin commands always require OP when no permission system is present
 </InfoBox>
 
 ---
@@ -291,9 +288,10 @@ This is the complete default configuration file:
 
 ```json
 {
-  "configVersion": 2,
+  "configVersion": 4,
   "faction": {
     "maxMembers": 50,
+    "maxMembershipHistory": 10,
     "maxNameLength": 24,
     "minNameLength": 3,
     "allowColors": true
@@ -303,6 +301,7 @@ This is the complete default configuration file:
     "startingPower": 10.0,
     "powerPerClaim": 2.0,
     "deathPenalty": 1.0,
+    "killReward": 0.0,
     "regenPerMinute": 0.1,
     "regenWhenOffline": false
   },
@@ -311,6 +310,7 @@ This is the complete default configuration file:
     "onlyAdjacent": false,
     "decayEnabled": true,
     "decayDaysInactive": 30,
+    "preventDisconnect": false,
     "worldWhitelist": [],
     "worldBlacklist": []
   },
@@ -320,6 +320,7 @@ This is the complete default configuration file:
     "factionDamage": false,
     "taggedLogoutPenalty": true,
     "logoutPowerLoss": 1.0,
+    "neutralAttackPenalty": 0.0,
     "spawnProtection": {
       "enabled": true,
       "durationSeconds": 5,
@@ -355,21 +356,21 @@ This is the complete default configuration file:
     "intervalMinutes": 5
   },
   "messages": {
-    "prefix": "\u00A7b[HyperFactions]\u00A7r ",
+    "prefixText": "HyperFactions",
+    "prefixColor": "#55FFFF",
+    "prefixBracketColor": "#AAAAAA",
     "primaryColor": "#00FFFF"
   },
   "gui": {
-    "title": "HyperFactions"
+    "title": "HyperFactions",
+    "terrainMapEnabled": true
   },
   "territoryNotifications": {
     "enabled": true
   },
-  "worldMap": {
-    "enabled": true
-  },
   "permissions": {
     "adminRequiresOp": true,
-    "fallbackBehavior": "deny"
+    "allowWithoutPermissionMod": false
   }
 }
 ```
@@ -456,222 +457,30 @@ Balanced settings encouraging diplomacy:
 
 In addition to the main `config.json`, HyperFactions uses module configuration files stored in the `config/` subdirectory. Each module can be enabled/disabled independently.
 
-### Configuration File Structure
-
 ```
 mods/com.hyperfactions_HyperFactions/
 ├── config.json                       ← Main configuration (documented above)
 └── config/
+    ├── announcements.json            ← Announcement system settings
     ├── backup.json                   ← Backup system settings
     ├── chat.json                     ← Chat formatting and relation colors
     ├── debug.json                    ← Debug logging options
     ├── economy.json                  ← Economy integration
-    └── faction-permissions.json      ← Default territory permissions
+    ├── faction-permissions.json      ← Default territory permissions
+    ├── gravestones.json              ← Gravestone integration settings
+    └── worldmap.json                 ← World map settings
 ```
 
----
-
-### config/backup.json
-
-Controls the automatic backup system using GFS (Grandfather-Father-Son) rotation.
-
-| Key | Type | Default | Description |
-|-----|------|---------|-------------|
-| `enabled` | bool | true | Enable automatic backups |
-| `hourlyRetention` | int | 24 | Hourly backups to keep |
-| `dailyRetention` | int | 7 | Daily backups to keep |
-| `weeklyRetention` | int | 4 | Weekly backups to keep |
-| `manualRetention` | int | 10 | Manual backups to keep (0 = unlimited) |
-| `onShutdown` | bool | true | Create backup on server shutdown |
-
-```json
-{
-  "enabled": true,
-  "hourlyRetention": 24,
-  "dailyRetention": 7,
-  "weeklyRetention": 4,
-  "manualRetention": 10,
-  "onShutdown": true
-}
-```
-
----
-
-### config/chat.json
-
-Controls how faction tags appear in chat and relation-based color coding.
-
-| Key | Type | Default | Description |
-|-----|------|---------|-------------|
-| `enabled` | bool | true | Enable chat formatting |
-| `format` | string | See below | Chat format template |
-| `tagDisplay` | string | "tag" | Display mode: "tag", "name", or "none" |
-| `tagFormat` | string | See below | Format for the faction tag |
-| `noFactionTag` | string | "" | Tag for players without a faction |
-| `priority` | string | "LATE" | Event priority: EARLIEST, EARLY, NORMAL, LATE, LATEST |
-| `relationColors.own` | string | "#00FF00" | Color for same-faction members (green) |
-| `relationColors.ally` | string | "#FF69B4" | Color for allies (pink) |
-| `relationColors.neutral` | string | "#AAAAAA" | Color for neutral factions (gray) |
-| `relationColors.enemy` | string | "#FF0000" | Color for enemies (red) |
-
-**Format templates:**
-- `format` uses placeholders for chat message formatting
-- `tagFormat` uses the `tag` placeholder for the faction tag display
-
-Available placeholders: `faction_tag`, `prefix`, `player`, `suffix`, `message`, `tag` (wrap in curly braces)
-
-```json
-{
-  "enabled": true,
-  "format": "{faction_tag}{prefix}{player}{suffix}: {message}",
-  "tagDisplay": "tag",
-  "tagFormat": "[{tag}] ",
-  "noFactionTag": "",
-  "priority": "LATE",
-  "relationColors": {
-    "own": "#00FF00",
-    "ally": "#FF69B4",
-    "neutral": "#AAAAAA",
-    "enemy": "#FF0000"
-  }
-}
-```
-
----
-
-### config/debug.json
-
-Controls debug logging output by category.
-
-| Key | Type | Default | Description |
-|-----|------|---------|-------------|
-| `enabled` | bool | false | Enable debug module |
-| `enabledByDefault` | bool | false | Enable all categories by default |
-| `logToConsole` | bool | true | Log debug messages to console |
-| `categories.power` | bool | false | Debug power calculations |
-| `categories.claim` | bool | false | Debug claim operations |
-| `categories.combat` | bool | false | Debug combat tagging |
-| `categories.protection` | bool | false | Debug protection checks |
-| `categories.relation` | bool | false | Debug relation changes |
-| `categories.territory` | bool | false | Debug territory notifications |
-
-```json
-{
-  "enabled": false,
-  "enabledByDefault": false,
-  "logToConsole": true,
-  "categories": {
-    "power": false,
-    "claim": false,
-    "combat": false,
-    "protection": false,
-    "relation": false,
-    "territory": false
-  }
-}
-```
-
-<InfoBox variant="tip" title="Runtime Debug Toggle">
-Use `/f admin debug <category>` to toggle debug categories at runtime without restarting the server.
-</InfoBox>
-
----
-
-### config/economy.json
-
-Controls faction economy integration (for future economy features).
-
-| Key | Type | Default | Description |
-|-----|------|---------|-------------|
-| `enabled` | bool | true | Enable economy features |
-| `currencyName` | string | "dollar" | Singular currency name |
-| `currencyNamePlural` | string | "dollars" | Plural currency name |
-| `currencySymbol` | string | "$" | Currency symbol |
-| `startingBalance` | double | 0.0 | Starting balance for new factions |
-
-```json
-{
-  "enabled": true,
-  "currencyName": "dollar",
-  "currencyNamePlural": "dollars",
-  "currencySymbol": "$",
-  "startingBalance": 0.0
-}
-```
-
----
-
-### config/faction-permissions.json
-
-Controls default territory permissions for new factions and server-enforced permission locks.
-
-**Structure:**
-- `defaults` - Default permissions for new factions
-- `locks` - Which permissions factions cannot change
-- `forced` - Values to use when a permission is locked
-
-| Permission | Default | Description |
-|------------|---------|-------------|
-| `outsiderBreak` | false | Non-members can break blocks |
-| `outsiderPlace` | false | Non-members can place blocks |
-| `outsiderInteract` | false | Non-members can interact |
-| `allyBreak` | false | Allies can break blocks |
-| `allyPlace` | false | Allies can place blocks |
-| `allyInteract` | true | Allies can interact |
-| `memberBreak` | true | Members can break blocks |
-| `memberPlace` | true | Members can place blocks |
-| `memberInteract` | true | Members can interact |
-| `pvpEnabled` | true | PvP allowed in territory |
-| `officersCanEdit` | false | Officers can edit permissions |
-
-```json
-{
-  "enabled": true,
-  "defaults": {
-    "outsiderBreak": false,
-    "outsiderPlace": false,
-    "outsiderInteract": false,
-    "allyBreak": false,
-    "allyPlace": false,
-    "allyInteract": true,
-    "memberBreak": true,
-    "memberPlace": true,
-    "memberInteract": true,
-    "pvpEnabled": true,
-    "officersCanEdit": false
-  },
-  "locks": {
-    "outsiderBreak": false,
-    "outsiderPlace": false,
-    "outsiderInteract": false,
-    "allyBreak": false,
-    "allyPlace": false,
-    "allyInteract": false,
-    "memberBreak": false,
-    "memberPlace": false,
-    "memberInteract": false,
-    "pvpEnabled": false,
-    "officersCanEdit": false
-  },
-  "forced": {
-    "outsiderBreak": false,
-    "outsiderPlace": false,
-    "outsiderInteract": false,
-    "allyBreak": false,
-    "allyPlace": false,
-    "allyInteract": true,
-    "memberBreak": true,
-    "memberPlace": true,
-    "memberInteract": true,
-    "pvpEnabled": true,
-    "officersCanEdit": false
-  }
-}
-```
-
-<InfoBox variant="warning" title="Lock Behavior">
-When a permission is locked (`locks.permName = true`), factions cannot change it and the value from `forced.permName` is always used instead.
-</InfoBox>
+| Config File | Description |
+|-------------|-------------|
+| [Announcements](/plugins/hyperfactions/wiki/reference/config-announcements) | Server-wide faction event broadcasts |
+| [Backup](/plugins/hyperfactions/wiki/reference/config-backup) | Automatic backup with GFS rotation |
+| [Chat](/plugins/hyperfactions/wiki/reference/config-chat) | Chat formatting, relation colors, faction chat, history |
+| [Debug](/plugins/hyperfactions/wiki/reference/config-debug) | Debug logging by category |
+| [Economy](/plugins/hyperfactions/wiki/reference/config-economy) | Treasury, fees, upkeep (requires VaultUnlocked) |
+| [Faction Permissions](/plugins/hyperfactions/wiki/reference/config-faction-permissions) | Default territory permissions and server locks |
+| [Gravestones](/plugins/hyperfactions/wiki/reference/config-gravestones) | Gravestone protection by territory and relation |
+| [World Map](/plugins/hyperfactions/wiki/reference/config-worldmap) | Map display, player visibility, refresh modes |
 
 ---
 

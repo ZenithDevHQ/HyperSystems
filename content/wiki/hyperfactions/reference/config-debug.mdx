@@ -1,0 +1,75 @@
+---
+title: "Config: Debug"
+description: Configuration reference for debug.json — debug logging categories.
+order: 6
+---
+
+# Debug Configuration
+
+<InfoBox variant="info" title="File Location">
+`mods/com.hyperfactions_HyperFactions/config/debug.json`
+</InfoBox>
+
+Controls debug logging output by category. Useful for diagnosing issues or monitoring specific systems.
+
+<InfoBox variant="warning" title="Reload Required">
+Changes require `/f admin reload` or a server restart to take effect.
+</InfoBox>
+
+## Global Settings
+
+| Key | Type | Default | Description |
+|-----|------|---------|-------------|
+| `enabled` | bool | false | Enable debug module |
+| `enabledByDefault` | bool | false | Enable all categories by default |
+| `logToConsole` | bool | true | Log debug messages to console |
+
+## Categories
+
+| Key | Type | Default | Description |
+|-----|------|---------|-------------|
+| `categories.power` | bool | false | Debug power calculations |
+| `categories.claim` | bool | false | Debug claim operations |
+| `categories.combat` | bool | false | Debug combat tagging |
+| `categories.protection` | bool | false | Debug protection checks |
+| `categories.relation` | bool | false | Debug relation changes |
+| `categories.territory` | bool | false | Debug territory notifications |
+| `categories.worldmap` | bool | false | Debug world map rendering |
+| `categories.interaction` | bool | false | Debug block/entity interactions |
+| `categories.mixin` | bool | false | Debug mixin integrations |
+| `categories.spawning` | bool | false | Debug mob spawning controls |
+| `categories.integration` | bool | false | Debug external mod integrations |
+| `categories.economy` | bool | false | Debug economy transactions |
+
+<InfoBox variant="tip" title="Runtime Debug Toggle">
+Use `/f admin debug <category>` to toggle debug categories at runtime without restarting the server.
+</InfoBox>
+
+## Default Configuration
+
+```json
+{
+  "enabled": false,
+  "enabledByDefault": false,
+  "logToConsole": true,
+  "categories": {
+    "power": false,
+    "claim": false,
+    "combat": false,
+    "protection": false,
+    "relation": false,
+    "territory": false,
+    "worldmap": false,
+    "interaction": false,
+    "mixin": false,
+    "spawning": false,
+    "integration": false,
+    "economy": false
+  }
+}
+```
+
+## Related Topics
+
+- [Configuration Reference](/plugins/hyperfactions/wiki/reference/configuration) - Main config.json
+- [Admin Commands](/plugins/hyperfactions/wiki/commands/admin) - Debug toggle command

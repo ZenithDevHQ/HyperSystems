@@ -1,0 +1,96 @@
+---
+title: "Config: World Map"
+description: Configuration reference for worldmap.json — map display, player visibility, and refresh modes.
+order: 10
+---
+
+# World Map Configuration
+
+<InfoBox variant="info" title="File Location">
+`mods/com.hyperfactions_HyperFactions/config/worldmap.json`
+</InfoBox>
+
+Controls world map display, player visibility filtering, and map refresh behavior.
+
+<InfoBox variant="warning" title="Reload Required">
+Changes require `/f admin reload` or a server restart to take effect.
+</InfoBox>
+
+## Display Settings
+
+| Key | Type | Default | Description |
+|-----|------|---------|-------------|
+| `showFactionTags` | bool | true | Show faction tags on claimed chunks |
+
+## Player Visibility
+
+Controls whether players can see other players on the map based on faction relation.
+
+| Key | Type | Default | Description |
+|-----|------|---------|-------------|
+| `playerVisibility.enabled` | bool | false | Enable relation-based player filtering |
+| `playerVisibility.showOwnFaction` | bool | true | Show own faction members |
+| `playerVisibility.showAllies` | bool | true | Show allied faction members |
+| `playerVisibility.showNeutrals` | bool | false | Show neutral faction members |
+| `playerVisibility.showEnemies` | bool | false | Show enemy faction members |
+| `playerVisibility.showFactionlessPlayers` | bool | false | Show players without a faction |
+| `playerVisibility.showFactionlessToFactionless` | bool | true | Show factionless players to other factionless players |
+
+<InfoBox variant="info" title="Player Visibility">
+When `playerVisibility.enabled` is false (default), all players are visible on the map to everyone. When enabled, visibility is filtered by faction relation. Players with the `hyperfactions.bypass.mapvisibility` permission can always see everyone.
+</InfoBox>
+
+## Refresh Mode
+
+Controls how the map refreshes when territory changes occur.
+
+| Key | Type | Default | Description |
+|-----|------|---------|-------------|
+| `refreshMode` | string | "incremental" | Refresh strategy (see options below) |
+
+**Available refresh modes:**
+
+| Mode | Description |
+|------|-------------|
+| `proximity` | Refresh chunks near players. Configure with `proximity.chunkRadius` (32), `proximity.batchIntervalTicks` (30), `proximity.maxChunksPerBatch` (50) |
+| `incremental` | **(default)** Batch refresh changed chunks. Configure with `incremental.batchIntervalTicks` (30), `incremental.maxChunksPerBatch` (50) |
+| `debounced` | Wait for changes to settle before refreshing. Configure with `debounced.delaySeconds` (5) |
+| `immediate` | Refresh chunks immediately on change |
+| `manual` | Only refresh on admin command |
+
+## Performance
+
+| Key | Type | Default | Description |
+|-----|------|---------|-------------|
+| `factionWideRefreshThreshold` | int | 200 | Number of chunks above which a faction-wide refresh uses the map's refresh strategy instead of immediate refresh |
+| `autoFallbackOnError` | bool | true | Automatically fall back to incremental mode if the configured mode errors |
+
+## Default Configuration
+
+```json
+{
+  "enabled": true,
+  "showFactionTags": true,
+  "playerVisibility": {
+    "enabled": false,
+    "showOwnFaction": true,
+    "showAllies": true,
+    "showNeutrals": false,
+    "showEnemies": false,
+    "showFactionlessPlayers": false,
+    "showFactionlessToFactionless": true
+  },
+  "refreshMode": "incremental",
+  "incremental": {
+    "batchIntervalTicks": 30,
+    "maxChunksPerBatch": 50
+  },
+  "factionWideRefreshThreshold": 200,
+  "autoFallbackOnError": true
+}
+```
+
+## Related Topics
+
+- [Configuration Reference](/plugins/hyperfactions/wiki/reference/configuration) - Main config.json
+- [Territories](/plugins/hyperfactions/wiki/concepts/territories) - Territory map features

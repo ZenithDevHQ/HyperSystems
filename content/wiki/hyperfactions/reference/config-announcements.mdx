@@ -1,0 +1,51 @@
+---
+title: "Config: Announcements"
+description: Configuration reference for announcements.json — server-wide faction event broadcasts.
+order: 3
+---
+
+# Announcements Configuration
+
+<InfoBox variant="info" title="File Location">
+`mods/com.hyperfactions_HyperFactions/config/announcements.json`
+</InfoBox>
+
+Controls server-wide broadcast announcements for major faction events. Each event can be independently toggled.
+
+<InfoBox variant="warning" title="Reload Required">
+Changes require `/f admin reload` or a server restart to take effect.
+</InfoBox>
+
+## Event Toggles
+
+| Key | Type | Default | Description |
+|-----|------|---------|-------------|
+| `events.factionCreated` | bool | true | Announce when a new faction is created |
+| `events.factionDisbanded` | bool | true | Announce when a faction is disbanded |
+| `events.leadershipTransfer` | bool | true | Announce leadership changes |
+| `events.overclaim` | bool | true | Announce territory overclaims |
+| `events.warDeclared` | bool | true | Announce war declarations |
+| `events.allianceFormed` | bool | true | Announce new alliances |
+| `events.allianceBroken` | bool | true | Announce broken alliances |
+
+## Default Configuration
+
+```json
+{
+  "enabled": true,
+  "events": {
+    "factionCreated": true,
+    "factionDisbanded": true,
+    "leadershipTransfer": true,
+    "overclaim": true,
+    "warDeclared": true,
+    "allianceFormed": true,
+    "allianceBroken": true
+  }
+}
+```
+
+## Related Topics
+
+- [Configuration Reference](/plugins/hyperfactions/wiki/reference/configuration) - Main config.json
+- [Admin Commands](/plugins/hyperfactions/wiki/commands/admin) - Reload command

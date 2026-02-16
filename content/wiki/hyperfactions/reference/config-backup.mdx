@@ -1,0 +1,48 @@
+---
+title: "Config: Backup"
+description: Configuration reference for backup.json — automatic backup system with GFS rotation.
+order: 4
+---
+
+# Backup Configuration
+
+<InfoBox variant="info" title="File Location">
+`mods/com.hyperfactions_HyperFactions/config/backup.json`
+</InfoBox>
+
+Controls the automatic backup system using GFS (Grandfather-Father-Son) rotation. Backups are created at hourly intervals and promoted to daily/weekly as they age.
+
+<InfoBox variant="warning" title="Reload Required">
+Changes require `/f admin reload` or a server restart to take effect.
+</InfoBox>
+
+## Settings
+
+| Key | Type | Default | Description |
+|-----|------|---------|-------------|
+| `enabled` | bool | true | Enable automatic backups |
+| `hourlyRetention` | int | 24 | Hourly backups to keep |
+| `dailyRetention` | int | 7 | Daily backups to keep |
+| `weeklyRetention` | int | 4 | Weekly backups to keep |
+| `manualRetention` | int | 10 | Manual backups to keep (0 = unlimited) |
+| `shutdownRetention` | int | 5 | Shutdown backups to keep |
+| `onShutdown` | bool | true | Create backup on server shutdown |
+
+## Default Configuration
+
+```json
+{
+  "enabled": true,
+  "hourlyRetention": 24,
+  "dailyRetention": 7,
+  "weeklyRetention": 4,
+  "manualRetention": 10,
+  "shutdownRetention": 5,
+  "onShutdown": true
+}
+```
+
+## Related Topics
+
+- [Configuration Reference](/plugins/hyperfactions/wiki/reference/configuration) - Main config.json
+- [Admin Commands](/plugins/hyperfactions/wiki/commands/admin) - Backup management commands

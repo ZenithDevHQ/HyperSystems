@@ -104,6 +104,37 @@ Information displayed:
 - Online members
 - Diplomatic relations
 
+## Player Lookup
+
+<CommandBlock
+  commands={[
+    {
+      command: "/f who <player>",
+      description: "View a player's faction membership and power information",
+      permission: "hyperfactions.info.who"
+    }
+  ]}
+/>
+
+Information displayed:
+- Player's faction name and role
+- Personal power level
+- Online status
+
+## Personal Power
+
+<CommandBlock
+  commands={[
+    {
+      command: "/f power",
+      description: "View your current power level and maximum",
+      permission: "hyperfactions.info.power"
+    }
+  ]}
+/>
+
+Shows your personal power, maximum power, and how it contributes to your faction's total.
+
 ## Listing Factions
 
 <CommandBlock
@@ -166,6 +197,8 @@ Logs include:
 | `/f leave` | Leave your faction |
 | `/f info` | View faction info |
 | `/f info <faction>` | View other faction's info |
+| `/f who <player>` | View player's faction info |
+| `/f power` | View your power level |
 | `/f list` | List all factions |
 | `/f help` | Open help menu |
 | `/f logs` | View activity logs |
@@ -223,6 +256,16 @@ Removes you from your current faction (Members and Officers only).
     {
       permission: "hyperfactions.info.help",
       description: "Access help",
+      default: "false"
+    },
+    {
+      permission: "hyperfactions.info.who",
+      description: "Look up player faction info",
+      default: "false"
+    },
+    {
+      permission: "hyperfactions.info.power",
+      description: "View personal power level",
       default: "false"
     },
     {

@@ -47,9 +47,10 @@ The main dashboard is your faction's control center. It shows an overview of you
 | **Header** | Faction name, tag, and color |
 | **Power Display** | Current power / max power with visual bar |
 | **Claims Display** | Current claims / max claims |
+| **Treasury Display** | Current faction balance (if economy enabled) |
 | **Member Preview** | Online members with status indicators |
-| **Quick Actions** | Home teleport, map view, chat toggle |
-| **Navigation** | Buttons to Members, Relations, Settings, etc. |
+| **Quick Actions** | Home teleport, map view, chat mode toggle |
+| **Navigation** | Buttons to Members, Relations, Settings, Treasury, etc. |
 
 ### Quick Actions
 
@@ -57,7 +58,7 @@ The main dashboard is your faction's control center. It shows an overview of you
 |--------|--------|------------|
 | **Home** | Teleport to faction home | `hyperfactions.teleport.home` |
 | **Map** | Open territory map | `hyperfactions.territory.map` |
-| **Chat** | Toggle faction chat mode | `hyperfactions.chat.faction` |
+| **Chat** | Cycle chat mode (Normal/Faction/Ally) | `hyperfactions.chat.faction` |
 | **Leave** | Leave the faction | `hyperfactions.member.leave` |
 
 ## Faction Browser
@@ -110,7 +111,7 @@ Join requests expire after 24 hours by default. Check back with the faction if y
 
 ## Territory Map
 
-The territory map provides a visual overview of claimed territory in your area.
+The territory map provides a visual overview of claimed territory in your area, with optional terrain imagery mode for realistic map display.
 
 <InfoBox variant="info" title="Screenshot Needed">
 **Screenshot:** `chunk-map.png`
@@ -122,8 +123,19 @@ The territory map provides a visual overview of claimed territory in your area.
 - Color coding: your faction, allies, enemies, neutral, wilderness
 - Player position marker
 - Legend showing what colors mean
-- Zoom controls if available
+- Terrain imagery toggle button
 - Claim/unclaim buttons for current chunk
+</InfoBox>
+
+<InfoBox variant="info" title="Screenshot Needed">
+**Screenshot:** `chunk-map-terrain.png`
+
+**Description:** Territory map in terrain imagery mode showing actual world terrain textures
+
+**Key elements to capture:**
+- Same grid layout with terrain textures overlaid
+- Faction borders visible over terrain
+- Toggle button to switch back to standard mode
 </InfoBox>
 
 ### Map Colors
@@ -142,8 +154,13 @@ The territory map provides a visual overview of claimed territory in your area.
 
 - **Pan**: Click and drag to move the map
 - **Center**: Button to re-center on your position
+- **Terrain Toggle**: Switch between standard and terrain imagery mode
 - **Claim**: Claim the chunk you're standing in
 - **Unclaim**: Release the chunk you're standing in
+
+### Map Visibility
+
+The map respects faction visibility settings. Factions can control whether they appear on the map to different relation types. Enemy territory may be hidden depending on server configuration.
 
 ### Map Symbols
 
@@ -210,19 +227,18 @@ Don't forget to check join requests regularly! Players are waiting for your appr
 
 ## Relations Page
 
-The relations page manages your faction's diplomatic relationships.
+The relations page manages your faction's diplomatic relationships. It uses a 2-tab layout for easy navigation.
 
 <InfoBox variant="info" title="Screenshot Needed">
 **Screenshot:** `faction-relations.png`
 
-**Description:** Relations management showing allies, enemies, and pending requests
+**Description:** Relations management with 2-tab layout (Relations / Pending)
 
 **Key elements to capture:**
-- Ally list with faction names
-- Enemy list with faction names
-- Neutral factions section
-- Pending ally requests (incoming and outgoing)
-- Relation management buttons
+- **Relations tab**: Active ally and enemy factions with relation badges
+- **Pending tab**: Incoming and outgoing ally requests
+- Faction cards with name, power, member count, and relation status
+- Set Relation buttons (Ally/Enemy/Neutral)
 - Max allies/enemies indicators
 </InfoBox>
 
@@ -303,6 +319,66 @@ Control what different groups can do in your territory:
 By default, only faction members can build and access containers in your territory. Allies can usually interact with doors.
 </InfoBox>
 
+## Treasury Page
+
+The treasury page manages your faction's finances (requires VaultUnlocked).
+
+<InfoBox variant="info" title="Screenshot Needed">
+**Screenshot:** `faction-treasury.png`
+
+**Description:** Treasury management page showing balance, transactions, and actions
+
+**Key elements to capture:**
+- Current balance display
+- Deposit and withdraw buttons with amount input
+- Transaction history log
+- Transfer to other factions option
+- Permission indicators for economy actions
+</InfoBox>
+
+### Treasury Actions
+
+| Action | Permission | Description |
+|--------|------------|-------------|
+| **View Balance** | `hyperfactions.economy.balance` | See faction treasury balance |
+| **Deposit** | `hyperfactions.economy.deposit` | Add money to treasury |
+| **Withdraw** | `hyperfactions.economy.withdraw` | Take money from treasury |
+| **Transfer** | `hyperfactions.economy.transfer` | Send money to another faction |
+| **View Log** | `hyperfactions.economy.log` | See transaction history |
+
+## Player Info Page
+
+View detailed information about any player on the server.
+
+<InfoBox variant="info" title="Screenshot Needed">
+**Screenshot:** `player-info.png`
+
+**Description:** Player information card showing faction, power, and activity
+
+**Key elements to capture:**
+- Player name and avatar
+- Current faction and role
+- Personal power (current/max)
+- Online/offline status
+- Faction membership history
+</InfoBox>
+
+## Chat History Page
+
+Browse your faction's chat history with scrollable message log.
+
+<InfoBox variant="info" title="Screenshot Needed">
+**Screenshot:** `chat-history.png`
+
+**Description:** Chat history page showing scrollable faction and alliance chat messages
+
+**Key elements to capture:**
+- Scrollable message list
+- Timestamps on messages
+- Player names with role indicators
+- Chat channel filter (Faction/Ally)
+</InfoBox>
+
 ## Admin Dashboard
 
 Server administrators have access to additional management features.
@@ -354,10 +430,40 @@ The admin dashboard requires `hyperfactions.admin.use` permission.
 The zone management interface allows:
 - Creating named SafeZones and WarZones
 - Claiming chunks for zones
-- Configuring the 15 zone flags
+- Configuring the 25 zone flags (including 4 that require OrbisGuard-Mixins)
+- Changing zone types
 - Deleting zones
 
 See [Zones](/plugins/hyperfactions/wiki/concepts/zones) for detailed flag information.
+
+### Admin Players Page
+
+<InfoBox variant="info" title="Screenshot Needed">
+**Screenshot:** `admin-players.png`
+
+**Description:** Admin player management showing all players with power and faction info
+
+**Key elements to capture:**
+- Player list with search/filter
+- Power display per player
+- Faction membership info
+- Power modification controls
+- Player history
+</InfoBox>
+
+### Admin Economy Page
+
+<InfoBox variant="info" title="Screenshot Needed">
+**Screenshot:** `admin-economy.png`
+
+**Description:** Admin economy management for faction treasuries
+
+**Key elements to capture:**
+- Faction treasury overview
+- Balance modification controls
+- Transaction history viewer
+- Economy statistics
+</InfoBox>
 
 ## GUI Keyboard Shortcuts
 
@@ -397,6 +503,7 @@ The GUI is designed with accessibility in mind:
 ## Related Topics
 
 - [Basic Commands](/plugins/hyperfactions/wiki/commands/basic) - Command alternatives to GUI
+- [Economy](/plugins/hyperfactions/wiki/concepts/economy) - Treasury system details
 - [Roles](/plugins/hyperfactions/wiki/concepts/roles) - Understanding faction roles
 - [Permissions](/plugins/hyperfactions/wiki/reference/permissions) - Permission requirements
 - [Zones](/plugins/hyperfactions/wiki/concepts/zones) - Zone flag details

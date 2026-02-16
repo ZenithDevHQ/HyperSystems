@@ -5,14 +5,14 @@ description: Complete documentation for HyperFactions - a comprehensive faction 
 
 # HyperFactions Wiki
 
-Welcome to the official HyperFactions documentation. HyperFactions is a comprehensive faction management mod for Hytale servers featuring territory claims, alliances, strategic PvP, power systems, and extensive customization.
+Welcome to the official HyperFactions documentation. HyperFactions is a comprehensive faction management mod for Hytale servers featuring territory claims, alliances, strategic PvP, power systems, economy, and extensive customization.
 
 <InfoBox variant="info">
-**Version:** 0.4.3 | **Game:** Hytale Early Access | **License:** GPLv3
+**Version:** 0.8.0 | **Game:** Hytale Early Access | **License:** GPLv3
 </InfoBox>
 
 <InfoBox variant="danger" title="Important: Permission Setup Required">
-As of v0.3.0, HyperFactions requires **explicit permission grants**. The fallback behavior changed from "allow" to "deny". You must configure permissions using HyperPerms or another permission system before players can use factions.
+HyperFactions requires **explicit permission grants**. The fallback behavior is "deny" by default. You must configure permissions using HyperPerms, LuckPerms, or another permission system before players can use factions.
 
 See [Permissions Reference](/plugins/hyperfactions/wiki/reference/permissions) for setup instructions.
 </InfoBox>
@@ -33,6 +33,7 @@ Understand how HyperFactions works:
 - [Diplomacy](/plugins/hyperfactions/wiki/concepts/diplomacy) - Allies, enemies, and relations
 - [Roles](/plugins/hyperfactions/wiki/concepts/roles) - Leader, Officer, and Member permissions
 - [Zones](/plugins/hyperfactions/wiki/concepts/zones) - SafeZones and WarZones
+- [Economy](/plugins/hyperfactions/wiki/concepts/economy) - Faction treasury and finances
 
 ### Commands
 Complete command reference:
@@ -43,7 +44,17 @@ Complete command reference:
 - [Home & Teleport](/plugins/hyperfactions/wiki/commands/home-teleport) - Faction home system
 - [Communication](/plugins/hyperfactions/wiki/commands/communication) - Faction and alliance chat
 - [Settings](/plugins/hyperfactions/wiki/commands/settings) - Faction configuration
+- [Economy Commands](/plugins/hyperfactions/wiki/commands/economy) - Treasury and finances
+- [Info & Viewing](/plugins/hyperfactions/wiki/commands/info) - Player and faction information
 - [Admin Commands](/plugins/hyperfactions/wiki/commands/admin) - Server administration
+
+### Guides
+- [GUI Walkthrough](/plugins/hyperfactions/wiki/guides/gui-walkthrough) - Visual guide to every screen
+- [Starting a Faction](/plugins/hyperfactions/wiki/guides/starting-faction) - New leader guide
+- [Growing Your Faction](/plugins/hyperfactions/wiki/guides/growing-your-faction) - Expansion strategies
+- [Diplomacy Strategy](/plugins/hyperfactions/wiki/guides/diplomacy-strategy) - Mastering relations
+- [Defending Territory](/plugins/hyperfactions/wiki/guides/defending-territory) - Protection strategies
+- [Economy Management](/plugins/hyperfactions/wiki/guides/economy-management) - Treasury management
 
 ### Reference
 - [Permissions](/plugins/hyperfactions/wiki/reference/permissions) - Complete permission reference
@@ -54,47 +65,41 @@ Complete command reference:
 ## Key Features
 
 ### Faction Management
-Create and manage factions with unique names, customizable colors, and a three-tier role hierarchy (Leader, Officer, Member). Features smart invitation system, activity logging, and configurable member limits.
+Create and manage factions with unique names, customizable colors, and a three-tier role hierarchy (Leader, Officer, Member). Features smart invitation system, join requests, activity logging, and configurable member limits.
 
 ### Territory System
-Chunk-based claiming with visual feedback, integrated world map display, power-based claim limits, and anti-fragmentation protection. Supports multi-world/dimension claiming.
+Chunk-based claiming with visual feedback, integrated world map with terrain imagery mode, power-based claim limits, and anti-fragmentation protection. Supports multi-world/dimension claiming with map visibility filtering.
 
 ### Power System
-Personal power per player that contributes to faction power. Automatic regeneration, death penalties, and power cost per claim create balanced strategic gameplay.
+Personal power per player that contributes to faction power. Automatic regeneration, death penalties, kill rewards, and power cost per claim create balanced strategic gameplay.
 
 ### Diplomatic Relations
 Form alliances for mutual protection and shared land access, declare enemies to enable full PvP and overclaiming, or maintain neutral relations with other factions.
 
+### Economy & Treasury
+Faction treasury system with deposits, withdrawals, and inter-faction transfers. Full transaction logging and configurable permissions. Integrates with VaultUnlocked for server economy support.
+
 ### Combat & Protection
-Combat tagging prevents logout exploitation. Block placement, breaking, and container protection keeps your territory secure. Allied access is configurable.
+Combat tagging prevents logout exploitation. Block placement, breaking, container protection, and granular interaction controls keep your territory secure. Allied access is configurable per-permission.
 
 ### Territory Permissions
-Factions can configure 15 different flags to control what happens in their territory, including PvP, friendly fire, building, container access, and more.
+Factions can configure 25 different flags to control what happens in their territory, including PvP, mob spawning, building, container access, keep inventory, and more. Four flags require OrbisGuard-Mixins for advanced features.
 
 ### GUI-Based Management
-Full graphical interface for managing factions, viewing maps, configuring settings, and handling admin tasks.
+Full graphical interface for managing factions, viewing maps with terrain imagery, configuring settings, managing treasury, browsing chat history, and handling admin tasks.
 
 ### Automatic Backups
 Built-in backup system with GFS (Grandfather-Father-Son) rotation policy. Create manual backups or let the system handle it automatically.
 
 ### Chat Integration
-Custom faction and alliance chat channels with configurable formatting, tag display, and relation-based colors.
+Toggle-based faction and alliance chat channels. Cycle between normal, faction, and ally chat modes with `/f c`. Configurable formatting, tag display, and relation-based colors with persistent chat history.
 
----
-
-## What's New in v0.4.x
-
-### v0.4.x Improvements
-- Zone system expanded to **15 configurable flags**
-- Improved power regeneration (6 power/hour default)
-- Enhanced GUI with better territory visualization
-- Streamlined configuration with 47 options
-
-### Breaking Changes (from v0.2.x)
-- **Permission system restructured** - All permissions now use category-based nodes (e.g., `hyperfactions.faction.create` instead of `hyperfactions.create`)
-- **Explicit permission grants required** - The fallback changed from "allow" to "deny". The `hyperfactions.use` permission is now **required**.
-
-See the [Permissions Reference](/plugins/hyperfactions/wiki/reference/permissions) for migration instructions from v0.2.x.
+### Integrations
+HyperFactions integrates with several optional plugins:
+- **HyperPerms / LuckPerms** - Permission management
+- **VaultUnlocked** - Server economy for treasury features
+- **OrbisGuard-Mixins** - Advanced zone flags (keep inventory, invincible items, NPC spawning, F-key pickup)
+- **Gravestones** - Gravestone access control in zones
 
 ---
 

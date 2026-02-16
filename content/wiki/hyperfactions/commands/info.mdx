@@ -1,0 +1,281 @@
+---
+title: Info & Viewing
+description: Commands for viewing faction and player information.
+order: 10
+---
+
+# Info & Viewing
+
+These commands let you inspect factions, players, power levels, and activity logs. They are read-only commands that do not modify any faction data.
+
+## Faction Information
+
+<CommandBlock
+  commands={[
+    {
+      command: "/f info",
+      description: "View your faction's information card",
+      permission: "hyperfactions.info.faction"
+    },
+    {
+      command: "/f info <faction>",
+      description: "View another faction's information card",
+      permission: "hyperfactions.info.faction"
+    }
+  ]}
+/>
+
+The faction information card displays:
+
+| Field | Description |
+|-------|-------------|
+| **Name** | Faction name and tag |
+| **Description** | Faction description text |
+| **Leader** | Current faction leader |
+| **Members** | Total member count (online/offline breakdown) |
+| **Power** | Current power / maximum power |
+| **Land** | Number of claimed chunks |
+| **Claim Capacity** | Maximum claims based on current power |
+| **Raidable** | Whether the faction can be overclaimed |
+| **Relations** | Allied and enemy factions |
+
+<InfoBox variant="tip">
+Use `/f info` without arguments to quickly check your own faction's status. This is especially useful for monitoring your power buffer and raidable status.
+</InfoBox>
+
+## Player Information
+
+<CommandBlock
+  commands={[
+    {
+      command: "/f who <player>",
+      description: "View a player's faction information",
+      permission: "hyperfactions.info.player"
+    }
+  ]}
+/>
+
+Player information shows:
+- The player's faction (if any)
+- Their role within the faction (Leader, Officer, or Member)
+- Their personal power level
+- Online/offline status
+- Your faction's relation to their faction
+
+<InfoBox variant="info">
+If the player is not in a faction, the command will indicate they are factionless.
+</InfoBox>
+
+## Power Information
+
+<CommandBlock
+  commands={[
+    {
+      command: "/f power",
+      description: "View your personal power information",
+      permission: "hyperfactions.info.power"
+    }
+  ]}
+/>
+
+Power information displays:
+- Your current personal power
+- Your maximum power
+- Power regeneration rate
+- Your contribution to your faction's total power
+
+For a full explanation of how power works, see [Power System](/plugins/hyperfactions/wiki/concepts/power-system).
+
+## Member List
+
+<CommandBlock
+  commands={[
+    {
+      command: "/f members",
+      description: "View your faction's member list",
+      permission: "hyperfactions.info.members"
+    }
+  ]}
+/>
+
+The member list shows:
+- All faction members grouped by role (Leader, Officers, Members)
+- Online/offline status for each member
+- Individual power levels
+- Last seen timestamp for offline members
+
+<InfoBox variant="tip">
+The member list is useful for identifying inactive members who may be draining your faction's claim capacity without contributing active power regeneration.
+</InfoBox>
+
+## Faction List
+
+<CommandBlock
+  commands={[
+    {
+      command: "/f list",
+      description: "List all factions on the server",
+      permission: "hyperfactions.info.list"
+    }
+  ]}
+/>
+
+The faction list displays:
+- Faction names and tags
+- Member counts
+- Power levels
+- Online member counts
+- Your relation to each faction (ally, enemy, neutral)
+
+Factions are sorted by member count by default. The list is paginated for servers with many factions.
+
+## Activity Logs
+
+<CommandBlock
+  commands={[
+    {
+      command: "/f logs",
+      description: "View your faction's activity logs",
+      permission: "hyperfactions.info.logs"
+    }
+  ]}
+/>
+
+Activity logs record:
+- Member joins and leaves
+- Territory claims and unclaims
+- Diplomatic changes (ally, enemy, neutral)
+- Leadership changes (promotions, demotions, transfers)
+- Setting changes (name, description, color, tag)
+- Invitations sent and accepted
+
+<InfoBox variant="info">
+Activity logs are separate from economy transaction logs. Use `/f money log` to view financial transactions. See [Economy Commands](/plugins/hyperfactions/wiki/commands/economy) for details.
+</InfoBox>
+
+## Help
+
+<CommandBlock
+  commands={[
+    {
+      command: "/f help",
+      description: "View the help menu with command documentation",
+      permission: "hyperfactions.info.help"
+    }
+  ]}
+/>
+
+The help menu includes:
+- Complete command reference organized by category
+- Basic usage instructions
+- Permission requirements for each command
+
+## Quick Reference
+
+| Command | Description | Role Required |
+|---------|-------------|---------------|
+| `/f info` | View your faction info | Member+ |
+| `/f info <faction>` | View another faction's info | Any |
+| `/f who <player>` | View player's faction info | Any |
+| `/f power` | View your power stats | Member+ |
+| `/f members` | View faction member list | Member+ |
+| `/f list` | List all factions | Any |
+| `/f logs` | View faction activity logs | Member+ |
+| `/f help` | View help documentation | Any |
+
+## Examples
+
+### Checking Your Faction
+
+```
+/f info
+```
+
+Displays your faction's full information card with power, claims, members, and relations.
+
+### Scouting an Enemy
+
+```
+/f info RivalFaction
+```
+
+View RivalFaction's power level, member count, and claim count to assess their strength.
+
+### Investigating a Player
+
+```
+/f who SuspiciousPlayer
+```
+
+See what faction SuspiciousPlayer belongs to, their role, and your relation to their faction.
+
+### Checking Your Power
+
+```
+/f power
+```
+
+View your personal power contribution and regeneration status.
+
+### Reviewing Activity
+
+```
+/f logs
+```
+
+Check recent faction activity to see who joined, what was claimed, and any setting changes.
+
+## Permission Summary
+
+<PermissionTable
+  title="Info & Viewing Permissions"
+  permissions={[
+    {
+      permission: "hyperfactions.info.*",
+      description: "All info and viewing permissions (wildcard)",
+      default: "false"
+    },
+    {
+      permission: "hyperfactions.info.faction",
+      description: "View faction information cards",
+      default: "false"
+    },
+    {
+      permission: "hyperfactions.info.player",
+      description: "View player faction information",
+      default: "false"
+    },
+    {
+      permission: "hyperfactions.info.power",
+      description: "View personal power information",
+      default: "false"
+    },
+    {
+      permission: "hyperfactions.info.members",
+      description: "View faction member list",
+      default: "false"
+    },
+    {
+      permission: "hyperfactions.info.list",
+      description: "List all factions",
+      default: "false"
+    },
+    {
+      permission: "hyperfactions.info.logs",
+      description: "View faction activity logs",
+      default: "false"
+    },
+    {
+      permission: "hyperfactions.info.help",
+      description: "Access help documentation",
+      default: "false"
+    }
+  ]}
+/>
+
+## Related Topics
+
+- [Basic Commands](/plugins/hyperfactions/wiki/commands/basic) - Core faction commands
+- [Power System](/plugins/hyperfactions/wiki/concepts/power-system) - Understanding power mechanics
+- [Roles](/plugins/hyperfactions/wiki/concepts/roles) - Faction role hierarchy
+- [Economy Commands](/plugins/hyperfactions/wiki/commands/economy) - Treasury transaction logs

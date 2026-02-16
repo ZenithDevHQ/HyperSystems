@@ -20,19 +20,19 @@ const components = {
   PermissionTable,
 
   // Override default HTML elements
-  h1: ({ children }: { children: React.ReactNode }) => (
-    <h1 className="mb-4 mt-8 text-3xl font-bold text-hs-text first:mt-0">
+  h1: ({ children, id, ...props }: any) => (
+    <h1 id={id} className="mb-4 mt-8 text-3xl font-bold text-hs-text first:mt-0" {...props}>
       {children}
     </h1>
   ),
-  h2: ({ children }: { children: React.ReactNode }) => (
-    <h2 className="mb-3 mt-8 text-2xl font-bold text-hs-text">{children}</h2>
+  h2: ({ children, id, ...props }: any) => (
+    <h2 id={id} className="mb-3 mt-8 text-2xl font-bold text-hs-text" {...props}>{children}</h2>
   ),
-  h3: ({ children }: { children: React.ReactNode }) => (
-    <h3 className="mb-2 mt-6 text-xl font-semibold text-hs-text">{children}</h3>
+  h3: ({ children, id, ...props }: any) => (
+    <h3 id={id} className="mb-2 mt-6 text-xl font-semibold text-hs-text" {...props}>{children}</h3>
   ),
-  h4: ({ children }: { children: React.ReactNode }) => (
-    <h4 className="mb-2 mt-4 text-lg font-semibold text-hs-text">{children}</h4>
+  h4: ({ children, id, ...props }: any) => (
+    <h4 id={id} className="mb-2 mt-4 text-lg font-semibold text-hs-text" {...props}>{children}</h4>
   ),
   p: ({ children }: { children: React.ReactNode }) => (
     <p className="mb-4 leading-relaxed text-hs-text-muted">{children}</p>

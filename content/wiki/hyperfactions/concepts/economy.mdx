@@ -1,0 +1,197 @@
+---
+title: Economy
+description: Understanding the faction treasury and economy system.
+order: 7
+---
+
+# Economy
+
+The economy system in HyperFactions gives factions a shared treasury for managing funds collectively. Members can deposit personal funds, Officers can withdraw and transfer between factions, and all transactions are logged for accountability.
+
+<InfoBox variant="info" title="Soft Dependency">
+The economy system requires VaultUnlocked to be installed on the server. VaultUnlocked is a soft dependency -- if it is not present, all economy features are automatically disabled and treasury commands will not be available.
+</InfoBox>
+
+## What Is the Treasury?
+
+Every faction has a **treasury** -- a shared bank account that belongs to the faction rather than any individual player. The treasury serves as a central fund for collective operations, diplomacy, and resource management.
+
+Key properties of the treasury:
+- Separate from any individual player's balance
+- Persists even when members go offline
+- Tracked with full transaction history
+- Accessible based on faction role permissions
+
+### Starting Balance
+
+When a faction is created, its treasury starts with a configurable starting balance (default: 0). Server administrators can adjust this in the economy configuration to give new factions a financial head start.
+
+## VaultUnlocked Integration
+
+HyperFactions integrates with VaultUnlocked to connect the faction treasury to the server's economy. VaultUnlocked provides a standardized economy API, allowing HyperFactions to:
+
+- Query player balances for deposits
+- Add and remove funds from player accounts
+- Support any economy plugin that implements the VaultUnlocked API
+
+<InfoBox variant="warning" title="No VaultUnlocked = No Economy">
+If VaultUnlocked is not installed or no economy provider is registered, the following will happen:
+- All `/f money` commands are disabled
+- Treasury balance is not tracked
+- No error occurs -- economy features simply do not appear
+</InfoBox>
+
+### How Detection Works
+
+On server startup, HyperFactions checks for VaultUnlocked using reflection-based detection (the same soft dependency pattern used for HyperPerms integration). If found, the economy system initializes. If not, the feature is silently disabled.
+
+## Treasury Operations
+
+### Deposits
+
+Any faction member can deposit personal funds into the treasury. This moves money from the player's personal economy balance into the faction's shared pool.
+
+| Property | Detail |
+|----------|--------|
+| **Who can deposit** | Any member (configurable) |
+| **Source** | Player's personal balance |
+| **Destination** | Faction treasury |
+| **Minimum amount** | Must be positive |
+
+Deposits are the primary way to grow the faction treasury. Encourage members to contribute regularly, especially before large operations.
+
+### Withdrawals
+
+Officers and Leaders can withdraw funds from the treasury back to their personal balance. This is the reverse of a deposit and provides access to faction funds for individual use.
+
+| Property | Detail |
+|----------|--------|
+| **Who can withdraw** | Officers and Leaders (configurable) |
+| **Source** | Faction treasury |
+| **Destination** | Player's personal balance |
+| **Minimum amount** | Must be positive |
+
+<InfoBox variant="warning" title="Accountability">
+All withdrawals are logged with the player name, amount, and timestamp. Leaders should review the transaction log regularly to ensure responsible use of faction funds.
+</InfoBox>
+
+### Transfers
+
+Officers and Leaders can transfer funds directly from their faction's treasury to another faction's treasury. This is useful for diplomacy, trade agreements, and paying allies.
+
+| Property | Detail |
+|----------|--------|
+| **Who can transfer** | Officers and Leaders (configurable) |
+| **Source** | Your faction's treasury |
+| **Destination** | Target faction's treasury |
+| **Notification** | Both factions are notified |
+
+Transfers appear in both factions' transaction logs, creating a clear record of inter-faction financial dealings.
+
+## Transaction Logging
+
+Every treasury operation is recorded in the faction's transaction log. This provides a complete audit trail of all financial activity.
+
+### What Is Logged
+
+Each log entry records:
+
+| Field | Description |
+|-------|-------------|
+| **Timestamp** | When the transaction occurred |
+| **Player** | Who performed the transaction |
+| **Type** | Deposit, withdrawal, or transfer |
+| **Amount** | How much was moved |
+| **Target** | Target faction (for transfers only) |
+
+### Viewing Logs
+
+Transaction logs are accessible via the `/f money log` command. Logs are paginated and can be filtered by transaction type. See [Economy Commands](/plugins/hyperfactions/wiki/commands/economy) for full command syntax.
+
+## Faction Permissions
+
+Treasury access is controlled by faction-level permissions (not server permissions). These determine which roles within the faction can perform each operation.
+
+| Faction Permission | Default Access | Description |
+|--------------------|----------------|-------------|
+| `treasuryDeposit` | Member+ | Who can deposit funds |
+| `treasuryWithdraw` | Officer+ | Who can withdraw funds |
+| `treasuryTransfer` | Officer+ | Who can transfer funds |
+
+<InfoBox variant="info" title="Customizable by Leaders">
+Faction Leaders can adjust these permissions through faction settings. For example, a Leader could restrict deposits to Officers only, or grant transfer access to all Members. These are faction-level role permissions, separate from server-level HyperPerms permissions.
+</InfoBox>
+
+### Server Permissions vs. Faction Permissions
+
+It is important to understand the two layers of permission control:
+
+1. **Server permissions** (`hyperfactions.economy.*`) -- Controls whether a player can use economy commands at all. Managed by HyperPerms or the server's permission system.
+2. **Faction permissions** (`treasuryDeposit`, `treasuryWithdraw`, `treasuryTransfer`) -- Controls what a player's faction role allows them to do. Managed by faction Leaders.
+
+A player needs **both** the server permission and the appropriate faction role to perform an action.
+
+## Configuration
+
+The economy system is configured through the economy section of the HyperFactions configuration.
+
+### Key Settings
+
+| Setting | Default | Description |
+|---------|---------|-------------|
+| `economy.enabled` | `true` | Master toggle for economy features |
+| `economy.currencyName` | `"Coins"` | Display name for the currency |
+| `economy.currencySymbol` | `"$"` | Symbol shown before amounts |
+| `economy.startingBalance` | `0` | Treasury balance for new factions |
+| `economy.logPageSize` | `10` | Entries per page in transaction logs |
+
+### Example Configuration
+
+```json
+{
+  "economy": {
+    "enabled": true,
+    "currencyName": "Gold",
+    "currencySymbol": "G",
+    "startingBalance": 100,
+    "logPageSize": 10
+  }
+}
+```
+
+<InfoBox variant="tip" title="Currency Customization">
+Set the currency name and symbol to match your server's theme. If your economy plugin uses "Gold" as currency, configure HyperFactions to display "Gold" and "G" for consistency.
+</InfoBox>
+
+## Strategic Considerations
+
+### Building a War Chest
+
+Factions preparing for conflict should build a treasury reserve:
+- Encourage regular deposits from all members
+- Set contribution goals before major operations
+- Use the treasury to fund faction-wide preparations
+
+### Diplomacy Through Trade
+
+The transfer system enables economic diplomacy:
+- Pay allies for military support
+- Purchase territory rights through negotiation
+- Settle disputes with financial agreements
+- Establish ongoing trade partnerships
+
+### Preventing Abuse
+
+Leaders should take steps to protect the treasury:
+- Review transaction logs regularly
+- Limit withdrawal access to trusted Officers
+- Set clear rules about treasury use
+- Monitor for unusual withdrawal patterns
+
+## Related Topics
+
+- [Economy Commands](/plugins/hyperfactions/wiki/commands/economy) - Command reference for treasury operations
+- [Economy Management](/plugins/hyperfactions/wiki/guides/economy-management) - Practical guide to managing finances
+- [Roles](/plugins/hyperfactions/wiki/concepts/roles) - Role hierarchy and permissions
+- [Diplomacy](/plugins/hyperfactions/wiki/concepts/diplomacy) - Using trade in diplomatic relations
+- [Configuration Reference](/plugins/hyperfactions/wiki/reference/configuration) - All economy settings

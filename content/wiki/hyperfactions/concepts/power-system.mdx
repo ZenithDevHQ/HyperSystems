@@ -113,6 +113,9 @@ When a player dies, they lose power:
 | Property | Default Value | Config Key |
 |----------|---------------|------------|
 | Death Penalty | 1.0 | `power.deathPenalty` |
+| Kill Reward | 0.0 | `power.killReward` |
+
+The **kill reward** grants power to a player when they kill another player. By default this is set to 0.0 (disabled), but server owners can enable it to reward PvP combat. For example, setting `killReward` to 0.5 means a player gains 0.5 power for each player kill.
 
 <InfoBox variant="warning" title="Combat Implications">
 If you die multiple times in quick succession, your power can drop significantly. At 0.1 regen per minute, recovering 1 power lost from death takes **10 minutes**.

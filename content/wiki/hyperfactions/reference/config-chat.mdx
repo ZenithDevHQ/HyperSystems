@@ -1,0 +1,98 @@
+---
+title: "Config: Chat"
+description: Configuration reference for chat.json — chat formatting, relation colors, faction chat, and history.
+order: 5
+---
+
+# Chat Configuration
+
+<InfoBox variant="info" title="File Location">
+`mods/com.hyperfactions_HyperFactions/config/chat.json`
+</InfoBox>
+
+Controls how faction tags appear in chat, relation-based color coding, faction/ally chat channels, and chat history.
+
+<InfoBox variant="warning" title="Reload Required">
+Changes require `/f admin reload` or a server restart to take effect.
+</InfoBox>
+
+## Chat Formatting
+
+| Key | Type | Default | Description |
+|-----|------|---------|-------------|
+| `format` | string | See below | Chat format template |
+| `tagDisplay` | string | "tag" | Display mode: "tag", "name", or "none" |
+| `tagFormat` | string | See below | Format for the faction tag |
+| `noFactionTag` | string | "" | Tag for players without a faction |
+| `noFactionTagColor` | hex | "#555555" | Color for the no-faction tag |
+| `playerNameColor` | hex | "#FFFFFF" | Default player name color |
+| `priority` | string | "LATE" | Event priority: EARLIEST, EARLY, NORMAL, LATE, LATEST |
+
+**Format templates:**
+- `format` uses placeholders: `{faction_tag}`, `{prefix}`, `{player}`, `{suffix}`, `{message}`
+- `tagFormat` uses the `{tag}` placeholder for the faction tag display
+
+## Relation Colors
+
+| Key | Type | Default | Description |
+|-----|------|---------|-------------|
+| `relationColors.own` | hex | "#00FF00" | Color for same-faction members (green) |
+| `relationColors.ally` | hex | "#FF69B4" | Color for allies (pink) |
+| `relationColors.neutral` | hex | "#AAAAAA" | Color for neutral factions (gray) |
+| `relationColors.enemy` | hex | "#FF0000" | Color for enemies (red) |
+
+## Faction & Ally Chat
+
+| Key | Type | Default | Description |
+|-----|------|---------|-------------|
+| `factionChatColor` | hex | "#00FFFF" | Color for faction chat messages |
+| `factionChatPrefix` | string | "[Faction]" | Prefix for faction chat messages |
+| `allyChatColor` | hex | "#AA00AA" | Color for ally chat messages |
+| `allyChatPrefix` | string | "[Ally]" | Prefix for ally chat messages |
+| `senderNameColor` | hex | "#FFFF55" | Color for sender name in faction/ally chat |
+| `messageColor` | hex | "#FFFFFF" | Color for message text in faction/ally chat |
+
+## Chat History
+
+| Key | Type | Default | Description |
+|-----|------|---------|-------------|
+| `historyEnabled` | bool | true | Enable chat history storage |
+| `historyMaxMessages` | int | 200 | Maximum messages to store per faction |
+| `historyRetentionDays` | int | 7 | Days to keep chat history |
+| `historyCleanupIntervalMinutes` | int | 60 | Minutes between history cleanup runs |
+
+## Default Configuration
+
+```json
+{
+  "enabled": true,
+  "format": "{faction_tag}{prefix}{player}{suffix}: {message}",
+  "tagDisplay": "tag",
+  "tagFormat": "[{tag}] ",
+  "noFactionTag": "",
+  "noFactionTagColor": "#555555",
+  "playerNameColor": "#FFFFFF",
+  "priority": "LATE",
+  "relationColors": {
+    "own": "#00FF00",
+    "ally": "#FF69B4",
+    "neutral": "#AAAAAA",
+    "enemy": "#FF0000"
+  },
+  "factionChatColor": "#00FFFF",
+  "factionChatPrefix": "[Faction]",
+  "allyChatColor": "#AA00AA",
+  "allyChatPrefix": "[Ally]",
+  "senderNameColor": "#FFFF55",
+  "messageColor": "#FFFFFF",
+  "historyEnabled": true,
+  "historyMaxMessages": 200,
+  "historyRetentionDays": 7,
+  "historyCleanupIntervalMinutes": 60
+}
+```
+
+## Related Topics
+
+- [Configuration Reference](/plugins/hyperfactions/wiki/reference/configuration) - Main config.json
+- [Communication Commands](/plugins/hyperfactions/wiki/commands/communication) - Chat commands

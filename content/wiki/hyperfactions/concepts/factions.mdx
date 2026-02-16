@@ -67,19 +67,32 @@ For detailed power mechanics, see [Power System](/plugins/hyperfactions/wiki/con
 
 Factions protect their claimed territory through configurable permission flags. Leaders can control what actions are allowed within their territory through the faction settings GUI.
 
-**Available flag categories:**
+**Available flag categories (25 flags total):**
 
 | Category | Flags | Description |
 |----------|-------|-------------|
 | Combat | 4 flags | PvP, friendly fire, projectiles, mob damage |
-| Building | 2 flags | Block placement/breaking, general interaction |
-| Interaction | 5 flags | Doors, containers, crafting, processing, seats |
-| Items | 2 flags | Item drop and pickup |
+| Building | 1 flag | Block placement/breaking |
+| Interaction | 6 flags | Block interaction, doors, containers, crafting, processing, seats |
+| Items | 4 flags | Item drop, pickup, manual pickup, invincible items |
 | Damage | 2 flags | Fall damage, environmental damage |
+| Death | 2 flags | Keep inventory, power loss |
+| Mob Spawning | 5 flags | Master toggle, hostile, passive, neutral, NPC |
+| Integration | 1 flag | Gravestone access |
 
 <InfoBox variant="info">
 Server administrators can lock certain flags to enforce server-wide rules. See the [Configuration Reference](/plugins/hyperfactions/wiki/reference/configuration) for details.
 </InfoBox>
+
+## Economy
+
+Factions have a **treasury** system that allows members to pool resources. The treasury acts as a shared bank account for the faction.
+
+- **Deposits** - Any member can deposit into the faction treasury
+- **Withdrawals** - Officers and Leaders can withdraw funds
+- **Transfers** - Officers and Leaders can transfer funds to other factions
+
+The economy system provides a foundation for trade, war reparations, and cooperative resource management between factions.
 
 ## Faction Lifecycle
 

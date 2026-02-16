@@ -14,10 +14,19 @@ Before installing HyperFactions, ensure you have:
 
 - **Hytale Server** (Early Access)
 - **Java 25** or higher
-- **Recommended:** [HyperPerms](/plugins/hyperperms) for permission management
+- **Recommended:** [HyperPerms](/plugins/hyperperms) or [LuckPerms](https://luckperms.net/) for permission management
+
+### Optional Dependencies
+
+| Plugin | Purpose | Required? |
+|--------|---------|-----------|
+| **[HyperPerms](/plugins/hyperperms)** or **LuckPerms** | Permission management | Strongly recommended |
+| **[VaultUnlocked](https://github.com/TheNewEconomy/VaultUnlockedAPI)** | Server economy for faction treasury | Optional (for economy features) |
+| **OrbisGuard-Mixins** | Advanced zone flags (keep inventory, invincible items, NPC spawning, F-key pickup) | Optional |
+| **Hyxin** | Early plugin loader (required for OrbisGuard-Mixins) | Required if using OrbisGuard |
 
 <InfoBox variant="warning" title="Permission Setup Required">
-HyperFactions requires explicit permission grants. Without a permission manager like HyperPerms, players will be unable to use faction commands. See [Permission Setup](#permission-setup) below.
+HyperFactions requires explicit permission grants. Without a permission manager like HyperPerms or LuckPerms, players will be unable to use faction commands. See [Permission Setup](#permission-setup) below.
 </InfoBox>
 
 ## Download
@@ -40,7 +49,7 @@ Copy the `HyperFactions-x.x.x.jar` file to your server's `mods` folder:
 ```
 your-server/
 ├── mods/
-│   └── HyperFactions-0.4.3.jar  ← Place here
+│   └── HyperFactions-0.8.0.jar  ← Place here
 ├── config.json
 ├── universe/
 ├── logs/
@@ -53,7 +62,21 @@ Start your Hytale server. HyperFactions will automatically generate its configur
 
 For instructions on starting your Hytale server, see the official [Hytale Server Manual](https://support.hytale.com/hc/en-us/articles/45326769420827-Hytale-Server-Manual).
 
-### 4. Permission Setup
+### 4. Install Optional Dependencies
+
+**VaultUnlocked (Economy):**
+
+If you want faction treasury features (deposits, withdrawals, transfers), install VaultUnlocked and an economy provider.
+
+**OrbisGuard-Mixins (Advanced Zone Flags):**
+
+For advanced zone flags like keep inventory, invincible items, NPC spawning control, and manual item pickup:
+
+1. Install **Hyxin** as an early plugin (in `earlyplugins/` folder)
+2. Install **OrbisGuard-Mixins** in your `mods/` folder
+3. HyperFactions will detect it automatically on startup
+
+### 5. Permission Setup
 
 <InfoBox variant="danger" title="Critical Step">
 HyperFactions requires explicit permission grants. Without proper permissions, players cannot access any faction commands.
@@ -72,13 +95,28 @@ Run these commands from the console or as an operator:
 /hp group setperm default hyperfactions.relation.*
 /hp group setperm default hyperfactions.chat.*
 /hp group setperm default hyperfactions.info.*
+/hp group setperm default hyperfactions.economy.*
 ```
 
-This grants all standard faction features to the default group.
+This grants all standard faction features (including economy) to the default group.
+
+**Using LuckPerms:**
+
+```
+/lp group default permission set hyperfactions.use true
+/lp group default permission set hyperfactions.faction.* true
+/lp group default permission set hyperfactions.member.* true
+/lp group default permission set hyperfactions.territory.* true
+/lp group default permission set hyperfactions.teleport.* true
+/lp group default permission set hyperfactions.relation.* true
+/lp group default permission set hyperfactions.chat.* true
+/lp group default permission set hyperfactions.info.* true
+/lp group default permission set hyperfactions.economy.* true
+```
 
 For detailed permission information, see [Permissions Reference](/plugins/hyperfactions/wiki/reference/permissions).
 
-### 5. Verify Installation
+### 6. Verify Installation
 
 Once the server is running and permissions are configured, verify the installation:
 
@@ -100,11 +138,14 @@ After installation, HyperFactions creates the following structure:
 mods/com.hyperfactions_HyperFactions/
 ├── config.json               ← Main configuration
 ├── config/                   ← Module configurations
+│   ├── announcements.json    ← Announcement settings
 │   ├── backup.json           ← Backup settings
 │   ├── chat.json             ← Chat formatting settings
 │   ├── debug.json            ← Debug options
-│   ├── economy.json          ← Economy integration settings
-│   └── faction-permissions.json  ← Default faction territory permissions
+│   ├── economy.json          ← Economy/treasury settings
+│   ├── faction-permissions.json  ← Default faction territory permissions
+│   ├── gravestones.json      ← Gravestone integration settings
+│   └── worldmap.json         ← World map display settings
 ├── backups/                  ← Automatic and manual backups
 ├── factions/                 ← Per-faction data files
 │   └── {uuid}.json
