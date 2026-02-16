@@ -9,7 +9,7 @@ interface PermissionTableProps {
   title?: string;
 }
 
-export function PermissionTable({ permissions, title }: PermissionTableProps) {
+export function PermissionTable({ permissions = [], title }: PermissionTableProps) {
   return (
     <div className="my-6 overflow-hidden rounded-lg border border-hs-border">
       {title && (

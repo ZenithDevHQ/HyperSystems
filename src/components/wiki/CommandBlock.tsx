@@ -9,7 +9,7 @@ interface CommandBlockProps {
   title?: string;
 }
 
-export function CommandBlock({ commands, title }: CommandBlockProps) {
+export function CommandBlock({ commands = [], title }: CommandBlockProps) {
   return (
     <div className="my-6 overflow-hidden rounded-lg border border-hs-border">
       {title && (
