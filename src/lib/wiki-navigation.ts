@@ -19,14 +19,6 @@ export const wikiNavigation: Record<string, WikiNavSection[]> = {
       ],
     },
   ],
-  hyperhomes: [
-    {
-      title: "Overview",
-      items: [
-        { title: "Introduction", href: "/plugins/hyperhomes/wiki" },
-      ],
-    },
-  ],
   hyperfactions: [
     {
       title: "Getting Started",

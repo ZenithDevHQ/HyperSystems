@@ -1,5 +1,10 @@
 export type PluginStatus = "stable" | "beta" | "coming-soon" | "planned";
-export type PluginIconName = "Shield" | "Home" | "MapPin" | "Package" | "Swords";
+export type PluginIconName =
+  | "Shield"
+  | "Swords"
+  | "Coins"
+  | "MessageCircle"
+  | "Globe";
 
 export interface Plugin {
   id: string;
@@ -10,6 +15,7 @@ export interface Plugin {
   iconName: PluginIconName;
   features: string[];
   commands?: string[];
+  isDesktopApp?: boolean;
   links?: {
     website?: string;
     github?: string;
@@ -46,54 +52,12 @@ export const plugins: Plugin[] = [
     },
   },
   {
-    id: "hyperhomes",
-    name: "HyperHomes",
-    tagline: "Home is one command away",
-    description:
-      "GUI-based home management with player sharing — set, teleport to, and manage multiple personal homes.",
-    status: "stable",
-    iconName: "Home",
-    features: [
-      "Multiple Named Homes (configurable limit)",
-      "Home Sharing with Other Players",
-      "Interactive GUI for Home Management",
-      "Warmup & Cooldown System",
-      "Cross-World Teleportation",
-      "Safe Teleport Location Finding",
-      "HyperPerms Integration",
-      "Bed Home Sync",
-      "Migration from Other Home Plugins",
-      "Admin Panel",
-    ],
-    commands: ["/home", "/sethome", "/delhome", "/homes"],
-    links: {
-      github: "https://github.com/HyperSystemsDev/HyperHomes",
-      curseforge: "https://www.curseforge.com/hytale/mods/hyperhomes",
-    },
-  },
-  {
-    id: "hyperwarps",
-    name: "HyperWarps",
-    tagline: "Server-wide teleportation",
-    description:
-      "Complete teleportation suite with TPA, spawns, warps, and location history.",
-    status: "coming-soon",
-    iconName: "MapPin",
-    features: [
-      "TPA System (/tpa, /tpahere, /tpaccept, /tpdeny)",
-      "Spawn Management (Multiple, Per-World)",
-      "Warp System with Categories",
-      "/back Command with Location History",
-      "Admin Teleport Commands",
-    ],
-  },
-  {
     id: "hyperfactions",
     name: "HyperFactions",
     tagline: "Forge your empire",
     description:
-      "A comprehensive faction management mod with territory claims, alliances, strategic PvP, power systems, and extensive customization.",
-    status: "beta",
+      "A comprehensive faction management mod with territory claims, alliances, strategic PvP, power systems, and 59 GUI pages for extensive in-game customization.",
+    status: "stable",
     iconName: "Swords",
     features: [
       "Faction Management with Role Hierarchy",
@@ -102,6 +66,7 @@ export const plugins: Plugin[] = [
       "Diplomatic Relations (Allies, Enemies, Neutral)",
       "Overclaiming for Strategic Warfare",
       "Faction & Alliance Chat",
+      "59 GUI Pages for Full In-Game Management",
       "Home Teleportation System",
       "Combat Tagging",
       "SafeZones & WarZones",
@@ -110,24 +75,72 @@ export const plugins: Plugin[] = [
     commands: ["/faction", "/f", "/hf"],
     links: {
       github: "https://github.com/HyperSystemsDev/HyperFactions",
+      curseforge: "https://www.curseforge.com/hytale/mods/hyperfactions",
       docs: "/plugins/hyperfactions/wiki",
     },
   },
   {
-    id: "hyperkits",
-    name: "HyperKits",
-    tagline: "Gear up instantly",
+    id: "ecotale",
+    name: "Ecotale",
+    tagline: "A living economy",
     description:
-      "Kit management system with cooldowns, first-join kits, and preview GUIs.",
-    status: "planned",
-    iconName: "Package",
+      "A complete server economy suite with persistent storage, HUD balance display, admin panels, and modular addons for jobs, marketplace, and physical currency.",
+    status: "stable",
+    iconName: "Coins",
     features: [
-      "Kit Management",
-      "Cooldowns",
-      "First-Join Kits",
-      "GUI Preview",
-      "Permission-Based Access",
+      "Persistent Multi-Backend Storage (H2, JSON, MySQL)",
+      "Customizable HUD Balance Display",
+      "Multi-Language Support (8+ languages)",
+      "Admin Control Panel",
+      "EcotaleJobs - Earn from mining, mobs, crafting",
+      "EcotaleMarketplace - Player-driven buy/sell market",
+      "EcotaleCoins - Physical currency items & banking",
     ],
+    links: {
+      github: "https://github.com/HyperSystemsDev/Ecotale",
+      curseforge: "https://www.curseforge.com/hytale/mods/ecotale",
+    },
+  },
+  {
+    id: "werchat",
+    name: "WerChat",
+    tagline: "Chat, organized",
+    description:
+      "A flexible chat management mod with customizable channels, private messaging, and moderation tools for organized server communication.",
+    status: "stable",
+    iconName: "MessageCircle",
+    features: [
+      "Customizable Chat Channels",
+      "Private Messaging",
+      "Moderation Tools",
+      "Channel-Based Organization",
+    ],
+    links: {
+      github: "https://github.com/HyperSystemsDev/Werchat",
+      curseforge: "https://www.curseforge.com/hytale/mods/werchat",
+    },
+  },
+  {
+    id: "terranova",
+    name: "TerraNova",
+    tagline: "Design worlds visually",
+    description:
+      "A desktop world generation studio with a visual node-based editor, live terrain previews, biome editing, and one-click server deployment.",
+    status: "stable",
+    iconName: "Globe",
+    isDesktopApp: true,
+    features: [
+      "Visual Node-Based Editor",
+      "Live 2D & 3D Terrain Preview",
+      "Biome Editor (terrain, materials, props)",
+      "10 Bundled Starting Templates",
+      "Built-in Schema Validation",
+      "One-Click Server Deployment",
+      "Offline-First (no telemetry)",
+    ],
+    links: {
+      github: "https://github.com/HyperSystemsDev/TerraNova",
+    },
   },
 ];
 

@@ -23,15 +23,15 @@ interface PluginCardProps {
 export function PluginCard({ plugin, index = 0, maxFeatures = 4 }: PluginCardProps) {
   return (
     <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
+      initial={{ opacity: 0, y: 20, scale: 0.98 }}
+      whileInView={{ opacity: 1, y: 0, scale: 1 }}
       viewport={{ once: true }}
-      transition={{ delay: index * 0.1 }}
+      transition={{ delay: index * 0.08, duration: 0.4, ease: "easeOut" }}
     >
       <Card hover className="group h-full">
         <CardHeader className="flex flex-row items-start justify-between">
           <div className="flex items-center gap-3">
-            <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-gradient-to-br from-hs-primary/20 to-hs-secondary/20">
+            <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-gradient-to-br from-hs-primary/15 to-hs-secondary/15 transition-all duration-150 group-hover:from-hs-primary/25 group-hover:to-hs-secondary/25">
               <PluginIcon name={plugin.iconName} className="h-5 w-5 text-hs-primary" />
             </div>
             <div>
@@ -52,7 +52,7 @@ export function PluginCard({ plugin, index = 0, maxFeatures = 4 }: PluginCardPro
               key={feature}
               className="flex items-center gap-2 text-sm text-hs-text-muted"
             >
-              <span className="h-1 w-1 rounded-full bg-hs-secondary" />
+              <span className="h-1 w-1 shrink-0 rounded-full bg-hs-primary/60" />
               {feature}
             </li>
           ))}

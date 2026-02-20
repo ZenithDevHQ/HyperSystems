@@ -1,13 +1,13 @@
-import { Shield, Home, MapPin, Package, Swords } from "lucide-react";
+import { Shield, Swords, Coins, MessageCircle, Globe } from "lucide-react";
 import { type PluginIconName } from "@/lib/plugins";
 import { cn } from "@/lib/utils";
 
 const iconMap = {
   Shield,
-  Home,
-  MapPin,
-  Package,
   Swords,
+  Coins,
+  MessageCircle,
+  Globe,
 };
 
 interface PluginIconProps {

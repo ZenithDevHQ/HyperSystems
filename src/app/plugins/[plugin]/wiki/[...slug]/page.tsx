@@ -34,7 +34,6 @@ export async function generateMetadata({
 const pluginRepos: Record<string, string> = {
   hyperfactions: "HyperSystemsDev/HyperFactions",
   hyperperms: "HyperSystemsDev/HyperPerms",
-  hyperhomes: "HyperSystemsDev/HyperHomes",
 };
 
 export default async function WikiPage({ params }: WikiPageProps) {
@@ -154,7 +153,7 @@ export default async function WikiPage({ params }: WikiPageProps) {
 
 // Generate static params for all wiki pages
 export async function generateStaticParams() {
-  const plugins = ["hyperfactions", "hyperperms", "hyperhomes"];
+  const plugins = ["hyperfactions", "hyperperms"];
   const params: { plugin: string; slug: string[] }[] = [];
 
   for (const plugin of plugins) {

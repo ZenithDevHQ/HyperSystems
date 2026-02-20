@@ -8,15 +8,15 @@ export interface BadgeProps extends HTMLAttributes<HTMLSpanElement> {
 const Badge = forwardRef<HTMLSpanElement, BadgeProps>(
   ({ className, variant = "default", children, ...props }, ref) => {
     const variants = {
-      default: "bg-hs-border/50 text-hs-text-muted border-hs-border",
-      secondary: "bg-hs-secondary/20 text-hs-secondary border-hs-secondary/30",
-      success: "bg-hs-success/20 text-hs-success border-hs-success/30",
-      warning: "bg-hs-warning/20 text-hs-warning border-hs-warning/30",
-      danger: "bg-hs-danger/20 text-hs-danger border-hs-danger/30",
-      stable: "bg-hs-success/20 text-hs-success border-hs-success/30",
-      beta: "bg-hs-warning/20 text-hs-warning border-hs-warning/30",
-      "coming-soon": "bg-hs-secondary/20 text-hs-secondary border-hs-secondary/30",
-      planned: "bg-hs-border/50 text-hs-text-muted border-hs-border",
+      default: "bg-white/5 text-hs-text-muted border-white/10",
+      secondary: "bg-hs-secondary/15 text-hs-secondary border-hs-secondary/25",
+      success: "bg-hs-success/15 text-hs-success border-hs-success/25",
+      warning: "bg-hs-warning/15 text-hs-warning border-hs-warning/25",
+      danger: "bg-hs-danger/15 text-hs-danger border-hs-danger/25",
+      stable: "bg-hs-success/15 text-hs-success border-hs-success/25",
+      beta: "bg-hs-warning/15 text-hs-warning border-hs-warning/25",
+      "coming-soon": "bg-hs-secondary/15 text-hs-secondary border-hs-secondary/25",
+      planned: "bg-white/5 text-hs-text-muted border-white/10",
     };
 
     const labels: Record<string, string> = {
@@ -36,7 +36,7 @@ const Badge = forwardRef<HTMLSpanElement, BadgeProps>(
         )}
         {...props}
       >
-        {children ?? labels[variant] ?? children}
+        {children ?? labels[variant]}
       </span>
     );
   }

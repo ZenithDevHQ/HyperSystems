@@ -18,9 +18,9 @@ export function PageSection({
       className={cn(
         "py-16",
         variant === "surface" && "bg-hs-surface",
-        border === "top" && "border-t border-hs-border",
-        border === "bottom" && "border-b border-hs-border",
-        border === "both" && "border-y border-hs-border",
+        border === "top" && "border-t border-white/[0.06]",
+        border === "bottom" && "border-b border-white/[0.06]",
+        border === "both" && "border-y border-white/[0.06]",
         className
       )}
     >

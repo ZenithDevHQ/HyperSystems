@@ -14,11 +14,12 @@ interface ChangelogListProps {
   releases: ReleaseWithPlugin[];
 }
 
-const pluginIconNames: Record<string, "Shield" | "Home" | "MapPin" | "Swords"> = {
+const pluginIconNames: Record<string, "Shield" | "Swords" | "Coins" | "MessageCircle" | "Globe"> = {
   hyperperms: "Shield",
-  hyperhomes: "Home",
-  hyperwarps: "MapPin",
   hyperfactions: "Swords",
+  ecotale: "Coins",
+  werchat: "MessageCircle",
+  terranova: "Globe",
 };
 
 function formatDate(dateString: string): string {
@@ -31,7 +32,14 @@ function formatDate(dateString: string): string {
 
 function truncateBody(body: string, maxLength: number = 200): string {
   if (!body) return "";
-  const cleaned = body.replace(/#{1,6}\s/g, "").replace(/\*\*/g, "").trim();
+  const cleaned = body
+    .replace(/#{1,6}\s/g, "")        // strip markdown headers
+    .replace(/\*\*/g, "")             // strip bold
+    .replace(/`([^`]+)`/g, "$1")      // strip inline code backticks
+    .replace(/^[-*]\s+/gm, "\u2022 ") // convert list items to bullet
+    .replace(/\r?\n/g, " ")           // collapse newlines to spaces
+    .replace(/\s{2,}/g, " ")          // collapse multiple spaces
+    .trim();
   if (cleaned.length <= maxLength) return cleaned;
   return cleaned.substring(0, maxLength) + "...";
 }

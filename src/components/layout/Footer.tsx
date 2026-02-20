@@ -6,9 +6,10 @@ import { Button } from "@/components/ui";
 const footerLinks = {
   plugins: [
     { href: "/plugins/hyperperms", label: "HyperPerms" },
-    { href: "/plugins/hyperhomes", label: "HyperHomes" },
-    { href: "/plugins/hyperwarps", label: "HyperWarps" },
     { href: "/plugins/hyperfactions", label: "HyperFactions" },
+    { href: "/plugins/ecotale", label: "Ecotale" },
+    { href: "/plugins/werchat", label: "WerChat" },
+    { href: "/plugins/terranova", label: "TerraNova" },
   ],
   resources: [
     { href: "/docs", label: "Documentation" },
@@ -24,7 +25,7 @@ const footerLinks = {
       external: true,
     },
     {
-      href: "https://github.com/HyperSystemsDev/HyperPerms/issues",
+      href: "https://github.com/HyperSystemsDev",
       label: "Report an Issue",
       external: true,
     },
@@ -33,7 +34,7 @@ const footerLinks = {
 
 export function Footer() {
   return (
-    <footer className="border-t border-hs-border bg-hs-surface">
+    <footer className="border-t border-white/[0.06] bg-hs-surface">
       <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
         <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-5">
           {/* Brand Section */}
@@ -125,7 +126,7 @@ export function Footer() {
         </div>
 
         {/* Bottom Bar */}
-        <div className="mt-12 border-t border-hs-border pt-8">
+        <div className="mt-12 border-t border-white/[0.06] pt-8">
           <div className="flex flex-col items-center justify-between gap-4 sm:flex-row">
             <p className="text-sm text-hs-text-muted">
               &copy; {new Date().getFullYear()} HyperSystems. All rights

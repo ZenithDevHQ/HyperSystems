@@ -43,9 +43,9 @@ export default function DownloadPage() {
           <Card className="flex items-start gap-3">
             <CheckCircle className="h-5 w-5 shrink-0 text-hs-secondary" />
             <div>
-              <h3 className="font-medium text-hs-text">Java 17+</h3>
+              <h3 className="font-medium text-hs-text">Java 25+</h3>
               <p className="mt-1 text-sm text-hs-text-muted">
-                Requires Java 17 or higher
+                Requires Java 25 or higher (Temurin recommended)
               </p>
             </div>
           </Card>

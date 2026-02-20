@@ -2,8 +2,10 @@
 
 const REPOS = {
   hyperperms: "HyperSystemsDev/HyperPerms",
-  hyperhomes: "HyperSystemsDev/HyperHomes",
   hyperfactions: "HyperSystemsDev/HyperFactions",
+  ecotale: "HyperSystemsDev/Ecotale",
+  werchat: "HyperSystemsDev/Werchat",
+  terranova: "HyperSystemsDev/TerraNova",
 } as const;
 
 export type PluginRepoId = keyof typeof REPOS;
@@ -114,7 +116,7 @@ async function fetchReleases(owner: string, repo: string): Promise<GitHubRelease
  */
 export async function getPluginGitHubStats(pluginId: string): Promise<GitHubPluginStats> {
   const repoPath = getRepoPath(pluginId);
-  
+
   if (!repoPath) {
     return {
       repo: pluginId,
@@ -164,8 +166,10 @@ export async function getAllPluginStats(): Promise<Record<string, GitHubPluginSt
 export async function getAllReleases(): Promise<(GitHubRelease & { pluginId: string; pluginName: string })[]> {
   const pluginNames: Record<string, string> = {
     hyperperms: "HyperPerms",
-    hyperhomes: "HyperHomes",
     hyperfactions: "HyperFactions",
+    ecotale: "Ecotale",
+    werchat: "WerChat",
+    terranova: "TerraNova",
   };
 
   const pluginIds = Object.keys(REPOS) as PluginRepoId[];

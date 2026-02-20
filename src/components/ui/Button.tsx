@@ -11,17 +11,17 @@ export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 const Button = forwardRef<HTMLButtonElement, ButtonProps>(
   ({ className, variant = "primary", size = "md", children, ...props }, ref) => {
     const baseStyles =
-      "inline-flex items-center justify-center gap-2 font-medium rounded-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-hs-bg disabled:opacity-50 disabled:pointer-events-none";
+      "inline-flex items-center justify-center gap-2 font-medium rounded-lg transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-hs-bg disabled:opacity-50 disabled:pointer-events-none cursor-pointer";
 
     const variants = {
       primary:
-        "bg-hs-primary text-hs-bg hover:bg-hs-primary-dark focus:ring-hs-primary",
+        "bg-hs-primary text-hs-bg hover:bg-hs-primary-dark hover:shadow-[var(--shadow-hs-glow)] focus-visible:ring-hs-primary active:scale-[0.98]",
       secondary:
-        "bg-hs-secondary text-hs-bg hover:bg-hs-secondary-dark focus:ring-hs-secondary",
+        "bg-hs-secondary text-white hover:bg-hs-secondary-dark hover:shadow-[0_0_20px_-4px_rgba(59,130,246,0.3)] focus-visible:ring-hs-secondary active:scale-[0.98]",
       outline:
-        "border border-hs-border bg-transparent text-hs-text hover:bg-hs-surface hover:border-hs-text-muted focus:ring-hs-border",
+        "border border-white/10 bg-transparent text-hs-text hover:bg-white/5 hover:border-white/15 focus-visible:ring-white/20 active:scale-[0.98]",
       ghost:
-        "bg-transparent text-hs-text-muted hover:text-hs-text hover:bg-hs-surface focus:ring-hs-border",
+        "bg-transparent text-hs-text-muted hover:text-hs-text hover:bg-white/5 focus-visible:ring-white/20",
     };
 
     const sizes = {

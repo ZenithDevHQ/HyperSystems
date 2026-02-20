@@ -38,7 +38,7 @@ export default async function FeaturesPage() {
               Better Together
             </h2>
             <p className="mx-auto max-w-2xl text-hs-text-muted">
-              All HyperSystems plugins are designed to integrate seamlessly. HyperHomes and HyperFactions
+              All HyperSystems plugins are designed to integrate seamlessly. HyperFactions, Ecotale, and WerChat
               include built-in HyperPerms integration, allowing for fine-grained permission control across
               your entire server ecosystem.
             </p>

@@ -67,6 +67,5 @@ export async function generateStaticParams() {
   return [
     { plugin: "hyperfactions" },
     { plugin: "hyperperms" },
-    { plugin: "hyperhomes" },
   ];
 }

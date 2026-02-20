@@ -8,7 +8,7 @@ interface PageHeaderProps {
 
 function PageHeader({ title, description }: PageHeaderProps) {
   return (
-    <section className="border-b border-hs-border bg-hs-bg py-16 sm:py-20">
+    <section className="border-b border-white/[0.06] bg-hs-bg py-16 sm:py-20">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <h1 className="text-3xl font-bold text-hs-text sm:text-4xl">{title}</h1>
         {description && (

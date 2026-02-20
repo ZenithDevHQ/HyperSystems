@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 import Link from "next/link";
-import { Star, Download, ArrowRight } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { Badge, PluginIcon, Button } from "@/components/ui";
 import { plugins, type PluginStatus } from "@/lib/plugins";
 import type { GitHubPluginStats } from "@/lib/github";
@@ -24,13 +24,6 @@ const statusLabels: Record<PluginStatus, string> = {
   "coming-soon": "Coming Soon",
   planned: "Planned",
 };
-
-function formatNumber(num: number): string {
-  if (num >= 1000) {
-    return `${(num / 1000).toFixed(1)}k`;
-  }
-  return num.toString();
-}
 
 // Get main plugins (exclude planned)
 const mainPlugins = plugins.filter((p) => p.status !== "planned");
@@ -63,7 +56,6 @@ export function FeatureShowcase({ pluginStats }: FeatureShowcaseProps) {
       className="grid gap-8 md:grid-cols-2"
     >
       {mainPlugins.map((plugin) => {
-        const stats = pluginStats[plugin.id];
         return (
           <motion.div
             key={plugin.id}
@@ -109,22 +101,8 @@ export function FeatureShowcase({ pluginStats }: FeatureShowcaseProps) {
               </ul>
             </div>
 
-            {/* Stats & Actions */}
-            <div className="flex items-center justify-between border-t border-hs-border pt-4">
-              <div className="flex items-center gap-4">
-                {stats?.stats && (
-                  <div className="flex items-center gap-1 text-sm text-hs-text-muted">
-                    <Star className="h-4 w-4" />
-                    {formatNumber(stats.stats.stars)}
-                  </div>
-                )}
-                {stats?.totalDownloads > 0 && (
-                  <div className="flex items-center gap-1 text-sm text-hs-text-muted">
-                    <Download className="h-4 w-4" />
-                    {formatNumber(stats.totalDownloads)}
-                  </div>
-                )}
-              </div>
+            {/* Actions */}
+            <div className="flex items-center justify-end border-t border-hs-border pt-4">
               <Link href={`/plugins/${plugin.id}`}>
                 <Button size="sm" variant="ghost" className="group/btn">
                   Learn More

@@ -12,11 +12,11 @@ interface PluginHeaderProps {
 
 export function PluginHeader({ plugin }: PluginHeaderProps) {
   return (
-    <section className="relative overflow-hidden border-b border-hs-border">
+    <section className="relative overflow-hidden border-b border-white/[0.06]">
       {/* Background gradient */}
       <div className="absolute inset-0 -z-10">
-        <div className="absolute left-1/4 top-0 h-[400px] w-[400px] -translate-x-1/2 rounded-full bg-hs-primary/10 blur-[100px]" />
-        <div className="absolute right-1/4 top-1/4 h-[300px] w-[300px] rounded-full bg-hs-secondary/10 blur-[80px]" />
+        <div className="absolute left-1/4 top-0 h-[400px] w-[500px] -translate-x-1/2 rounded-full bg-hs-primary/15 blur-[120px]" />
+        <div className="absolute right-1/4 top-1/4 h-[300px] w-[400px] rounded-full bg-hs-secondary/10 blur-[100px]" />
       </div>
 
       <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 sm:py-20 lg:px-8">
@@ -44,7 +44,7 @@ export function PluginHeader({ plugin }: PluginHeaderProps) {
           <div>
             {/* Icon and Title */}
             <div className="flex items-center gap-4">
-              <div className="flex h-16 w-16 items-center justify-center rounded-xl bg-gradient-to-br from-hs-primary/20 to-hs-secondary/20">
+              <div className="flex h-16 w-16 items-center justify-center rounded-xl bg-gradient-to-br from-hs-primary/15 to-hs-secondary/15 shadow-[var(--shadow-hs-sm)]">
                 <PluginIcon name={plugin.iconName} className="h-8 w-8 text-hs-primary" />
               </div>
               <div>
@@ -61,7 +61,7 @@ export function PluginHeader({ plugin }: PluginHeaderProps) {
             </div>
 
             {/* Description */}
-            <p className="mt-6 max-w-2xl text-hs-text-muted">
+            <p className="mt-6 max-w-2xl text-hs-text-muted leading-relaxed">
               {plugin.description}
             </p>
           </div>

@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Inter, JetBrains_Mono } from "next/font/google";
-import { BackToTop, ThemeProvider } from "@/components/ui";
+import { BackToTop } from "@/components/ui";
 import "./globals.css";
 
 const inter = Inter({
@@ -28,8 +28,10 @@ export const metadata: Metadata = {
     "plugins",
     "mods",
     "HyperPerms",
-    "HyperHomes",
-    "HyperWarps",
+    "HyperFactions",
+    "Ecotale",
+    "WerChat",
+    "TerraNova",
     "server",
     "permissions",
   ],
@@ -85,16 +87,14 @@ export default function RootLayout({
       <body
         className={`${inter.variable} ${jetbrainsMono.variable} antialiased min-h-screen`}
       >
-        <ThemeProvider>
-          <a
-            href="#main-content"
-            className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-lg focus:bg-hs-primary focus:px-4 focus:py-2 focus:text-hs-bg focus:outline-none"
-          >
-            Skip to main content
-          </a>
-          {children}
-          <BackToTop />
-        </ThemeProvider>
+        <a
+          href="#main-content"
+          className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-lg focus:bg-hs-primary focus:px-4 focus:py-2 focus:text-hs-bg focus:outline-none"
+        >
+          Skip to main content
+        </a>
+        {children}
+        <BackToTop />
       </body>
     </html>
   );
