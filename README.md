@@ -95,7 +95,7 @@ The site is configured for Vercel deployment. Push to `main` triggers automatic 
 
 ## Community
 
-- **Discord:** [discord.gg/SNPjyfkYPc](https://discord.gg/SNPjyfkYPc)
+- **Discord:** [discord.gg/FZVeajBHEX](https://discord.gg/FZVeajBHEX)
 - **GitHub:** [github.com/HyperSystemsDev](https://github.com/HyperSystemsDev)
 
 ## License

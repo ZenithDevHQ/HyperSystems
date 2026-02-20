@@ -106,7 +106,7 @@ export function PluginHeader({ plugin }: PluginHeaderProps) {
             )}
             {plugin.status === "coming-soon" && (
               <Link
-                href="https://discord.gg/SNPjyfkYPc"
+                href="https://discord.gg/FZVeajBHEX"
                 target="_blank"
                 rel="noopener noreferrer"
               >

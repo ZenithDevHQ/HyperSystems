@@ -58,7 +58,7 @@ export function CTA() {
                 </Button>
               </Link>
               <Link
-                href="https://discord.gg/SNPjyfkYPc"
+                href="https://discord.gg/FZVeajBHEX"
                 target="_blank"
                 rel="noopener noreferrer"
               >

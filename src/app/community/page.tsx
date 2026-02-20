@@ -43,7 +43,7 @@ export default function CommunityPage() {
               </p>
               <div className="mt-6">
                 <Link
-                  href="https://discord.gg/SNPjyfkYPc"
+                  href="https://discord.gg/FZVeajBHEX"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
@@ -166,7 +166,7 @@ export default function CommunityPage() {
           </p>
           <div className="mt-6">
             <Link
-              href="https://discord.gg/SNPjyfkYPc"
+              href="https://discord.gg/FZVeajBHEX"
               target="_blank"
               rel="noopener noreferrer"
             >

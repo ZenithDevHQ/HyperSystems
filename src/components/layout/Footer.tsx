@@ -20,7 +20,7 @@ const footerLinks = {
   community: [
     { href: "/community", label: "Community Hub" },
     {
-      href: "https://discord.gg/SNPjyfkYPc",
+      href: "https://discord.gg/FZVeajBHEX",
       label: "Discord Server",
       external: true,
     },
@@ -57,7 +57,7 @@ export function Footer() {
             </p>
             <div className="mt-6">
               <Link
-                href="https://discord.gg/SNPjyfkYPc"
+                href="https://discord.gg/FZVeajBHEX"
                 target="_blank"
                 rel="noopener noreferrer"
               >

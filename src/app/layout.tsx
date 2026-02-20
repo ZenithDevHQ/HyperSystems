@@ -72,7 +72,7 @@ export default function RootLayout({
       "A modular plugin suite for Hytale servers. Lightweight, focused, a-la-carte plugins that do one thing well.",
     sameAs: [
       "https://github.com/HyperSystemsDev",
-      "https://discord.gg/SNPjyfkYPc",
+      "https://discord.gg/FZVeajBHEX",
     ],
   };
 

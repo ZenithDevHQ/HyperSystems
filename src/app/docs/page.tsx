@@ -147,7 +147,7 @@ export default function DocsPage() {
           </p>
           <div className="mt-6 flex flex-wrap justify-center gap-4">
             <Link
-              href="https://discord.gg/SNPjyfkYPc"
+              href="https://discord.gg/FZVeajBHEX"
               target="_blank"
               rel="noopener noreferrer"
             >
